@@ -1,0 +1,6 @@
+﻿services:
+  watchboard:
+    image: watchboard
+    build:
+      context: .
+      dockerfile: watchboard/Dockerfile

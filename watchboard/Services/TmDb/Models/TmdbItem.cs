@@ -1,0 +1,39 @@
+using System.Text.Json.Serialization;
+
+namespace WatchBoard.Services.TmDb.Models;
+
+[Serializable]
+public class TmdbItem
+{
+    public int Id { get; set; }
+    
+    // Movie
+    public string? Title { get; set; }
+    [JsonPropertyName("release_date")] 
+    public string? ReleaseDate { get; set; }
+    
+    // TV
+    public string? Name { get; set; }
+    [JsonPropertyName("number_of_seasons")]
+    public int NumberOfSeasons { get; set; }
+    [JsonPropertyName("first_air_date")]
+    public string? FirstAirDate { get; set; }
+    [JsonPropertyName("last_air_date")]
+    public string? LastAirDate { get; set; }
+    
+    // Common
+    [JsonPropertyName("media_type")] 
+    public string? MediaType { get; set; }
+    public string? Overview { get; set; }
+    [JsonPropertyName("tagline")]
+    public string? TagLine { get; set; }
+    [JsonPropertyName("poster_path")]
+    public string? PosterPath { get; set; }
+    [JsonPropertyName("watch/providers")]
+    public WatchProviders? Providers { get; set; } = new();
+    [JsonPropertyName("external_ids")]
+    public ExternalIds ExternalIds { get; set; } = new();
+
+    public string? ItemName => Title ?? Name;
+    public string? ItemReleaseDate => ReleaseDate ?? FirstAirDate;
+}
