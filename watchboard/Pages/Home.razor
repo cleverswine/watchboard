@@ -12,58 +12,59 @@
 
 <body>
 
-<div class="navbar bg-base-300">
-
-    <div class="navbar-start">
-        <button class="btn btn-circle btn-outline" onclick="searchModal.showModal()">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path></svg>
+<div class="navbar bg-base-300 border-b border-black">
+    <div class="flex-1">
+        <button class="btn btn-ghost text-l">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"></path></svg>
+            Kevin
         </button>
+        <button class="btn btn-ghost text-l">Family</button>
     </div>
-
-    <div class="navbar-center">
-        <a class="btn btn-ghost text-xl">@SelectedBoard.Name</a>
-    </div>
-
-    <div class="navbar-end">
-        <div class="dropdown">
-            <div tabindex="0" role="button" class="btn btn-ghost rounded-btn">
-                Board: @SelectedBoard.Name
-            </div>
-            <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-52 p-2 shadow">
-                @foreach (var board in Boards)
-                {
-                    <li>
-                        <a>
-                            @board.Name
-                        </a>
-                    </li>
-                }
-            </ul>
+    <div class="flex-none">
+        <div class="form-control">
+            <label class="input input-sm input-bordered flex items-center gap-2">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="h-4 w-4 opacity-70">
+                    <path
+                        fill-rule="evenodd"
+                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                        clip-rule="evenodd"/>
+                </svg>
+                <input type="text" class="grow" placeholder="Search"/>
+            </label>
         </div>
-    </div>
 
+    </div>
 </div>
 
-<dialog id="searchModal" class="modal">
-    <div class="modal-box">
-        <h3 class="text-lg font-bold">Hello!</h3>
-        <p class="py-4">Press ESC key or click the button below to close</p>
-        <_SearchResults></_SearchResults>
-        <div class="modal-action">
-            <form method="dialog">
-                <!-- if there is a button in form, it will close the modal -->
-                <button class="btn">Close</button>
-            </form>
-        </div>
-    </div>
-</dialog>
+<div class="divider">Watching</div>
 
-<div class="collapse bg-base-200">
-    <input type="checkbox" checked />
-    <div class="collapse-title text-xl font-medium">Click me to show/hide content</div>
-    <div class="collapse-content">
-        <p>hello</p>
-    </div>
+<div class="flex flex-wrap gap-4 ml-4">
+    <_Item></_Item>
+    <_Item></_Item>
+    <_Item></_Item>
+</div>
+
+<div class="divider">Queue</div>
+
+<div class="flex flex-wrap gap-4 ml-4">
+    <_Item></_Item>
+    <_Item></_Item>
+    <_Item></_Item>
+</div>
+
+<div class="divider">Future</div>
+
+<div class="flex flex-wrap gap-4 ml-4">
+    <_Item></_Item>
+    <_Item></_Item>
+    <_Item></_Item>
+    <_Item></_Item>
+    <_Item></_Item>
+    <_Item></_Item>
 </div>
 
 <script src="https://cdn.tailwindcss.com"></script>
