@@ -22,7 +22,7 @@ s
 ```shell
 
 DATA_DIR="." dotnet ef migrations add Init \
---project BlazBoard/BlazBoard.csproj \
+--project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Services/Database/Migrations
 ```

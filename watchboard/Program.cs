@@ -1,15 +1,48 @@
+using System.Net.Http.Headers;
+using Microsoft.EntityFrameworkCore;
 using WatchBoard.Services;
+using WatchBoard.Services.Database;
+using WatchBoard.Services.TmDb;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     Args = args,
     WebRootPath = "Static"
 });
-builder.Services.AddRazorComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
+// User Config
+var dataPath = Environment.GetEnvironmentVariable("DATA_DIR") ?? "/data";
+if (!Path.Exists(dataPath)) Directory.CreateDirectory(dataPath);
+
+var userConfig = Path.Combine(dataPath, "appsettings.json");
+builder.Configuration.AddJsonFile(userConfig, true);
+
+// Database
+var dataSource = Path.Combine(dataPath, "watchboard.db");
+builder.Services.AddDbContext<AppDbContext>(opts =>
+    opts.UseSqlite($"Data Source={dataSource}"));
+
+// TmDb
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<ITmDb, TmDb>(opts =>
+{
+    opts.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", builder.Configuration["TmdbToken"]);
+});
 
 var app = builder.Build();
+
+// Apply migrations and seed data if necessary
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await context.ApplyMigrations();
+}
+
 app.UseStaticFiles();
 
+// Routes
 app.MapGet("/", Routes.Home);
 
 var appBase = app.MapGroup("/app");

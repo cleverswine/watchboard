@@ -11,18 +11,24 @@ namespace WatchBoard.Services;
 public static class Routes
 {
     // GET /
-    public static async Task<IResult> Home()
+    public static async Task<IResult> Home(AppDbContext db)
     {
         await Task.Yield();
-        return new RazorComponentResult<Home>(new {Message = "Hello World!"});
+        var boards = await db.Boards.AsNoTracking().OrderByDescending(x => x.Name).ToListAsync();
+        var selectedBoard = boards.FirstOrDefault();
+        var lists = selectedBoard == null
+            ? []
+            : db.Lists.AsNoTracking().Include(x => x.Items).Where(x => x.BoardId == selectedBoard.Id).ToList();
+
+        return new RazorComponentResult<Home>(new { Boards = boards, SelectedBoard = selectedBoard, Lists = lists });
     }
-    
+
     // POST app/search
     public static async Task<IResult> DoSearch(HttpRequest request, [FromServices] ITmDb tmDb)
     {
         var form = await request.ReadFormAsync();
         var s = form["SearchName"];
-        
+
         var tmDbResults = await tmDb.Search(s!);
         var items = tmDbResults.Select(x => new Item
         {
@@ -35,75 +41,76 @@ public static class Routes
             TmdbId = x.Id,
             PosterUrl = x.PosterPath ?? "UNKNOWN",
         }).ToList();
-        
-        return new RazorComponentResult<Home>(new {Message = "Hello World!"}); // _SearchResults
+
+        return new RazorComponentResult<Home>(new { Message = "Hello World!" }); // _SearchResults
     }
-    
+
     // GET app/boards
     public static async Task<IResult> GetBoards()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // GET app/boards/1
     public static async Task<IResult> GetBoard()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // GET app/boards/1/lists
     public static async Task<IResult> GetLists()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // GET app/boards/1/lists/2
     public static async Task<IResult> GetList()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // GET app/boards/1/lists/2/items
     public static async Task<IResult> GetItems()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // GET app/boards/1/lists/2/items/3
     public static async Task<IResult> GetItem()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // DELETE app/boards/1/lists/2/items/3
     public static async Task<IResult> DeleteItem()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // PUT app/boards/1/lists/2/items/3/provider/amazon
     public static async Task<IResult> SetItemWatchProvider()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // PUT app/boards/1/lists/2/items/3/backdrop/4
     public static async Task<IResult> SetItemBackdrop()
     {
         await Task.Yield();
         return Results.Ok();
     }
-    
+
     // POST app/boards/1/lists/2/items?TmDb=123&type=tv|movie
-    public static async Task<IResult> AddItem(HttpResponse response, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid boardId,
+    public static async Task<IResult> AddItem(HttpResponse response, [FromServices] ITmDb tmDb,
+        [FromServices] AppDbContext db, [FromRoute] Guid boardId,
         [FromRoute] Guid listId, [FromQuery] int tmDbId, [FromQuery] string type)
     {
         var tmDbItem = await tmDb.GetDetail(tmDbId, type);
@@ -117,7 +124,8 @@ public static class Routes
     }
 
     // PUT app/boards/1/lists/2/items/3
-    public static async Task<IResult> UpdateItem([FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid boardId,
+    public static async Task<IResult> UpdateItem([FromServices] ITmDb tmDb, [FromServices] AppDbContext db,
+        [FromRoute] Guid boardId,
         [FromRoute] Guid listId, [FromRoute] Guid itemId, [FromQuery] int tmDbId, [FromQuery] string type)
     {
         var tmDbItem = await tmDb.GetDetail(tmDbId, type);
@@ -126,11 +134,12 @@ public static class Routes
         dbItem.MapFrom(tmDbItem, images);
         await db.SaveChangesAsync();
 
-        return new RazorComponentResult<Home>(new {Message = "Hello World!"}); // _Item
+        return new RazorComponentResult<Home>(new { Message = "Hello World!" }); // _Item
     }
 
     // PUT app/boards/1/lists/2/items
-    public static async Task<IResult> SortItems(HttpRequest request, [FromServices] AppDbContext db, [FromRoute] Guid boardId,
+    public static async Task<IResult> SortItems(HttpRequest request, [FromServices] AppDbContext db,
+        [FromRoute] Guid boardId,
         [FromRoute] Guid listId)
     {
         var form = await request.ReadFormAsync();

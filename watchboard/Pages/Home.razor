@@ -1,3 +1,4 @@
+@using WatchBoard.Services.Database.Entities
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/app.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/app.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -15,22 +16,31 @@
 
     <div class="navbar-start">
         <label for="my-drawer" class="flex btn btn-ghost btn-circle drawer-button">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 4C16.5523 4 17 4.44772 17 5V9.2L22.2133 5.55071C22.4395 5.39235 22.7513 5.44737 22.9096 5.6736C22.9684 5.75764 23 5.85774 23 5.96033V18.0397C23 18.3158 22.7761 18.5397 22.5 18.5397C22.3974 18.5397 22.2973 18.5081 22.2133 18.4493L17 14.8V19C17 19.5523 16.5523 20 16 20H2C1.44772 20 1 19.5523 1 19V5C1 4.44772 1.44772 4 2 4H16ZM15 6H3V18H15V6ZM8 8H10V11H13V13H9.999L10 16H8L7.999 13H5V11H8V8ZM21 8.84131L17 11.641V12.359L21 15.1587V8.84131Z"></path></svg>
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M16 4C16.5523 4 17 4.44772 17 5V9.2L22.2133 5.55071C22.4395 5.39235 22.7513 5.44737 22.9096 5.6736C22.9684 5.75764 23 5.85774 23 5.96033V18.0397C23 18.3158 22.7761 18.5397 22.5 18.5397C22.3974 18.5397 22.2973 18.5081 22.2133 18.4493L17 14.8V19C17 19.5523 16.5523 20 16 20H2C1.44772 20 1 19.5523 1 19V5C1 4.44772 1.44772 4 2 4H16ZM15 6H3V18H15V6ZM8 8H10V11H13V13H9.999L10 16H8L7.999 13H5V11H8V8ZM21 8.84131L17 11.641V12.359L21 15.1587V8.84131Z"></path>
+            </svg>
         </label>
     </div>
 
     <div class="navbar-center">
-        <a class="btn btn-ghost text-xl">@Message</a>
+        <a class="btn btn-ghost text-xl">@SelectedBoard.Name</a>
     </div>
 
     <div class="navbar-end">
         <div class="dropdown">
             <div tabindex="0" role="button" class="btn btn-ghost rounded-btn">
-                Board: Kevin
+                Board: @SelectedBoard.Name
             </div>
             <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-52 p-2 shadow">
-                <li><a>Kevin</a></li>
-                <li><a>Family</a></li>
+                @foreach (var board in Boards)
+                {
+                    <li>
+                        <a>
+                            @board.Name
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
@@ -72,8 +82,7 @@
 </html>
 
 @code {
-
-    [Parameter]
-    public string Message { get; set; } = String.Empty;
-
+    [Parameter] public List<Board> Boards { get; set; } = [];
+    [Parameter] public Board SelectedBoard { get; set; } = new();
+    [Parameter] public List<List> Lists { get; set; } = [];
 }
