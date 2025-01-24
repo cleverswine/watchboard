@@ -30,40 +30,46 @@ public static class Routes
 
     public static void MapPartials(this RouteGroupBuilder app)
     {
+        app.MapGet("/empty", () => Results.Ok());
+        
         // SEARCH
-        app.MapPost("/search", async (HttpRequest request, [FromServices] ITmDb tmDb) =>
-        {
-            var form = await request.ReadFormAsync();
-            var s = form["SearchName"];
-
-            var tmDbResults = await tmDb.Search(s!);
-            var items = tmDbResults.Select(x => new Item
+        app.MapPost("/boards/{boardId:guid}/lists/{listId:guid}/search",
+            async (HttpRequest request, [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromServices] AppDbContext db, [FromServices] ITmDb tmDb) =>
             {
-                Id = Guid.Empty,
-                Name = x.ItemName ?? "UNKNOWN",
-                Type = x.MediaType == "tv" ? ItemType.Tv : ItemType.Movie,
-                TagLine = x.TagLine,
-                ReleaseDate = x.ItemReleaseDate,
-                EndDate = x.LastAirDate,
-                NumberOfSeasons = x.NumberOfSeasons,
-                TmdbId = x.Id,
-                PosterUrl = x.PosterPath ?? "UNKNOWN",
-                BackdropUrl = x.BackdropPath ?? "/img/ph.png"
-            }).ToList();
+                var form = await request.ReadFormAsync();
+                var s = form["SearchName"];
 
-            return new RazorComponentResult<_SearchResults>(new {Items = items});
-        });
+                // var items = db.Items.AsNoTracking().ToList();
+                // foreach (var i in items) i.Id = Guid.Empty;
+
+                var tmDbResults = await tmDb.Search(s!);
+                var items = tmDbResults.Select(x => new Item
+                {
+                    Id = Guid.Empty,
+                    Name = x.ItemName ?? "UNKNOWN",
+                    Type = x.MediaType == "tv" ? ItemType.Tv : ItemType.Movie,
+                    TagLine = x.TagLine,
+                    ReleaseDate = x.ItemReleaseDate,
+                    EndDate = x.LastAirDate,
+                    NumberOfSeasons = x.NumberOfSeasons,
+                    TmdbId = x.Id,
+                    PosterUrl = x.PosterPath ?? "UNKNOWN",
+                    BackdropUrl = x.BackdropPath ?? "/img/ph.png"
+                }).ToList();
+
+                return new RazorComponentResult<_SearchResults>(new {Items = items, SelectedBoard = boardId, SelectedList = listId});
+            });
 
         // GET LIST
-        app.MapGet("/lists/{listId:guid}", async ([FromServices] AppDbContext db, [FromRoute] Guid listId) =>
+        app.MapGet("/boards/{boardId:guid}/lists/{listId:guid}", async ([FromServices] AppDbContext db, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
         {
             var list = await db.Lists.AsNoTracking().Include(x => x.Items)
-                .Where(x => x.Id == listId).ToListAsync();
-            return new RazorComponentResult<_List>(new {ListModel = list});
+                .FirstOrDefaultAsync(x => x.Id == listId);
+            return new RazorComponentResult<_List>(new {ListModel = list, SelectedBoard = boardId});
         });
 
         // SORT LIST
-        app.MapPut("/lists/{listId:guid}/items",
+        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items",
             async (HttpRequest request, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid listId) =>
             {
                 var form = await request.ReadFormAsync();
@@ -108,13 +114,15 @@ public static class Routes
             });
 
         // ADD ITEM
-        app.MapPost("/lists/{listId:guid}/items", async (HttpResponse response, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db,
-            [FromRoute] Guid listId, [FromQuery] int tmDbId, [FromQuery] string type) =>
+        app.MapPost("/boards/{boardId:guid}/lists/{listId:guid}/items/{tmDbId:int}", async (HttpResponse response, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db,
+            [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromRoute] int tmDbId, [FromQuery] string type) =>
         {
-            var tmDbItem = await tmDb.GetDetail(tmDbId, type);
-            var images = await tmDb.GetImages(tmDbId, type);
-            var dbItem = tmDbItem.MapTo(listId, images);
-            db.Items.Add(dbItem);
+             var tmDbItem = await tmDb.GetDetail(tmDbId, type);
+             var images = await tmDb.GetImages(tmDbId, type);
+             var dbItem = tmDbItem.MapTo(listId, images);
+             dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w300");
+             dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
+             db.Items.Add(dbItem);
             await db.SaveChangesAsync();
 
             response.Headers.Append("HX-Trigger", "newItem");
@@ -122,8 +130,8 @@ public static class Routes
         });
 
         // UPDATE ITEM
-        app.MapPut("/lists/{listId:guid}/items/{itemId:guid}",
-            async ([FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid listId, [FromRoute] Guid itemId) =>
+        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items/{itemId:guid}",
+            async ([FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromRoute] Guid itemId) =>
             {
                 var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
                 var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
@@ -131,7 +139,7 @@ public static class Routes
                 dbItem.MapFrom(tmDbItem, images);
                 await db.SaveChangesAsync();
 
-                return new RazorComponentResult<Home>(new {Message = "Hello World!"}); // _Item
+                return new RazorComponentResult<_Item>(new {ItemModel = dbItem, SelectedBoard = boardId, SelectedList = listId});
             });
     }
 }

@@ -12,7 +12,7 @@
 
 <body>
 
-<form hx-post="/app/search" hx-target="#searchResults">
+<form hx-post="/app/boards/@SelectedBoard.Id/lists/@Lists.First().Id/search" hx-target="#searchResults">
 
     <div class="navbar bg-base-300 border-b border-black">
         <div class="flex-1">
@@ -38,14 +38,14 @@
         </div>
     </div>
 
-    <div id="searchResults" hx-trigger="newItem from:body" hx-swap="delete"></div>
+    <div id="searchResults" hx-get="/app/empty" hx-trigger="newItem from:body" hx-target="this"></div>
 </form>
 
 @foreach (var list in Lists)
 {
     <div class="divider">@list.Name</div>
-    <div hx-get="/app/lists/@(list.Id)" hx-trigger="newItem from:body" id="list_@(list.Id)">
-        <_List ListModel="list" SelectedBoard="SelectedBoard"></_List>
+    <div hx-get="/app/boards/@SelectedBoard.Id/lists/@(list.Id)" hx-trigger="newItem from:body" id="list_@(list.Id)">
+        <_List ListModel="list" SelectedBoard="SelectedBoard.Id"></_List>
     </div>
 }
 

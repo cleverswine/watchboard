@@ -8,7 +8,9 @@
         <div class="card-actions justify-end">
             @if (ItemModel.Id == Guid.Empty)
             {
-                <button class="btn btn-ghost btn-sm" hx-swap="none" hx-post="/lists/@(SelectedList.Id)/items?tmDbId=@(ItemModel.TmdbId)?type=@(ItemModel.Type.ToString())">
+                <button class="btn btn-ghost btn-sm" 
+                        hx-swap="none" 
+                        hx-post="/app/boards/@SelectedBoard/lists/@(SelectedList)/items/@(ItemModel.TmdbId)?type=@(ItemModel.Type.ToString())">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="@(AddSvg())"></path>
                     </svg>
@@ -44,10 +46,10 @@
 @code
 {
     [Parameter]
-    public Board SelectedBoard { get; set; } = new();
+    public Guid SelectedBoard { get; set; } = Guid.Empty;
     
     [Parameter]
-    public List SelectedList { get; set; } = new() {Items = []};
+    public Guid SelectedList { get; set; } = Guid.Empty;
     
     [Parameter]
     public Item ItemModel { get; set; } = new();

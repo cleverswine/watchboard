@@ -3,14 +3,14 @@
 <div class="flex flex-wrap gap-4 ml-4">
     @foreach (var item in ListModel.Items)
     {
-        <_Item ItemModel="item" SelectedBoard="SelectedBoard" SelectedList="ListModel"></_Item>
+        <_Item ItemModel="item" SelectedBoard="SelectedBoard" SelectedList="ListModel.Id"></_Item>
     }
 </div>
 
 @code {
     
     [Parameter]
-    public Board SelectedBoard { get; set; } = new();
+    public Guid SelectedBoard { get; set; } = Guid.Empty;
     
     [Parameter]
     public List ListModel { get; set; } = new() {Items = []};

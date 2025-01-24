@@ -5,17 +5,17 @@
 <div class="flex flex-wrap gap-4 ml-4">
     @foreach (var item in Items)
     {
-        <_Item ItemModel="item"></_Item>
+        <_Item ItemModel="item" SelectedBoard="SelectedBoard" SelectedList="SelectedList"></_Item>
     }
 </div>
 
 @code {
 
     [Parameter]
-    public Board SelectedBoard { get; set; } = new();
+    public Guid SelectedBoard { get; set; } = Guid.Empty;
     
     [Parameter]
-    public List SelectedList { get; set; } = new() {Items = []};
+    public Guid SelectedList { get; set; } = Guid.Empty;
     
     [Parameter]
     public List<Item> Items { get; set; } = [];
