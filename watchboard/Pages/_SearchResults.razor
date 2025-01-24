@@ -1,14 +1,15 @@
 @using WatchBoard.Services.Database.Entities
 
-<ul>
+<div class="divider">Search</div>
+
+<div class="flex flex-wrap gap-4 ml-4">
     @foreach (var item in Items)
     {
-        <li>
-            @item.Name<br/>
-            <img src="@item.PosterUrl" alt="poster"/>>
-        </li>
+        <div>
+            <img src="@item.PosterUrl" alt="poster"/>
+        </div>
     }
-</ul>
+</div>
 
 @code {
 
