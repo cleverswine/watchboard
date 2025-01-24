@@ -1,4 +1,16 @@
-<ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-    <li><a>Sidebar Item 1</a></li>
-    <li><a>Sidebar Item 2</a></li>
+@using WatchBoard.Services.Database.Entities
+
+<ul>
+    @foreach (var item in Items)
+    {
+        <li>
+            @item.Name<br/>
+            <img src="@item.PosterUrl" alt="poster"/>>
+        </li>
+    }
 </ul>
+
+@code {
+
+    [Parameter] public List<Item> Items { get; set; } = [];
+}

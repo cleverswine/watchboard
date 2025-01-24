@@ -42,7 +42,7 @@ public static class Routes
             PosterUrl = x.PosterPath ?? "UNKNOWN",
         }).ToList();
 
-        return new RazorComponentResult<Home>(new { Message = "Hello World!" }); // _SearchResults
+        return new RazorComponentResult<_SearchResults>(new { Items = items });
     }
 
     // GET app/boards

@@ -47,6 +47,7 @@ app.MapGet("/", Routes.Home);
 
 var appBase = app.MapGroup("/app");
 // POST app/search
+appBase.MapPost("/search", Routes.DoSearch);
 // GET app/boards
 appBase.MapGet("/boards", Routes.Home);
 // GET app/boards/1
