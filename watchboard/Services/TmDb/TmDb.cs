@@ -56,8 +56,10 @@ public class TmDb : ITmDb
         foreach (var result in results ?? [])
         {
             result.PosterPath = configuration.Images.BaseUrl + "w92" + result.PosterPath;
-            result.BackdropPath = configuration.Images.BaseUrl + "w300" + result.BackdropPath;
+            if (!string.IsNullOrWhiteSpace(result.BackdropPath))
+                result.BackdropPath = configuration.Images.BaseUrl + "w300" + result.BackdropPath;
         }
+
         return results ?? [];
     }
 
@@ -94,7 +96,7 @@ public class TmDb : ITmDb
         var configuration = await GetConfiguration();
         return configuration.Images.BaseUrl + size + imagePath;
     }
-    
+
     public async Task<string> GetImageBase64(string imagePath, string size = "w154")
     {
         ArgumentNullException.ThrowIfNull(imagePath);

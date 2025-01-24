@@ -38,17 +38,14 @@
         </div>
     </div>
 
-    <div id="searchResults"></div>
+    <div id="searchResults" hx-trigger="newItem from:body" hx-swap="delete"></div>
 </form>
 
 @foreach (var list in Lists)
 {
     <div class="divider">@list.Name</div>
-    <div class="flex flex-wrap gap-4 ml-4">
-        @foreach (var item in list.Items)
-        {
-            <_Item Item="item"></_Item>
-        }
+    <div hx-get="/app/lists/@(list.Id)" hx-trigger="newItem from:body" id="list_@(list.Id)">
+        <_List ListModel="list" SelectedBoard="SelectedBoard"></_List>
     </div>
 }
 

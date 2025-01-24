@@ -5,13 +5,18 @@
 <div class="flex flex-wrap gap-4 ml-4">
     @foreach (var item in Items)
     {
-        <div>
-            <img src="@item.PosterUrl" alt="poster"/>
-        </div>
+        <_Item ItemModel="item"></_Item>
     }
 </div>
 
 @code {
 
-    [Parameter] public List<Item> Items { get; set; } = [];
+    [Parameter]
+    public Board SelectedBoard { get; set; } = new();
+    
+    [Parameter]
+    public List SelectedList { get; set; } = new() {Items = []};
+    
+    [Parameter]
+    public List<Item> Items { get; set; } = [];
 }

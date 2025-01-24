@@ -1,0 +1,18 @@
+@using WatchBoard.Services.Database.Entities
+
+<div class="flex flex-wrap gap-4 ml-4">
+    @foreach (var item in ListModel.Items)
+    {
+        <_Item ItemModel="item" SelectedBoard="SelectedBoard" SelectedList="ListModel"></_Item>
+    }
+</div>
+
+@code {
+    
+    [Parameter]
+    public Board SelectedBoard { get; set; } = new();
+    
+    [Parameter]
+    public List ListModel { get; set; } = new() {Items = []};
+
+}

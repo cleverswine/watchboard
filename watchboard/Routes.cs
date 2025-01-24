@@ -39,6 +39,7 @@ public static class Routes
             var tmDbResults = await tmDb.Search(s!);
             var items = tmDbResults.Select(x => new Item
             {
+                Id = Guid.Empty,
                 Name = x.ItemName ?? "UNKNOWN",
                 Type = x.MediaType == "tv" ? ItemType.Tv : ItemType.Movie,
                 TagLine = x.TagLine,
@@ -47,10 +48,18 @@ public static class Routes
                 NumberOfSeasons = x.NumberOfSeasons,
                 TmdbId = x.Id,
                 PosterUrl = x.PosterPath ?? "UNKNOWN",
-                
+                BackdropUrl = x.BackdropPath ?? "/img/ph.png"
             }).ToList();
 
             return new RazorComponentResult<_SearchResults>(new {Items = items});
+        });
+
+        // GET LIST
+        app.MapGet("/lists/{listId:guid}", async ([FromServices] AppDbContext db, [FromRoute] Guid listId) =>
+        {
+            var list = await db.Lists.AsNoTracking().Include(x => x.Items)
+                .Where(x => x.Id == listId).ToListAsync();
+            return new RazorComponentResult<_List>(new {ListModel = list});
         });
 
         // SORT LIST

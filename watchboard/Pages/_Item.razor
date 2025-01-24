@@ -1,32 +1,41 @@
 @using WatchBoard.Services.Database.Entities
 <div class="card card-compact bg-base-100 image-full shadow-xl" style="width: 300px;">
     <figure>
-        <img src="@Item.BackdropBase64" alt="@Item.Name" style="width: 300px;"/>
+        <img src="@(ItemModel.Id == Guid.Empty ? ItemModel.BackdropUrl : ItemModel.BackdropBase64)" alt="@ItemModel.Name" style="width: 300px;"/>
     </figure>
     <div class="card-body">
 
         <div class="card-actions justify-end">
-            <button class="btn btn-ghost btn-sm">
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                        d="M4.5 10.5C3.675 10.5 3 11.175 3 12C3 12.825 3.675 13.5 4.5 13.5C5.325 13.5 6 12.825 6 12C6 11.175 5.325 10.5 4.5 10.5ZM19.5 10.5C18.675 10.5 18 11.175 18 12C18 12.825 18.675 13.5 19.5 13.5C20.325 13.5 21 12.825 21 12C21 11.175 20.325 10.5 19.5 10.5ZM12 10.5C11.175 10.5 10.5 11.175 10.5 12C10.5 12.825 11.175 13.5 12 13.5C12.825 13.5 13.5 12.825 13.5 12C13.5 11.175 12.825 10.5 12 10.5Z"></path>
-                </svg>
-            </button>
+            @if (ItemModel.Id == Guid.Empty)
+            {
+                <button class="btn btn-ghost btn-sm" hx-swap="none" hx-post="/lists/@(SelectedList.Id)/items?tmDbId=@(ItemModel.TmdbId)?type=@(ItemModel.Type.ToString())">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="@(AddSvg())"></path>
+                    </svg>
+                </button>                
+            }
+            else
+            {
+                <button class="btn btn-ghost btn-sm">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="@(DotDotDotSvg())"></path>
+                    </svg>
+                </button>
+            }
         </div>
 
-        <h2 class="card-title">@Item.Name</h2>
+        <h2 class="card-title">@ItemModel.Name</h2>
         <div class="flex gap-2">
             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="@SvgPath(Item.ProviderNamesCsv?.Split(',')[1] ?? "")"></path>
+                <path d="@ProviderSvg(ItemModel.ProviderNamesCsv?.Split(',')[1] ?? "")"></path>
             </svg>
-            <span>@(Item.ProviderNamesCsv?.Split(',')[1])</span>
+            <span>@(ItemModel.ProviderNamesCsv?.Split(',')[1] ?? "TBD")</span>
         </div>
         <div class="flex gap-2">
             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M22 18V20H2V18H22ZM2 3.5L10 8.5L2 13.5V3.5ZM22 11V13H12V11H22ZM4 7.1085V9.8915L6.22641 8.5L4 7.1085ZM22 4V6H12V4H22Z"></path>
+                <path d="@(TypeSvg(ItemModel.Type))"></path>
             </svg>
-            <span>@Item.ReleaseDates()</span>
+            <span>@ItemModel.ReleaseDates()</span>
         </div>
 
     </div>
@@ -35,9 +44,24 @@
 @code
 {
     [Parameter]
-    public Item Item { get; set; } = new();
+    public Board SelectedBoard { get; set; } = new();
+    
+    [Parameter]
+    public List SelectedList { get; set; } = new() {Items = []};
+    
+    [Parameter]
+    public Item ItemModel { get; set; } = new();
 
-    private string SvgPath(string providerName)
+    private string TypeSvg(ItemType type)
+    {
+        return type == ItemType.Tv ? "M22 18V20H2V18H22ZM2 3.5L10 8.5L2 13.5V3.5ZM22 11V13H12V11H22ZM4 7.1085V9.8915L6.22641 8.5L4 7.1085ZM22 4V6H12V4H22Z" : "M12 20H20V22H12C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 14.2512 21.2561 16.3287 20.0007 18H17.2916C18.9525 16.5341 20 14.3894 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10C10.8954 10 10 9.10457 10 8C10 6.89543 10.8954 6 12 6C13.1046 6 14 6.89543 14 8C14 9.10457 13.1046 10 12 10ZM8 14C6.89543 14 6 13.1046 6 12C6 10.8954 6.89543 10 8 10C9.10457 10 10 10.8954 10 12C10 13.1046 9.10457 14 8 14ZM16 14C14.8954 14 14 13.1046 14 12C14 10.8954 14.8954 10 16 10C17.1046 10 18 10.8954 18 12C18 13.1046 17.1046 14 16 14ZM12 18C10.8954 18 10 17.1046 10 16C10 14.8954 10.8954 14 12 14C13.1046 14 14 14.8954 14 16C14 17.1046 13.1046 18 12 18Z";
+    }
+
+    private string AddSvg() => "M2 18H12V20H2V18ZM2 11H22V13H2V11ZM2 4H22V6H2V4ZM18 18V15H20V18H23V20H20V23H18V20H15V18H18Z";
+    
+    private string DotDotDotSvg() => "M4.5 10.5C3.675 10.5 3 11.175 3 12C3 12.825 3.675 13.5 4.5 13.5C5.325 13.5 6 12.825 6 12C6 11.175 5.325 10.5 4.5 10.5ZM19.5 10.5C18.675 10.5 18 11.175 18 12C18 12.825 18.675 13.5 19.5 13.5C20.325 13.5 21 12.825 21 12C21 11.175 20.325 10.5 19.5 10.5ZM12 10.5C11.175 10.5 10.5 11.175 10.5 12C10.5 12.825 11.175 13.5 12 13.5C12.825 13.5 13.5 12.825 13.5 12C13.5 11.175 12.825 10.5 12 10.5Z";
+
+    private string ProviderSvg(string providerName)
     {
         if (providerName.Contains("Amazon", StringComparison.OrdinalIgnoreCase))
         {
