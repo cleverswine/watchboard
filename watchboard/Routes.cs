@@ -129,6 +129,17 @@ public static class Routes
             return Results.Ok();
         });
 
+        // DELETE ITEM
+        app.MapDelete("/items/{id:guid}", async ([FromServices] AppDbContext db, [FromRoute] Guid id) =>
+        {
+            var item = await db.Items.FindAsync(id);
+            if (item == null) return Results.Ok();
+            db.Remove(item);
+            await db.SaveChangesAsync();
+
+            return Results.Ok();
+        });
+        
         // UPDATE ITEM
         app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items/{itemId:guid}",
             async ([FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromRoute] Guid itemId) =>

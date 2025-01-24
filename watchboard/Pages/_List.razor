@@ -1,17 +1,19 @@
 @using WatchBoard.Services.Database.Entities
 
-<div class="flex flex-wrap gap-4 ml-4">
-    @foreach (var item in ListModel.Items)
-    {
-        <_Item ItemModel="item" SelectedBoard="SelectedBoard" SelectedList="ListModel.Id"></_Item>
-    }
-</div>
+<form class="sortable" hx-put="lists/@(ListModel.Id)/items" hx-trigger="sort">
+    <div class="flex flex-wrap gap-4 ml-4">
+        @foreach (var item in ListModel.Items)
+        {
+            <_Item ItemModel="item" SelectedBoard="SelectedBoard" SelectedList="ListModel.Id"></_Item>
+        }
+    </div>
+</form>
 
 @code {
-    
+
     [Parameter]
     public Guid SelectedBoard { get; set; } = Guid.Empty;
-    
+
     [Parameter]
     public List ListModel { get; set; } = new() {Items = []};
 
