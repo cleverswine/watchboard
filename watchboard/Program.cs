@@ -1,7 +1,12 @@
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WatchBoard;
+using WatchBoard.Pages;
 using WatchBoard.Services;
 using WatchBoard.Services.Database;
+using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -38,28 +43,27 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await context.ApplyMigrations();
+    
+    // var tmDb = scope.ServiceProvider.GetRequiredService<ITmDb>();
+    // int[] ids = [125988,1411,79340,47141,117488,95396];
+    // var board = context.Boards.First(x => x.Name == "Kevin");
+    // var list = context.Lists.First(x => x.BoardId == board.Id);
+    // foreach (var id in ids)
+    // {
+    //     var tmDbItem = await tmDb.GetDetail(id, "tv");
+    //     var images = await tmDb.GetImages(id, "tv");
+    //     var dbItem = tmDbItem.MapTo(list.Id, images);
+    //     dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w300");
+    //     dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
+    //     context.Items.Add(dbItem);
+    // }
+    // await context.SaveChangesAsync();
 }
 
 app.UseStaticFiles();
 
 // Routes
-app.MapGet("/", Routes.Home);
-
-var appBase = app.MapGroup("/app");
-// POST app/search
-appBase.MapPost("/search", Routes.DoSearch);
-// GET app/boards
-appBase.MapGet("/boards", Routes.Home);
-// GET app/boards/1
-// GET app/boards/1/lists
-// GET app/boards/1/lists/2
-// GET app/boards/1/lists/2/items
-// PUT app/boards/1/lists/2/items (sort)
-// GET app/boards/1/lists/2/items/3
-// PUT app/boards/1/lists/2/items/3
-// DELETE app/boards/1/lists/2/items/3
-// PUT app/boards/1/lists/2/items/3/provider/amazon
-// PUT app/boards/1/lists/2/items/3/backdrop/4
-// POST app/boards/1/lists/2/items?TmDb=123&type=tv|movie
+app.MapPages();
+app.MapGroup("/app").MapPartials();
 
 app.Run();

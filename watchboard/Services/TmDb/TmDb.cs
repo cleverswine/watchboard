@@ -56,6 +56,7 @@ public class TmDb : ITmDb
         foreach (var result in results ?? [])
         {
             result.PosterPath = configuration.Images.BaseUrl + "w92" + result.PosterPath;
+            result.BackdropPath = configuration.Images.BaseUrl + "w300" + result.BackdropPath;
         }
         return results ?? [];
     }

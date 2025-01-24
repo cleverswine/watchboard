@@ -41,32 +41,16 @@
     <div id="searchResults"></div>
 </form>
 
-<div class="divider">Watching</div>
-
-<div class="flex flex-wrap gap-4 ml-4">
-    <_Item></_Item>
-    <_Item></_Item>
-    <_Item></_Item>
-</div>
-
-<div class="divider">Queue</div>
-
-<div class="flex flex-wrap gap-4 ml-4">
-    <_Item></_Item>
-    <_Item></_Item>
-    <_Item></_Item>
-</div>
-
-<div class="divider">Future</div>
-
-<div class="flex flex-wrap gap-4 ml-4">
-    <_Item></_Item>
-    <_Item></_Item>
-    <_Item></_Item>
-    <_Item></_Item>
-    <_Item></_Item>
-    <_Item></_Item>
-</div>
+@foreach (var list in Lists)
+{
+    <div class="divider">@list.Name</div>
+    <div class="flex flex-wrap gap-4 ml-4">
+        @foreach (var item in list.Items)
+        {
+            <_Item Item="item"></_Item>
+        }
+    </div>
+}
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/htmx.org@2.0.4"></script>
@@ -75,7 +59,14 @@
 </html>
 
 @code {
-    [Parameter] public List<Board> Boards { get; set; } = [];
-    [Parameter] public Board SelectedBoard { get; set; } = new();
-    [Parameter] public List<List> Lists { get; set; } = [];
+
+    [Parameter]
+    public List<Board> Boards { get; set; } = [];
+
+    [Parameter]
+    public Board SelectedBoard { get; set; } = new();
+
+    [Parameter]
+    public List<List> Lists { get; set; } = [];
+
 }

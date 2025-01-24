@@ -29,6 +29,8 @@ public class TmdbItem
     public string? TagLine { get; set; }
     [JsonPropertyName("poster_path")]
     public string? PosterPath { get; set; }
+    [JsonPropertyName("backdrop_path")]
+    public string? BackdropPath { get; set; }
     [JsonPropertyName("watch/providers")]
     public WatchProviders? Providers { get; set; } = new();
     [JsonPropertyName("external_ids")]
