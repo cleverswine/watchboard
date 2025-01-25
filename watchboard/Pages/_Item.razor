@@ -1,71 +1,30 @@
 @using WatchBoard.Services.Database.Entities
-<div id="#item_@(ItemModel.Id)" class="card card-compact bg-base-100 image-full shadow-xl" style="width: 300px;">
-    <figure>
-        <img src="@(ItemModel.Id == Guid.Empty ? ItemModel.BackdropUrl : ItemModel.BackdropBase64)"
-             alt="@ItemModel.Name" style="width: 300px;"/>
-    </figure>
-    <div class="card-body">
 
-        <div class="card-actions justify-end">
-            @if (ItemModel.Id == Guid.Empty)
-            {
-                <button class="btn btn-ghost btn-sm"
-                        hx-swap="none"
-                        hx-post="/app/boards/@SelectedBoard/lists/@(SelectedList)/items/@(ItemModel.TmdbId)?type=@(ItemModel.Type.ToString())">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="@(AddSvg())"></path>
-                    </svg>
+<div class="card text-bg-dark m-2">
+    <img src="@(ItemModel.Id == Guid.Empty ? @ItemModel.BackdropUrl : @ItemModel.BackdropBase64)" 
+         width="300" height="169" class="opacity-50 card-img" alt="@ItemModel.Name">
+    <div class="card-img-overlay">
+        <div style="width: 100%; text-align: right;">
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi-three-dots bi"></i>
                 </button>
-            }
-            else
-            {
-                <div class="dropdown dropdown-left">
-                    <div tabindex="0" role="button" class="btn btn-ghost rounded-btn">
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="@(DotDotDotSvg())"></path>
-                        </svg>
-                    </div>
-                    <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li>
-                            <button class="flex gap-2"
-                                    hx-trigger="click"
-                                    hx-delete="/app/items/@(ItemModel.Id)"
-                                    hx-swap="delete"
-                                    hx-target="closest .card"
-                                    hx-params="none">
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="@DeleteSvg()"></path>
-                                </svg>
-                                <span>Remove</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button class="flex gap-2">
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="@RefreshSvg()"></path>
-                                </svg>
-                                <span>Update Info</span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            }
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
         </div>
-
-        <h2 class="card-title">@ItemModel.Name</h2>
-        <div class="flex gap-2">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="@ProviderSvg(ItemModel.ProviderNamesCsv?.Split(',')[1] ?? "")"></path>
-            </svg>
-            <span>@(ItemModel.ProviderNamesCsv?.Split(',')[1] ?? "TBD")</span>
+        <div>
+            <h5 class="card-title shadow-lg">@ItemModel.Name</h5>
+            <div class="card-text">
+                <i class="bi bi-view-list"></i> @ItemModel.ReleaseDates()
+                <br/>
+                <i class="bi bi-eye"></i> @(ItemModel.ProviderNamesCsv?.Split(',')[1] ?? "UNK")
+                <br/>
+            </div>
         </div>
-        <div class="flex gap-2">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="@(TypeSvg(ItemModel.Type))"></path>
-            </svg>
-            <span>@ItemModel.ReleaseDates()</span>
-        </div>
-
     </div>
 </div>
 

@@ -14,63 +14,59 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">watch board</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Board: @SelectedBoard.Name
-                    </a>
-                    <ul class="dropdown-menu">
-                        @foreach (var b in Boards)
-                        {
-                            <li><a class="dropdown-item" href="#">@b.Name</a></li>
-                        }
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">All the Stuff</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+<form hx-post="/app/boards/@SelectedBoard.Id/lists/@Lists.First().Id/search" hx-target="#searchResults">
+    
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">watch board</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Board: @SelectedBoard.Name
+                        </a>
+                        <ul class="dropdown-menu">
+                            @foreach (var b in Boards)
+                            {
+                                <li><a class="dropdown-item" href="#">@b.Name</a></li>
+                            }
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">All the Stuff</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" name="SearchName" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+
+    <div id="searchResults" hx-get="/app/empty" hx-trigger="newItem from:body" hx-target="this"></div>
+</form>
 
 <div class="container">
     @foreach (var l in Lists)
     {
         <h4> @l.Name </h4>
-        <div class="d-flex flex-wrap justify-content-center">
+        <div class="d-flex flex-wrap justify-content-center" 
+             hx-get="/app/boards/@SelectedBoard.Id/lists/@(l.Id)"
+             hx-trigger="newItem from:body" id="list_@(l.Id)">
             @foreach (var i in l.Items)
             {
-                <div class="card text-bg-dark m-2">
-                    <img src="@i.BackdropBase64" width="300" height="169" class="opacity-50 card-img" alt="@i.Name">
-                    <div class="card-img-overlay">
-                        <h5 class="card-title shadow-lg">@i.Name</h5>
-                        <div class="card-text">
-                            <i class="bi bi-view-list"></i> @i.ReleaseDates()
-                            <br/>
-                            <i class="bi bi-eye"></i> @(i.ProviderNamesCsv?.Split(',')[1] ?? "UNK")
-                        </div>
-                    </div>
-                </div>
+                <_Item ItemModel="i" SelectedBoard="SelectedBoard.Id" SelectedList="l.Id"></_Item>
             }
         </div>
     }
-
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -83,13 +79,10 @@
 
 @code {
 
-    [Parameter]
-    public List<Board> Boards { get; set; } = [];
+    [Parameter] public List<Board> Boards { get; set; } = [];
 
-    [Parameter]
-    public Board SelectedBoard { get; set; } = new();
+    [Parameter] public Board SelectedBoard { get; set; } = new();
 
-    [Parameter]
-    public List<List> Lists { get; set; } = [];
+    [Parameter] public List<List> Lists { get; set; } = [];
 
 }
