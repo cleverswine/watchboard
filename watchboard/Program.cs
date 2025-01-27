@@ -9,11 +9,7 @@ using WatchBoard.Services.Database;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb;
 
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    Args = args,
-    WebRootPath = "Static"
-});
+var builder = WebApplication.CreateBuilder();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 // User Config
