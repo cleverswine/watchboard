@@ -1,6 +1,15 @@
 ﻿services:
   watchboard:
     image: watchboard
+    container_name: watchboard
+    user: 1000:1000
     build:
       context: .
       dockerfile: watchboard/Dockerfile
+    ports:
+      - "8090:8080"
+    volumes:
+      - ${HOME}/.config/watchboard:/data
+    environment:
+      - DATA_DIR=/data
+    restart: unless-stopped
