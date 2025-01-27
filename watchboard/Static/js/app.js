@@ -2,7 +2,6 @@ htmx.onLoad(function (content) {
 
     // SORTABLE
     let sortables = document.querySelectorAll(".sortable");
-    console.log(sortables);
     for (let i = 0; i < sortables.length; i++) {
         const sortable = sortables[i];
         new Sortable(sortable, {

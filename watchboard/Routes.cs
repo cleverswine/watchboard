@@ -32,16 +32,13 @@ public static class Routes
     public static void MapPartials(this RouteGroupBuilder app)
     {
         app.MapGet("/empty", () => Results.Ok());
-        
+
         // SEARCH
         app.MapPost("/boards/{boardId:guid}/lists/{listId:guid}/search",
             async (HttpRequest request, [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromServices] AppDbContext db, [FromServices] ITmDb tmDb) =>
             {
                 var form = await request.ReadFormAsync();
                 var s = form["SearchName"];
-
-                // var items = db.Items.AsNoTracking().ToList();
-                // foreach (var i in items) i.Id = Guid.Empty;
 
                 var tmDbResults = await tmDb.Search(s!);
                 var items = tmDbResults.Select(x => new Item
@@ -54,11 +51,15 @@ public static class Routes
                     EndDate = x.LastAirDate,
                     NumberOfSeasons = x.NumberOfSeasons,
                     TmdbId = x.Id,
-                    PosterUrl = x.PosterPath ?? "UNKNOWN",
+                    PosterUrl = x.PosterPath ?? "/img/ph.png",
                     BackdropUrl = x.BackdropPath ?? "/img/ph.png"
                 }).ToList();
 
-                return new RazorComponentResult<_List>(new {ListModel = new List{ Id = Guid.Empty, Items = items, Name = "Search Results" }, SelectedBoard = boardId});
+                return new RazorComponentResult<_List>(new
+                {
+                    ListModel = new List {Id = Guid.Empty, Items = items, Name = "Search Results"}, SelectedBoard = boardId,
+                    Lists = db.Lists.AsNoTracking().Where(x => x.BoardId == boardId).OrderByDescending(x => x.Order).ToList()
+                });
             });
 
         // GET LIST
@@ -67,23 +68,23 @@ public static class Routes
             var list = await db.Lists.AsNoTracking()
                 .Include(x => x.Items.OrderBy(y => y.Order))
                 .FirstOrDefaultAsync(x => x.Id == listId);
-            return new RazorComponentResult<_List>(new {ListModel = list, SelectedBoard = boardId});
+            return new RazorComponentResult<_List>(new
+            {
+                ListModel = list, SelectedBoard = boardId,
+                Lists = db.Lists.AsNoTracking().Where(x => x.BoardId == boardId).OrderByDescending(x => x.Order).ToList()
+            });
         });
 
         // SORT LIST
         app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items",
             async (HttpRequest request, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid listId) =>
             {
-                /*
-                    b44c13f0-6a28-4b2a-bdb7-16fb451209a6: Watching - b60adb19-6b48-4e6a-bd71-7445ada4046f
-                    ad2fd5dd-0e6d-4096-98ef-e4fd10a39aa0: Future - 39291c9b-68ff-412d-8899-f210be4454fb,58715e6a-ef05-4fd2-a5d5-c2ed32e9ef0a,886bb51d-a78c-4766-b37b-81442e03cb9b,70c0c621-df04-42c4-966b-a47cf82c3c8b,ee4a9515-c795-4736-bc84-daf6229acc95                 
-                 */
                 var form = await request.ReadFormAsync();
                 var itemIdsStr = form["item"];
 
                 // var dbList = await db.Lists.FirstOrDefaultAsync(x => x.Id == listId) ?? throw new KeyNotFoundException();
                 var dbItems = db.Items.Where(x => x.ListId == listId).ToList();
-                
+
                 var newItemIds = itemIdsStr
                     .Where(x => !string.IsNullOrWhiteSpace(x))
                     .Select(x => Guid.TryParse(x, out var itemIdGuid) ? itemIdGuid : Guid.Empty);
@@ -118,15 +119,22 @@ public static class Routes
             });
 
         // ADD ITEM
-        app.MapPost("/boards/{boardId:guid}/lists/{listId:guid}/items/{tmDbId:int}", async (HttpResponse response, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db,
-            [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromRoute] int tmDbId, [FromQuery] string type) =>
+        app.MapPost("/boards/{boardId:guid}/lists/{listId:guid}/items/{tmDbId:int}", async (HttpResponse response,
+            [FromServices] ITmDb tmDb,
+            [FromServices] AppDbContext db,
+            [FromRoute] Guid boardId,
+            [FromRoute] Guid listId,
+            [FromRoute] int tmDbId,
+            [FromQuery] string type) =>
         {
-             var tmDbItem = await tmDb.GetDetail(tmDbId, type);
-             var images = await tmDb.GetImages(tmDbId, type);
-             var dbItem = tmDbItem.MapTo(listId, images);
-             dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w300");
-             dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
-             db.Items.Add(dbItem);
+            var order = db.Items.AsNoTracking().Where(x => x.ListId == listId).Max(x => x.Order) + 1;
+            var tmDbItem = await tmDb.GetDetail(tmDbId, type);
+            var images = await tmDb.GetImages(tmDbId, type);
+            var dbItem = tmDbItem.MapTo(listId, images);
+            dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w300");
+            dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
+            dbItem.Order = order;
+            db.Items.Add(dbItem);
             await db.SaveChangesAsync();
 
             response.Headers.Append("HX-Trigger", "newItem");
@@ -143,7 +151,7 @@ public static class Routes
 
             return Results.Ok();
         });
-        
+
         // UPDATE ITEM
         app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items/{itemId:guid}",
             async ([FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromRoute] Guid itemId) =>
@@ -154,7 +162,11 @@ public static class Routes
                 dbItem.MapFrom(tmDbItem, images);
                 await db.SaveChangesAsync();
 
-                return new RazorComponentResult<_Item>(new {ItemModel = dbItem, SelectedBoard = boardId, SelectedList = listId});
+                return new RazorComponentResult<_Item>(new
+                {
+                    ItemModel = dbItem, SelectedBoard = boardId, SelectedList = listId,
+                    Lists = db.Lists.AsNoTracking().Where(x => x.BoardId == boardId).OrderByDescending(x => x.Order).ToList()
+                });
             });
     }
 }

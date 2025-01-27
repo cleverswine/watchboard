@@ -13,3 +13,8 @@ h4:after {
     border-bottom: 1px solid var(--bs-border-color) !important;
     margin: auto;
 }
+
+.card.htmx-swapping {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}

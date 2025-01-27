@@ -7,7 +7,7 @@ namespace WatchBoard.Services.TmDb;
 
 public interface ITmDb
 {
-    Task<List<TmdbItem>> Search(string query);
+    Task<List<TmdbItem>> Search(string query, int limit = 8);
     Task<TmdbItem> GetDetail(int id, string type);
     Task<ImageList> GetImages(int id, string type);
     Task<string> GetImageBase64(string imagePath, string size = "w154");
@@ -39,18 +39,18 @@ public class TmDb : ITmDb
         return configuration ?? new TmdbConfiguration();
     }
 
-    public async Task<List<TmdbItem>> Search(string query)
+    public async Task<List<TmdbItem>> Search(string query, int limit = 8)
     {
-        if (_cache.TryGetValue($"TmdbSearch-{query}", out List<TmdbItem>? results) && results is not null)
+        if (_cache.TryGetValue($"TmdbSearch-{query}-{limit}", out List<TmdbItem>? results) && results is not null)
             return results;
 
         var queryUrlEncoded = HttpUtility.UrlEncode(query);
         var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
         var searchResults = await _httpClient.GetFromJsonAsync<SearchResults>(url, JsonOpts);
 
-        results = searchResults?.Results.Where(x => ItemMediaTypes.Contains(x.MediaType)).ToList();
+        results = searchResults?.Results.Where(x => ItemMediaTypes.Contains(x.MediaType)).Take(limit).ToList();
         if (results != null && results.Count != 0)
-            _cache.Set($"TmdbSearch-{query}", searchResults, TimeSpan.FromMinutes(5));
+            _cache.Set($"TmdbSearch-{query}-{limit}", searchResults, TimeSpan.FromMinutes(5));
 
         var configuration = await GetConfiguration();
         foreach (var result in results ?? [])

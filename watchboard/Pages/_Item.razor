@@ -1,6 +1,6 @@
 @using WatchBoard.Services.Database.Entities
 
-<div class="card text-bg-dark m-2">
+<div class="card text-bg-dark" id="card-@(ItemModel.Id)">
     <img src="@(ItemModel.Id == Guid.Empty ? ItemModel.BackdropUrl : ItemModel.BackdropBase64)"
          width="300" height="169" class="opacity-50 card-img" alt="@ItemModel.Name">
     <div class="card-img-overlay">
@@ -8,12 +8,38 @@
             <div class="position-absolute top-0 end-0">
                 <div class="dropdown">
                     <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi-three-dots bi"></i>
+                        <i class="@(ItemModel.Id == Guid.Empty ? "bi bi-plus-circle" : "bi bi-gear")"></i>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        @if (ItemModel.Id == Guid.Empty)
+                        {
+                            @foreach (var l in Lists)
+                            {
+                                <li>
+                                    <button class="dropdown-item" hx-swap="none"
+                                            hx-post="/app/boards/@(SelectedBoard)/lists/@(l.Id)/items/@(ItemModel.TmdbId)?type=@(ItemModel.Type.ToString().ToLower())">
+                                        Add to @(l.Name)
+                                    </button>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li>
+                                <button class="dropdown-item"
+                                        hx-swap="delete swap:1s"
+                                        hx-target="#card-@(ItemModel.Id)"
+                                        hx-params="none"
+                                        hx-delete="/app/items/@(ItemModel.Id)">
+                                    Delete
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item">
+                                    Refresh Data
+                                </button>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -34,6 +60,9 @@
 {
     [Parameter]
     public Guid SelectedBoard { get; set; } = Guid.Empty;
+
+    [Parameter]
+    public List<List> Lists { get; set; } = [];
 
     [Parameter]
     public Guid SelectedList { get; set; } = Guid.Empty;

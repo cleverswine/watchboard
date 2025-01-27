@@ -51,15 +51,16 @@
             </div>
         </div>
     </nav>
-
-    <div id="searchResults" hx-get="/app/empty" hx-trigger="newItem from:body" hx-target="this"></div>
+    <div class="container">
+        <div id="searchResults" hx-get="/app/empty" hx-trigger="newItem from:body" hx-target="this"></div>
+    </div>
 </form>
 
 <div class="container">
     @foreach (var l in Lists)
     {
-        <div>
-            <_List ListModel="l" SelectedBoard="SelectedBoard.Id"></_List>
+        <div hx-get="/app/boards/@(SelectedBoard.Id)/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
+            <_List ListModel="l" SelectedBoard="SelectedBoard.Id" Lists="Lists"></_List>
         </div>
     }
 </div>
