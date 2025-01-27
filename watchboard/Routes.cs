@@ -20,8 +20,9 @@ public static class Routes
             var lists = selectedBoard == null
                 ? []
                 : db.Lists.AsNoTracking()
-                    .Include(x => x.Items)
+                    .Include(x => x.Items.OrderBy(y => y.Order))
                     .Where(x => x.BoardId == selectedBoard.Id)
+                    .OrderByDescending(x => x.Order)
                     .ToList();
 
             return new RazorComponentResult<Home>(new {Boards = boards, SelectedBoard = selectedBoard, Lists = lists});
@@ -57,13 +58,14 @@ public static class Routes
                     BackdropUrl = x.BackdropPath ?? "/img/ph.png"
                 }).ToList();
 
-                return new RazorComponentResult<_SearchResults>(new {Items = items, SelectedBoard = boardId, SelectedList = listId});
+                return new RazorComponentResult<_List>(new {ListModel = new List{ Id = Guid.Empty, Items = items, Name = "Search Results" }, SelectedBoard = boardId});
             });
 
         // GET LIST
         app.MapGet("/boards/{boardId:guid}/lists/{listId:guid}", async ([FromServices] AppDbContext db, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
         {
-            var list = await db.Lists.AsNoTracking().Include(x => x.Items)
+            var list = await db.Lists.AsNoTracking()
+                .Include(x => x.Items.OrderBy(y => y.Order))
                 .FirstOrDefaultAsync(x => x.Id == listId);
             return new RazorComponentResult<_List>(new {ListModel = list, SelectedBoard = boardId});
         });
@@ -72,36 +74,38 @@ public static class Routes
         app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items",
             async (HttpRequest request, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid listId) =>
             {
+                /*
+                    b44c13f0-6a28-4b2a-bdb7-16fb451209a6: Watching - b60adb19-6b48-4e6a-bd71-7445ada4046f
+                    ad2fd5dd-0e6d-4096-98ef-e4fd10a39aa0: Future - 39291c9b-68ff-412d-8899-f210be4454fb,58715e6a-ef05-4fd2-a5d5-c2ed32e9ef0a,886bb51d-a78c-4766-b37b-81442e03cb9b,70c0c621-df04-42c4-966b-a47cf82c3c8b,ee4a9515-c795-4736-bc84-daf6229acc95                 
+                 */
                 var form = await request.ReadFormAsync();
                 var itemIdsStr = form["item"];
 
-                var list = await db.Lists
-                               .Include(x => x.Items)
-                               .FirstOrDefaultAsync(x => x.Id == listId)
-                           ?? throw new KeyNotFoundException();
-
-                var itemIds = itemIdsStr
+                // var dbList = await db.Lists.FirstOrDefaultAsync(x => x.Id == listId) ?? throw new KeyNotFoundException();
+                var dbItems = db.Items.Where(x => x.ListId == listId).ToList();
+                
+                var newItemIds = itemIdsStr
                     .Where(x => !string.IsNullOrWhiteSpace(x))
                     .Select(x => Guid.TryParse(x, out var itemIdGuid) ? itemIdGuid : Guid.Empty);
 
-                var dbItems = list.Items;
-                dbItems.RemoveAll(x => !itemIds.Contains(x.Id));
-
                 var itemPosition = 0;
-                foreach (var itemId in itemIds.Where(x => x != Guid.Empty))
+                foreach (var itemId in newItemIds.Where(x => x != Guid.Empty))
                 {
                     var dbItem = dbItems.FirstOrDefault(x => x.Id == itemId);
                     if (dbItem == null)
                     {
+                        // new item wasn't in this list
                         dbItem = db.Items.FirstOrDefault(x => x.Id == itemId);
                         if (dbItem != null)
                         {
+                            // move it to this list
                             dbItem.Order = itemPosition;
-                            list.Items.Add(dbItem);
+                            dbItem.ListId = listId;
                         }
                     }
                     else
                     {
+                        // just set the order
                         dbItem.Order = itemPosition;
                     }
 

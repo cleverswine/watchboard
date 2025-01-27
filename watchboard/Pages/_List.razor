@@ -1,12 +1,16 @@
 @using WatchBoard.Services.Database.Entities
 
-<form class="sortable" hx-put="lists/@(ListModel.Id)/items" hx-trigger="sort">
-    <div class="flex flex-wrap gap-4 ml-4">
-        @foreach (var item in ListModel.Items)
-        {
-            <_Item ItemModel="item" SelectedBoard="SelectedBoard" SelectedList="ListModel.Id"></_Item>
-        }
-    </div>
+<h4> @ListModel.Name </h4>
+
+<form class="sortable d-flex flex-wrap justify-content-start"
+      hx-put="/app/boards/@(SelectedBoard)/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
+    @foreach (var i in ListModel.Items)
+    {
+        <div>
+            <input type='hidden' name='item' value='@i.Id'/>
+            <_Item ItemModel="i" SelectedBoard="SelectedBoard" SelectedList="ListModel.Id"></_Item>
+        </div>
+    }
 </form>
 
 @code {

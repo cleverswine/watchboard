@@ -15,7 +15,7 @@
 <body>
 
 <form hx-post="/app/boards/@SelectedBoard.Id/lists/@Lists.First().Id/search" hx-target="#searchResults">
-    
+
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">watch board</a>
@@ -44,7 +44,8 @@
                     </li>
                 </ul>
                 <div class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" name="SearchName" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" name="SearchName" placeholder="Search"
+                           aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </div>
             </div>
@@ -57,32 +58,31 @@
 <div class="container">
     @foreach (var l in Lists)
     {
-        <h4> @l.Name </h4>
-        <div class="d-flex flex-wrap justify-content-center" 
-             hx-get="/app/boards/@SelectedBoard.Id/lists/@(l.Id)"
-             hx-trigger="newItem from:body" id="list_@(l.Id)">
-            @foreach (var i in l.Items)
-            {
-                <_Item ItemModel="i" SelectedBoard="SelectedBoard.Id" SelectedList="l.Id"></_Item>
-            }
+        <div>
+            <_List ListModel="l" SelectedBoard="SelectedBoard.Id"></_List>
         </div>
     }
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+<script src="/js/app.js"></script>
 
 </body>
 </html>
 
 @code {
 
-    [Parameter] public List<Board> Boards { get; set; } = [];
+    [Parameter]
+    public List<Board> Boards { get; set; } = [];
 
-    [Parameter] public Board SelectedBoard { get; set; } = new();
+    [Parameter]
+    public Board SelectedBoard { get; set; } = new();
 
-    [Parameter] public List<List> Lists { get; set; } = [];
+    [Parameter]
+    public List<List> Lists { get; set; } = [];
 
 }
