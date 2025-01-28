@@ -2,11 +2,10 @@
 
 <h4> @ListModel.Name </h4>
 
-<form class="sortable row justify-content-start"
-      hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
+<form class="sortable" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
     @foreach (var i in ListModel.Items)
     {
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="mb-3">
             <input type='hidden' name='item' value='@i.Id'/>
             <_Item ItemModel="i"></_Item>
         </div>

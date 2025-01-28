@@ -50,12 +50,17 @@
 </nav>
 
 <div class="container">
-    @foreach (var l in Lists)
-    {
-        <div hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
-            <_List ListModel="l"></_List>
-        </div>
-    }
+    <div class="row">
+
+        @foreach (var l in Lists)
+        {
+            <div class="col-sm-4 justify-content-center" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body"
+                 hx-target="this">
+                <_List ListModel="l"></_List>
+            </div>
+        }
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
@@ -70,13 +75,10 @@
 
 @code {
 
-    [Parameter]
-    public List<Board> Boards { get; set; } = [];
+    [Parameter] public List<Board> Boards { get; set; } = [];
 
-    [Parameter]
-    public Board SelectedBoard { get; set; } = new();
+    [Parameter] public Board SelectedBoard { get; set; } = new();
 
-    [Parameter]
-    public List<List> Lists { get; set; } = [];
+    [Parameter] public List<List> Lists { get; set; } = [];
 
 }
