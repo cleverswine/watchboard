@@ -32,7 +32,7 @@
                 <div class="card-text">
                     <i class="bi bi-view-list"></i> @ItemModel.ReleaseDates()
                     <br/>
-                    <i class="bi bi-eye"></i> @(ItemModel.ProviderNamesCsv?.Split(',')[1] ?? "UNK")
+                    <i class="bi bi-eye"></i> @(ItemModel.ProviderNamesCsv?.Split(',')[0] ?? "UNK")
                     <br/>
                 </div>
             </div>
