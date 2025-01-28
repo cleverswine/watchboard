@@ -14,51 +14,45 @@
 
 <body>
 
-<form hx-post="/app/search" hx-target="#searchResults">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">watch board</a>
-            <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            Board: @SelectedBoard.Name
-                        </a>
-                        <ul class="dropdown-menu">
-                            @foreach (var b in Boards)
-                            {
-                                <li><a class="dropdown-item" href="#">@b.Name</a></li>
-                            }
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">All the Stuff</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" name="SearchName" placeholder="Search"
-                           aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </div>
+<_Search></_Search>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">watch board</a>
+        <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Board: @SelectedBoard.Name
+                    </a>
+                    <ul class="dropdown-menu">
+                        @foreach (var b in Boards)
+                        {
+                            <li><a class="dropdown-item" href="#">@b.Name</a></li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-flex" role="search">
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer"
+                        aria-controls="searchDrawer">
+                    <i class="bi bi-search"></i> Search
+                </button>
             </div>
         </div>
-    </nav>
-    <div class="container">
-        <div id="searchResults" hx-get="/app/empty" hx-trigger="newItem from:body" hx-target="this"></div>
     </div>
-</form>
+</nav>
 
 <div class="container">
     @foreach (var l in Lists)
     {
-        <div hx-get="/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
+        <div hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
             <_List ListModel="l"></_List>
         </div>
     }
