@@ -14,12 +14,11 @@
 
 <body>
 
-<form hx-post="/app/boards/@SelectedBoard.Id/lists/@Lists.First().Id/search" hx-target="#searchResults">
-
+<form hx-post="/app/search" hx-target="#searchResults">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">watch board</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -59,8 +58,8 @@
 <div class="container">
     @foreach (var l in Lists)
     {
-        <div hx-get="/app/boards/@(SelectedBoard.Id)/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
-            <_List ListModel="l" SelectedBoard="SelectedBoard.Id" Lists="Lists"></_List>
+        <div hx-get="/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
+            <_List ListModel="l"></_List>
         </div>
     }
 </div>

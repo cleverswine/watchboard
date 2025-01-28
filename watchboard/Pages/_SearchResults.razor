@@ -1,0 +1,54 @@
+@using WatchBoard.Services.Database.Entities
+
+<h4> Search Results <button class="tn btn-outline-secondary"><i class="bi bi-gear"></i></button></h4>
+
+@foreach (var itemModel in Items)
+{
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="card text-bg-dark" id="card-@(itemModel.Id)">
+            <img src="@(itemModel.BackdropUrl)"
+                 width="300" height="169" class="opacity-50 card-img" alt="@itemModel.Name">
+            <div class="card-img-overlay">
+                <div class="position-relative w-100 h-100">
+                    <div class="position-absolute top-0 end-0">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-plus-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach (var l in Lists)
+                                {
+                                    <li>
+                                        <button class="dropdown-item" hx-swap="none"
+                                                hx-post="/app/lists/@(l.Id)/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
+                                            Add to @(l.Name)
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="position-absolute bottom-0">
+                        <h5 class="card-title shadow-lg">@itemModel.Name</h5>
+                        <div class="card-text">
+                            <i class="bi bi-view-list"></i> @itemModel.ReleaseDates()
+                            <br/>
+                            <i class="bi bi-eye"></i> @(itemModel.ProviderNamesCsv?.Split(',')[1] ?? "UNK")
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public List<Item> Items { get; set; } = [];
+
+    [Parameter]
+    public List<List> Lists { get; set; } = [];
+}

@@ -9,14 +9,41 @@ using WatchBoard.Services.TmDb;
 
 namespace WatchBoard;
 
+public static class ContextHelpers
+{
+    public static Guid? GetBoardId(this HttpContext context)
+    {
+        if (context.Request.Cookies.TryGetValue("BoardId", out var value))
+            return Guid.Parse(value);
+        return null;
+    }
+
+    public static void SetBoardId(this HttpContext context, Guid? boardId)
+    {
+        if (boardId == null)
+            context.Response.Cookies.Delete("BoardId");
+        else
+            context.Response.Cookies.Append("BoardId", boardId.ToString()!);
+    }
+
+    public static Board? GetSelectedBoard(this HttpContext context, List<Board> boards)
+    {
+        var boardId = context.GetBoardId();
+        return boardId == null ? boards.FirstOrDefault() : boards.FirstOrDefault(b => b.Id == boardId);
+    }
+}
+
 public static class Routes
 {
     public static void MapPages(this WebApplication app)
     {
-        app.MapGet("/", async ([FromServices] AppDbContext db) =>
+        app.MapGet("/", async (
+            HttpContext context,
+            [FromServices] AppDbContext db) =>
         {
             var boards = await db.Boards.AsNoTracking().OrderByDescending(x => x.Name).ToListAsync();
-            var selectedBoard = boards.FirstOrDefault();
+            var selectedBoard = context.GetSelectedBoard(boards);
+
             var lists = selectedBoard == null
                 ? []
                 : db.Lists.AsNoTracking()
@@ -25,7 +52,12 @@ public static class Routes
                     .OrderByDescending(x => x.Order)
                     .ToList();
 
-            return new RazorComponentResult<Home>(new {Boards = boards, SelectedBoard = selectedBoard, Lists = lists});
+            context.SetBoardId(selectedBoard?.Id);
+
+            return new RazorComponentResult<Home>(new
+            {
+                Boards = boards, SelectedBoard = selectedBoard, Lists = lists
+            });
         });
     }
 
@@ -34,10 +66,12 @@ public static class Routes
         app.MapGet("/empty", () => Results.Ok());
 
         // SEARCH
-        app.MapPost("/boards/{boardId:guid}/lists/{listId:guid}/search",
-            async (HttpRequest request, [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromServices] AppDbContext db, [FromServices] ITmDb tmDb) =>
+        app.MapPost("/search",
+            async (HttpContext context,
+                [FromServices] AppDbContext db,
+                [FromServices] ITmDb tmDb) =>
             {
-                var form = await request.ReadFormAsync();
+                var form = await context.Request.ReadFormAsync();
                 var s = form["SearchName"];
 
                 var tmDbResults = await tmDb.Search(s!);
@@ -55,34 +89,42 @@ public static class Routes
                     BackdropUrl = x.BackdropPath ?? "/img/ph.png"
                 }).ToList();
 
-                return new RazorComponentResult<_List>(new
+                return new RazorComponentResult<_SearchResults>(new
                 {
-                    ListModel = new List {Id = Guid.Empty, Items = items, Name = "Search Results"}, SelectedBoard = boardId,
-                    Lists = db.Lists.AsNoTracking().Where(x => x.BoardId == boardId).OrderByDescending(x => x.Order).ToList()
+                    Items = items,
+                    Lists = db.Lists.AsNoTracking()
+                        .Where(x => x.BoardId == context.GetBoardId())
+                        .OrderByDescending(x => x.Order)
+                        .ToList()
                 });
             });
 
         // GET LIST
-        app.MapGet("/boards/{boardId:guid}/lists/{listId:guid}", async ([FromServices] AppDbContext db, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
+        app.MapGet("/lists/{listId:guid}", async (
+            HttpContext context,
+            [FromServices] AppDbContext db,
+            [FromRoute] Guid listId) =>
         {
             var list = await db.Lists.AsNoTracking()
+                .Where(x => x.BoardId == context.GetBoardId())
                 .Include(x => x.Items.OrderBy(y => y.Order))
                 .FirstOrDefaultAsync(x => x.Id == listId);
+
             return new RazorComponentResult<_List>(new
             {
-                ListModel = list, SelectedBoard = boardId,
-                Lists = db.Lists.AsNoTracking().Where(x => x.BoardId == boardId).OrderByDescending(x => x.Order).ToList()
+                ListModel = list
             });
         });
 
         // SORT LIST
-        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items",
-            async (HttpRequest request, [FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid listId) =>
+        app.MapPut("/lists/{listId:guid}/items",
+            async (HttpContext context,
+                [FromServices] AppDbContext db,
+                [FromRoute] Guid listId) =>
             {
-                var form = await request.ReadFormAsync();
+                var form = await context.Request.ReadFormAsync();
                 var itemIdsStr = form["item"];
 
-                // var dbList = await db.Lists.FirstOrDefaultAsync(x => x.Id == listId) ?? throw new KeyNotFoundException();
                 var dbItems = db.Items.Where(x => x.ListId == listId).ToList();
 
                 var newItemIds = itemIdsStr
@@ -119,10 +161,9 @@ public static class Routes
             });
 
         // ADD ITEM
-        app.MapPost("/boards/{boardId:guid}/lists/{listId:guid}/items/{tmDbId:int}", async (HttpResponse response,
+        app.MapPost("/lists/{listId:guid}/items/{tmDbId:int}", async (HttpResponse response,
             [FromServices] ITmDb tmDb,
             [FromServices] AppDbContext db,
-            [FromRoute] Guid boardId,
             [FromRoute] Guid listId,
             [FromRoute] int tmDbId,
             [FromQuery] string type) =>
@@ -142,9 +183,11 @@ public static class Routes
         });
 
         // DELETE ITEM
-        app.MapDelete("/items/{id:guid}", async ([FromServices] AppDbContext db, [FromRoute] Guid id) =>
+        app.MapDelete("/items/{itemId:guid}", async (
+            [FromServices] AppDbContext db,
+            [FromRoute] Guid itemId) =>
         {
-            var item = await db.Items.FindAsync(id);
+            var item = await db.Items.FindAsync(itemId);
             if (item == null) return Results.Ok();
             db.Remove(item);
             await db.SaveChangesAsync();
@@ -153,8 +196,11 @@ public static class Routes
         });
 
         // UPDATE ITEM
-        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/items/{itemId:guid}",
-            async ([FromServices] ITmDb tmDb, [FromServices] AppDbContext db, [FromRoute] Guid boardId, [FromRoute] Guid listId, [FromRoute] Guid itemId) =>
+        app.MapPut("/items/{itemId:guid}",
+            async (
+                [FromServices] ITmDb tmDb,
+                [FromServices] AppDbContext db,
+                [FromRoute] Guid itemId) =>
             {
                 var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
                 var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
@@ -164,8 +210,7 @@ public static class Routes
 
                 return new RazorComponentResult<_Item>(new
                 {
-                    ItemModel = dbItem, SelectedBoard = boardId, SelectedList = listId,
-                    Lists = db.Lists.AsNoTracking().Where(x => x.BoardId == boardId).OrderByDescending(x => x.Order).ToList()
+                    ItemModel = dbItem
                 });
             });
     }
