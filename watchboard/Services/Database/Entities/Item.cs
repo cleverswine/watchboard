@@ -68,6 +68,8 @@ public class Item
     
     public Guid ListId { get; set; }
 
+    public List<string> ProviderOptions => ProviderNamesCsv?.Split(",").ToList() ?? [];
+    
     public List<ItemImage> GetImages() =>
         Images == null ? [] : JsonSerializer.Deserialize<List<ItemImage>>(Images) ?? [];
 

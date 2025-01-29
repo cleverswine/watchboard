@@ -216,6 +216,26 @@ public static class Routes
                     ItemModel = dbItem
                 });
             });
+        
+        // UPDATE SELECTED BACKDROP
+        app.MapPut("/items/{itemId:guid}/backdrops/{imageId:guid}",
+            async (
+                [FromServices] ITmDb tmDb,
+                [FromServices] AppDbContext db,
+                [FromRoute] Guid itemId,
+                [FromRoute] Guid imageId) =>
+            {
+                var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
+                var img = dbItem.GetImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
+                dbItem.BackdropBase64 = await tmDb.GetImageBase64(img.UrlPath, "w300");
+                dbItem.BackdropUrl = img.UrlPath;
+                await db.SaveChangesAsync();
+
+                return new RazorComponentResult<_Item>(new
+                {
+                    ItemModel = dbItem
+                });
+            });
 
         // UPDATE ITEM
         app.MapPut("/items/{itemId:guid}",

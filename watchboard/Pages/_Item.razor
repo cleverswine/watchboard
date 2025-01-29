@@ -1,18 +1,28 @@
 @using System.Web
 @using WatchBoard.Services.Database.Entities
 
-<div class="card text-bg-dark mx-auto" id="card-@(ItemModel.Id)" style="max-width: 310px;">
+<div hx-indicator="#indicator-@(ItemModel.Id)" class="card text-bg-dark mx-auto" id="card-@(ItemModel.Id)"
+     style="max-width: 310px;">
     <img src="@(ItemModel.BackdropBase64)" width="300" height="169" class="opacity-50 card-img" alt="@ItemModel.Name">
     <div class="card-img-overlay">
         <div class="position-relative w-100 h-100">
+            <div class="htmx-indicator position-absolute top-0 start-0" id="indicator-@(ItemModel.Id)">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
             <div class="position-absolute top-0 end-0">
                 <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-gear"></i>
                     </button>
                     <ul class="dropdown-menu">
                         <li>
-                            <button class="dropdown-item">
+                            <button class="dropdown-item"
+                                    hx-put="/app/items/@(ItemModel.Id)"
+                                    hx-target="#card-@(ItemModel.Id)"
+                                    hx-params="none"
+                                    hx-swap="outerHTML">
                                 <i class="bi bi-arrow-clockwise"></i> Refresh Data
                             </button>
                         </li>
@@ -25,17 +35,37 @@
                                 <i class="bi bi-trash"></i> Delete
                             </button>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
-                        @foreach (var p in ItemModel.ProviderNamesCsv?.Split(',') ?? [])
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        @foreach (var p in ItemModel.ProviderOptions)
                         {
                             <li>
-                                <button class="dropdown-item" 
+                                <button class="dropdown-item @(ItemModel.SelectedProviderName == p ? "fw-bold" : "")"
                                         hx-put="/app/items/@(ItemModel.Id)/providers/@(HttpUtility.UrlEncode(p))"
                                         hx-target="#card-@(ItemModel.Id)"
                                         hx-params="none"
-                                        hx-swap="outerHTML"
-                                        >
-                                    <i class="bi @(ItemModel.SelectedProviderName == p ? "bi-eye-fill" : "bi-eye")"></i> @p
+                                        hx-swap="outerHTML">
+                                    <i class="bi bi-eye"></i> @p
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-images"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var img in Images)
+                        {
+                            <li>
+                                <button class="dropdown-item @(ItemModel.BackdropUrl == img.UrlPath ? "fw-bold" : "")"
+                                        hx-put="/app/items/@(ItemModel.Id)/backdrops/@(img.Id)"
+                                        hx-target="#card-@(ItemModel.Id)"
+                                        hx-params="none"
+                                        hx-swap="outerHTML">
+                                    <i class="bi bi-image"></i> @img.Name (@(img.VoteCount))
                                 </button>
                             </li>
                         }
@@ -45,9 +75,13 @@
             <div class="position-absolute bottom-0">
                 <h5 class="card-title shadow-lg">@ItemModel.Name</h5>
                 <div class="card-text">
-                    <i class="bi @(ItemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-tv")"></i> @ItemModel.ReleaseDates()
+                    <i class="bi @(ItemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-view-list")"></i> @ItemModel.ReleaseDates()
                     <br/>
-                    <i class="bi bi-eye"></i> @(ItemModel.SelectedProviderName ?? "tbd")
+                    <svg class="bi" width="16" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                         fill="currentColor">
+                        <path d="@(ProviderSvg(ItemModel.SelectedProviderName ?? ""))"></path>
+                    </svg>
+                    @(ItemModel.SelectedProviderName ?? ItemModel.ProviderOptions.Count + " watch options")
                     <br/>
                 </div>
             </div>
@@ -61,18 +95,23 @@
     [Parameter]
     public Item ItemModel { get; set; } = new();
 
+    private List<ItemImage> Images { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        Images = ItemModel.GetImages()
+            .Where(x => x.Type == ItemImageType.Backdrop)
+            .OrderByDescending(x => x.VoteCount)
+            .ThenByDescending(x => x.VoteAverage)
+            .Take(10)
+            .ToList();
+        base.OnInitialized();
+    }
+
     private string TypeSvg(ItemType type)
     {
         return type == ItemType.Tv ? "M22 18V20H2V18H22ZM2 3.5L10 8.5L2 13.5V3.5ZM22 11V13H12V11H22ZM4 7.1085V9.8915L6.22641 8.5L4 7.1085ZM22 4V6H12V4H22Z" : "M12 20H20V22H12C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 14.2512 21.2561 16.3287 20.0007 18H17.2916C18.9525 16.5341 20 14.3894 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10C10.8954 10 10 9.10457 10 8C10 6.89543 10.8954 6 12 6C13.1046 6 14 6.89543 14 8C14 9.10457 13.1046 10 12 10ZM8 14C6.89543 14 6 13.1046 6 12C6 10.8954 6.89543 10 8 10C9.10457 10 10 10.8954 10 12C10 13.1046 9.10457 14 8 14ZM16 14C14.8954 14 14 13.1046 14 12C14 10.8954 14.8954 10 16 10C17.1046 10 18 10.8954 18 12C18 13.1046 17.1046 14 16 14ZM12 18C10.8954 18 10 17.1046 10 16C10 14.8954 10.8954 14 12 14C13.1046 14 14 14.8954 14 16C14 17.1046 13.1046 18 12 18Z";
     }
-
-    private string RefreshSvg() => "M5.46257 4.43262C7.21556 2.91688 9.5007 2 12 2C17.5228 2 22 6.47715 22 12C22 14.1361 21.3302 16.1158 20.1892 17.7406L17 12H20C20 7.58172 16.4183 4 12 4C9.84982 4 7.89777 4.84827 6.46023 6.22842L5.46257 4.43262ZM18.5374 19.5674C16.7844 21.0831 14.4993 22 12 22C6.47715 22 2 17.5228 2 12C2 9.86386 2.66979 7.88416 3.8108 6.25944L7 12H4C4 16.4183 7.58172 20 12 20C14.1502 20 16.1022 19.1517 17.5398 17.7716L18.5374 19.5674";
-
-    private string DeleteSvg() => "M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM13.4142 13.9997L15.182 15.7675L13.7678 17.1817L12 15.4139L10.2322 17.1817L8.81802 15.7675L10.5858 13.9997L8.81802 12.232L10.2322 10.8178L12 12.5855L13.7678 10.8178L15.182 12.232L13.4142 13.9997ZM9 4V6H15V4H9Z";
-
-    private string AddSvg() => "M2 18H12V20H2V18ZM2 11H22V13H2V11ZM2 4H22V6H2V4ZM18 18V15H20V18H23V20H20V23H18V20H15V18H18Z";
-
-    private string DotDotDotSvg() => "M4.5 10.5C3.675 10.5 3 11.175 3 12C3 12.825 3.675 13.5 4.5 13.5C5.325 13.5 6 12.825 6 12C6 11.175 5.325 10.5 4.5 10.5ZM19.5 10.5C18.675 10.5 18 11.175 18 12C18 12.825 18.675 13.5 19.5 13.5C20.325 13.5 21 12.825 21 12C21 11.175 20.325 10.5 19.5 10.5ZM12 10.5C11.175 10.5 10.5 11.175 10.5 12C10.5 12.825 11.175 13.5 12 13.5C12.825 13.5 13.5 12.825 13.5 12C13.5 11.175 12.825 10.5 12 10.5Z";
 
     private string ProviderSvg(string providerName)
     {
@@ -91,6 +130,11 @@
             return "M15.778 8.20793C15.3053 8.1711 14.7974 8.28434 14.0197 8.58067C14.085 8.55577 13.2775 8.87173 13.0511 8.95077C12.5494 9.12593 12.1364 9.22198 11.6734 9.22198C11.2151 9.22198 10.7925 9.13042 10.3078 8.96683C10.1524 8.91441 9.99616 8.8564 9.80283 8.7809C9.71993 8.74852 9.41997 8.62947 9.3544 8.60379C8.70626 8.34996 8.34154 8.25434 8.03885 8.26181C6.88626 8.2765 5.79557 8.9421 5.16246 10.0442C3.87037 12.2875 4.58583 16.3428 6.47459 19.075C7.4802 20.5189 8.03062 21.035 8.25199 21.0279C8.4743 21.0183 8.63777 20.9713 9.03567 20.8026C9.11485 20.7689 9.11485 20.7689 9.202 20.7317C10.2077 20.3032 10.9118 20.114 11.9734 20.114C12.9944 20.114 13.6763 20.2997 14.6416 20.7159C14.7302 20.7542 14.7302 20.7542 14.8097 20.7884C15.2074 20.9588 15.3509 20.9962 15.6016 20.9902C15.9591 20.9846 16.4003 20.5726 17.3791 19.1362C17.6471 18.7447 17.884 18.3333 18.0895 17.9168C17.9573 17.8077 17.826 17.6917 17.6975 17.5693C16.4086 16.3408 15.6114 14.6845 15.5895 12.6391C15.5756 11.0186 16.1057 9.61487 16.999 8.45797C16.6293 8.3142 16.2216 8.23805 15.778 8.20793ZM15.9334 6.21398C16.6414 6.26198 18.6694 6.47798 19.9894 8.40998C19.8814 8.46998 17.5654 9.81397 17.5894 12.622C17.6254 15.982 20.5294 17.098 20.5654 17.11C20.5414 17.194 20.0974 18.706 19.0294 20.266C18.1054 21.622 17.1454 22.966 15.6334 22.99C14.1454 23.026 13.6654 22.114 11.9734 22.114C10.2694 22.114 9.74138 22.966 8.33738 23.026C6.87338 23.074 5.76938 21.562 4.83338 20.218C2.92538 17.458 1.47338 12.442 3.42938 9.04597C4.40138 7.35397 6.12938 6.28598 8.01338 6.26198C9.44138 6.22598 10.7974 7.22198 11.6734 7.22198C12.5374 7.22198 14.0854 6.06998 15.9334 6.21398ZM14.7934 4.38998C14.0134 5.32598 12.7414 6.05798 11.5054 5.96198C11.3374 4.68998 11.9614 3.35798 12.6814 2.52998C13.4854 1.59398 14.8294 0.897976 15.9454 0.849976C16.0894 2.14598 15.5734 3.45398 14.7934 4.38998Z";
         }
 
-        return "M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM10.6219 8.41459L15.5008 11.6672C15.6846 11.7897 15.7343 12.0381 15.6117 12.2219C15.5824 12.2658 15.5447 12.3035 15.5008 12.3328L10.6219 15.5854C10.4381 15.708 10.1897 15.6583 10.0672 15.4745C10.0234 15.4088 10 15.3316 10 15.2526V8.74741C10 8.52649 10.1791 8.34741 10.4 8.34741C10.479 8.34741 10.5562 8.37078 10.6219 8.41459Z";
+        if (providerName.Contains("Servarr", StringComparison.OrdinalIgnoreCase))
+        {
+            return "M4.50772 2.87597C4.57028 2.37554 4.99568 2 5.5 2H18.5C19.0043 2 19.4297 2.37554 19.4923 2.87597L20.9923 14.876C20.9974 14.9171 21 14.9585 21 15V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V15C3 14.9585 3.00258 14.9171 3.00772 14.876L4.50772 2.87597ZM6.38278 4L5.13278 14H18.8672L17.6172 4H6.38278ZM19 16H5V20H19V16ZM15 17H17V19H15V17ZM13 17H11V19H13V17Z";
+        }
+
+        return "M2 3.9934C2 3.44476 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44495 22 3.9934V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V3.9934ZM4 5V19H20V5H4ZM10.6219 8.41459L15.5008 11.6672C15.6846 11.7897 15.7343 12.0381 15.6117 12.2219C15.5824 12.2658 15.5447 12.3035 15.5008 12.3328L10.6219 15.5854C10.4381 15.708 10.1897 15.6583 10.0672 15.4745C10.0234 15.4088 10 15.3316 10 15.2526V8.74741C10 8.52649 10.1791 8.34741 10.4 8.34741C10.479 8.34741 10.5562 8.37078 10.6219 8.41459Z";
     }
 }

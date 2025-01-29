@@ -59,15 +59,17 @@ public static class Mapping
     {
         var images = imageList.Backdrops.Select(x => new ItemImage
         {
+            Id = Guid.NewGuid(),
             Type = ItemImageType.Backdrop,
             Name = x.FilePath ?? "",
             UrlPath = x.FilePath ?? "",
             VoteAverage = x.VoteAverage,
-            VoteCount = x.VoteCount,
+            VoteCount = x.VoteCount
         }).ToList();
 
         images.AddRange(imageList.Posters.Select(x => new ItemImage
         {
+            Id = Guid.NewGuid(),
             Type = ItemImageType.Poster,
             Name = x.FilePath ?? "",
             UrlPath = x.FilePath ?? "",
@@ -77,6 +79,7 @@ public static class Mapping
 
         images.AddRange(imageList.Logos.Select(x => new ItemImage
         {
+            Id = Guid.NewGuid(),
             Type = ItemImageType.Logo,
             Name = x.FilePath ?? "",
             UrlPath = x.FilePath ?? "",
