@@ -29,3 +29,21 @@ DATA_DIR="." dotnet ef migrations add Init \
 --configuration Debug \
 --output-dir Services/Database/Migrations
 ```
+
+## TODO
+
+- Admin - crud boards
+- Admin - crud board / lists
+- Admin - set, order interesting providers
+  - on Add item, select provider based on ^^
+- Admin - config provider icons
+- Item - links to imdb, etc
+- Item - add notes
+- Item - move to other board
+- Search - include tv, movies, or both
+- Search - fall back to poster when no backdrop
+- Board - dynamic col-x based on list count?
+- Board - if > 3 lists, too wide... ??
+- Item - image select list - number them 1,2,3,etc
+- Item - confirm on delete
+- Item - show status (in progress, ended, etc)
