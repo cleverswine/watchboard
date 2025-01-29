@@ -1,6 +1,7 @@
+@using System.Web
 @using WatchBoard.Services.Database.Entities
 
-<div class="card text-bg-dark" id="card-@(ItemModel.Id)" style="width: 320px;">
+<div class="card text-bg-dark mx-auto" id="card-@(ItemModel.Id)" style="max-width: 310px;">
     <img src="@(ItemModel.BackdropBase64)" width="300" height="169" class="opacity-50 card-img" alt="@ItemModel.Name">
     <div class="card-img-overlay">
         <div class="position-relative w-100 h-100">
@@ -11,28 +12,42 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li>
+                            <button class="dropdown-item">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh Data
+                            </button>
+                        </li>
+                        <li>
                             <button class="dropdown-item"
                                     hx-swap="delete swap:1s"
                                     hx-target="#card-@(ItemModel.Id)"
                                     hx-params="none"
                                     hx-delete="/app/items/@(ItemModel.Id)">
-                                Delete
+                                <i class="bi bi-trash"></i> Delete
                             </button>
                         </li>
-                        <li>
-                            <button class="dropdown-item">
-                                Refresh Data
-                            </button>
-                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        @foreach (var p in ItemModel.ProviderNamesCsv?.Split(',') ?? [])
+                        {
+                            <li>
+                                <button class="dropdown-item" 
+                                        hx-put="/app/items/@(ItemModel.Id)/providers/@(HttpUtility.UrlEncode(p))"
+                                        hx-target="#card-@(ItemModel.Id)"
+                                        hx-params="none"
+                                        hx-swap="outerHTML"
+                                        >
+                                    <i class="bi @(ItemModel.SelectedProviderName == p ? "bi-eye-fill" : "bi-eye")"></i> @p
+                                </button>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
             <div class="position-absolute bottom-0">
                 <h5 class="card-title shadow-lg">@ItemModel.Name</h5>
                 <div class="card-text">
-                    <i class="bi bi-view-list"></i> @ItemModel.ReleaseDates()
+                    <i class="bi @(ItemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-tv")"></i> @ItemModel.ReleaseDates()
                     <br/>
-                    <i class="bi bi-eye"></i> @(ItemModel.ProviderNamesCsv?.Split(',')[0] ?? "UNK")
+                    <i class="bi bi-eye"></i> @(ItemModel.SelectedProviderName ?? "tbd")
                     <br/>
                 </div>
             </div>

@@ -34,7 +34,7 @@
                     <ul class="dropdown-menu">
                         @foreach (var b in Boards)
                         {
-                            <li><a class="dropdown-item" href="#">@b.Name</a></li>
+                            <li><a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a></li>
                         }
                     </ul>
                 </li>
@@ -51,16 +51,13 @@
 
 <div class="container">
     <div class="row">
-
         @foreach (var l in Lists)
         {
-            <div class="col-sm-4 justify-content-center" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body"
-                 hx-target="this">
+            <div class="col-xs-12 col-sm-6 col-md-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
                 <_List ListModel="l"></_List>
             </div>
         }
     </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>

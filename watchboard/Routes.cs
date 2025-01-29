@@ -1,3 +1,4 @@
+using System.Web;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ public static class ContextHelpers
         if (boardId == null)
             context.Response.Cookies.Delete("BoardId");
         else
-            context.Response.Cookies.Append("BoardId", boardId.ToString()!);
+            context.Response.Cookies.Append("BoardId", boardId.ToString()!, new CookieOptions {HttpOnly = true, SameSite = SameSiteMode.Strict});
     }
 
     public static Board? GetSelectedBoard(this HttpContext context, List<Board> boards)
@@ -39,17 +40,20 @@ public static class Routes
     {
         app.MapGet("/", async (
             HttpContext context,
-            [FromServices] AppDbContext db) =>
+            [FromServices] AppDbContext db,
+            [FromQuery] Guid? boardId) =>
         {
             var boards = await db.Boards.AsNoTracking().OrderByDescending(x => x.Name).ToListAsync();
-            var selectedBoard = context.GetSelectedBoard(boards);
+            var selectedBoard = boardId != null
+                ? boards.FirstOrDefault(x => x.Id == boardId)
+                : context.GetSelectedBoard(boards);
 
             var lists = selectedBoard == null
                 ? []
                 : db.Lists.AsNoTracking()
                     .Include(x => x.Items.OrderBy(y => y.Order))
                     .Where(x => x.BoardId == selectedBoard.Id)
-                    .OrderByDescending(x => x.Order)
+                    .OrderBy(x => x.Order)
                     .ToList();
 
             context.SetBoardId(selectedBoard?.Id);
@@ -168,7 +172,7 @@ public static class Routes
             [FromRoute] int tmDbId,
             [FromQuery] string type) =>
         {
-            var order = db.Items.AsNoTracking().Where(x => x.ListId == listId).Max(x => x.Order) + 1;
+            var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
             var tmDbItem = await tmDb.GetDetail(tmDbId, type);
             var images = await tmDb.GetImages(tmDbId, type);
             var dbItem = tmDbItem.MapTo(listId, images);
@@ -194,6 +198,24 @@ public static class Routes
 
             return Results.Ok();
         });
+
+        // UPDATE SELECTED PROVIDER
+        app.MapPut("/items/{itemId:guid}/providers/{providerName}",
+            async (
+                [FromServices] ITmDb tmDb,
+                [FromServices] AppDbContext db,
+                [FromRoute] Guid itemId,
+                [FromRoute] string providerName) =>
+            {
+                var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
+                dbItem.SelectedProviderName = HttpUtility.UrlDecode(providerName);
+                await db.SaveChangesAsync();
+
+                return new RazorComponentResult<_Item>(new
+                {
+                    ItemModel = dbItem
+                });
+            });
 
         // UPDATE ITEM
         app.MapPut("/items/{itemId:guid}",
