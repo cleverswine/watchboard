@@ -39,11 +39,11 @@ public class TmDb : ITmDb
         return configuration ?? new TmdbConfiguration();
     }
 
-    public async Task<List<Providers>> GetProviders(string type, string region = "US")
+    public async Task<List<TmDbProvider>> GetProviders(string type, string region = "US")
     {
         await Task.Yield();
         
-        if (_cache.TryGetValue($"TmdbGetProviders-{type}-{region}", out List<Providers>? results) && results is not null)
+        if (_cache.TryGetValue($"TmdbGetProviders-{type}-{region}", out List<TmDbProvider>? results) && results is not null)
             return results;
         
         var url = $"{BaseApiPath}watch/providers/{type}?watch_region={region}";

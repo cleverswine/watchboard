@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Web;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,8 @@ using WatchBoard.Services;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb;
+using WatchBoard.Services.TmDb.Models;
+using Results = Microsoft.AspNetCore.Http.Results;
 
 namespace WatchBoard;
 
@@ -69,8 +72,11 @@ public static class Routes
 
         app.MapGet("/settings", async () =>
         {
-            await Task.Yield();
-            return new RazorComponentResult<Settings>();
+            var json = await File.ReadAllTextAsync("/Users/Kevin.Noone/Library/Application Support/JetBrains/Rider2024.3/scratches/movieproviders.json");
+            return new RazorComponentResult<Settings>(new
+            {
+                ProvidersList = JsonSerializer.Deserialize<TmDbProviders>(json)?.Results ?? []
+            });
         });
     }
 
