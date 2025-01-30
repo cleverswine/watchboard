@@ -39,6 +39,20 @@ public class TmDb : ITmDb
         return configuration ?? new TmdbConfiguration();
     }
 
+    public async Task<List<Providers>> GetProviders(string type, string region = "US")
+    {
+        await Task.Yield();
+        
+        if (_cache.TryGetValue($"TmdbGetProviders-{type}-{region}", out List<Providers>? results) && results is not null)
+            return results;
+        
+        var url = $"{BaseApiPath}watch/providers/{type}?watch_region={region}";
+        
+        _cache.Set($"TmdbGetProviders-{type}-{region}", results, TimeSpan.FromMinutes(60));
+
+        return results ?? [];
+    }
+
     public async Task<List<TmdbItem>> Search(string query, int limit = 8)
     {
         if (_cache.TryGetValue($"TmdbSearch-{query}-{limit}", out List<TmdbItem>? results) && results is not null)

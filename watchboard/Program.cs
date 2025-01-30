@@ -1,16 +1,12 @@
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WatchBoard;
-using WatchBoard.Pages;
-using WatchBoard.Services;
 using WatchBoard.Services.Database;
-using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb;
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddHttpContextAccessor();
 
 // User Config
 var dataPath = Environment.GetEnvironmentVariable("DATA_DIR") ?? "/data";
@@ -60,6 +56,6 @@ app.UseStaticFiles();
 
 // Routes
 app.MapPages();
-app.MapGroup("/app").MapPartials();
+app.MapGroup("/app").MapHomePartials();
 
 app.Run();

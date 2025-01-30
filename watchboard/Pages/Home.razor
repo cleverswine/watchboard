@@ -1,78 +1,21 @@
+@layout _Layout
 @using WatchBoard.Services.Database.Entities
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-
-<head>
-    <title>Watch Board</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link href="/css/app.css" rel="stylesheet" type="text/css"/>
-</head>
-
-<body>
 
 <_Search></_Search>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">watch board</a>
-        <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Board: @SelectedBoard.Name
-                    </a>
-                    <ul class="dropdown-menu">
-                        @foreach (var b in Boards)
-                        {
-                            <li><a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a></li>
-                        }
-                    </ul>
-                </li>
-            </ul>
-            <div class="d-flex" role="search">
-                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer"
-                        aria-controls="searchDrawer">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
+<div class="row">
+    @foreach (var l in Lists)
+    {
+        <div class="col-xs-12 col-sm-6 col-md-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body"
+             hx-target="this">
+            <_List ListModel="l"></_List>
         </div>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="row">
-        @foreach (var l in Lists)
-        {
-            <div class="col-xs-12 col-sm-6 col-md-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
-                <_List ListModel="l"></_List>
-            </div>
-        }
-    </div>
+    }
 </div>
-
-<script src="/js/Sortable.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/htmx.min.js"></script>
-<script src="/js/app.js"></script>
-
-</body>
-</html>
 
 @code {
 
-    [Parameter] public List<Board> Boards { get; set; } = [];
-
-    [Parameter] public Board SelectedBoard { get; set; } = new();
-
-    [Parameter] public List<List> Lists { get; set; } = [];
+    [Parameter]
+    public List<List> Lists { get; set; } = [];
 
 }

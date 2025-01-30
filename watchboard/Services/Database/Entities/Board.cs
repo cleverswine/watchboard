@@ -13,3 +13,4 @@ public class Board
 
     public List<List> Lists { get; set; } = [];
 }
+

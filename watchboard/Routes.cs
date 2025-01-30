@@ -58,14 +58,23 @@ public static class Routes
 
             context.SetBoardId(selectedBoard?.Id);
 
+            if(boardId != null)
+                return Results.Redirect("/");
+
             return new RazorComponentResult<Home>(new
             {
-                Boards = boards, SelectedBoard = selectedBoard, Lists = lists
+                Lists = lists
             });
+        });
+
+        app.MapGet("/settings", async () =>
+        {
+            await Task.Yield();
+            return new RazorComponentResult<Settings>();
         });
     }
 
-    public static void MapPartials(this RouteGroupBuilder app)
+    public static void MapHomePartials(this RouteGroupBuilder app)
     {
         app.MapGet("/empty", () => Results.Ok());
 
@@ -216,7 +225,7 @@ public static class Routes
                     ItemModel = dbItem
                 });
             });
-        
+
         // UPDATE SELECTED BACKDROP
         app.MapPut("/items/{itemId:guid}/backdrops/{imageId:guid}",
             async (
