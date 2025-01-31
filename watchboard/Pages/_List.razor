@@ -7,7 +7,7 @@
     {
         <div class="mb-3">
             <input type='hidden' name='item' value='@i.Id'/>
-            <_Item ItemModel="i"></_Item>
+            <_Item ItemModel="i" OtherBoards="OtherBoards"></_Item>
         </div>
     }
 </form>
@@ -17,4 +17,6 @@
     [Parameter]
     public List ListModel { get; set; } = new() {Items = []};
 
+    [Parameter]
+    public List<Board> OtherBoards { get; set; } = [];
 }

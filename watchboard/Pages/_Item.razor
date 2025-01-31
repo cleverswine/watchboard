@@ -16,7 +16,7 @@
 
             <div class="position-absolute top-0 start-0">
                 <div class="x-d-inline-flex">
-                    <button class="btn btn px-1 py-0" type="button" data-bs-toggle="collapse"
+                    <button class="btn btn ps-1 py-0" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseExample-@(ItemModel.Id)" aria-expanded="false"
                             aria-controls="collapseExample-@(ItemModel.Id)">
                         <i class="bi bi-three-dots"></i>
@@ -24,29 +24,6 @@
                     <div class="collapse" id="collapseExample-@(ItemModel.Id)">
 
                         <div class="row">
-                            <div class="col">
-                                <div class="dropdown">
-                                    <button class="btn btn-lg py-0 px-1" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                        <i class="bi bi-images"></i>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        @foreach (var img in Images)
-                                        {
-                                            <li>
-                                                <button
-                                                    class="dropdown-item @(ItemModel.BackdropUrl == img.UrlPath ? "fw-bold" : "")"
-                                                    hx-put="/app/items/@(ItemModel.Id)/backdrops/@(img.Id)"
-                                                    hx-target="#card-@(ItemModel.Id)"
-                                                    hx-params="none"
-                                                    hx-swap="outerHTML">
-                                                    <i class="bi bi-image"></i> @(img.VoteAverage.ToString("0.0")) (@(img.VoteCount) votes)
-                                                </button>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
                             <div class="col">
                                 <div class="dropdown">
                                     <button class="btn btn-lg py-0 px-1" type="button" data-bs-toggle="dropdown"
@@ -95,6 +72,42 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </li>
+                                        <li><h6 class="dropdown-header">Move to...</h6></li>
+                                        @foreach (var otherBoard in OtherBoards)
+                                        {
+                                            <li>
+                                                <button class="dropdown-item"
+                                                        hx-swap="delete swap:1s"
+                                                        hx-target="#card-@(ItemModel.Id)"
+                                                        hx-params="none"
+                                                        hx-put="/app/items/@(ItemModel.Id)/move/@(otherBoard.Id)">
+                                                    <i class="bi bi-arrow-right"></i> @otherBoard.Name
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button class="btn btn-lg py-0 px-1" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-images"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var img in Images)
+                                        {
+                                            <li>
+                                                <button
+                                                    class="dropdown-item @(ItemModel.BackdropUrl == img.UrlPath ? "fw-bold" : "")"
+                                                    hx-put="/app/items/@(ItemModel.Id)/backdrops/@(img.Id)"
+                                                    hx-target="#card-@(ItemModel.Id)"
+                                                    hx-params="none"
+                                                    hx-swap="outerHTML">
+                                                    <i class="bi bi-image"></i> @(img.VoteAverage.ToString("0.0")) (@(img.VoteCount) votes)
+                                                </button>
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -119,8 +132,9 @@
                                             <i class="bi bi-info-circle"></i> @ItemModel.TagLine
                                         </p>
                                         <p class="mb-0">
-                                            <i class="bi bi-box-arrow-up-right"></i> <a href="@ItemModel.ImdbUrl"
-                                                                                        target="_blank">IMDB</a>
+                                            <i class="bi bi-box-arrow-up-right"></i>
+                                            <a href="@ItemModel.ImdbUrl"
+                                               target="_blank">IMDB</a>
                                         </p>
                                     </div>
                                 </div>
@@ -152,6 +166,9 @@
 
     [Parameter]
     public Item ItemModel { get; set; } = new();
+
+    [Parameter]
+    public List<Board> OtherBoards { get; set; } = [];
 
     private List<ItemImage> Images { get; set; } = [];
 

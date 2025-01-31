@@ -38,7 +38,6 @@ DATA_DIR="." dotnet ef migrations add Init \
   - on Add item, select provider based on ^^
 - Admin - config provider icons
 - Item - add notes
-- Item - move to other board
 - Search - include tv, movies, or both
 - Board - dynamic col-x based on list count?
 - Board - if > 3 lists, too wide... ??

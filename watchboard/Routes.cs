@@ -1,4 +1,3 @@
-using System.Text.Json;
 using System.Web;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,6 @@ using WatchBoard.Services;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb;
-using WatchBoard.Services.TmDb.Models;
 using Results = Microsoft.AspNetCore.Http.Results;
 
 namespace WatchBoard;
@@ -66,7 +64,8 @@ public static class Routes
 
             return new RazorComponentResult<Home>(new
             {
-                Lists = lists
+                Lists = lists,
+                Boards = boards
             });
         });
 
@@ -130,7 +129,10 @@ public static class Routes
 
             return new RazorComponentResult<_List>(new
             {
-                ListModel = list
+                ListModel = list,
+                OtherBoards = await db.Boards.AsNoTracking()
+                    .Where(x => x.Id != context.GetBoardId())
+                    .OrderByDescending(x => x.Name).ToListAsync()
             });
         });
 
@@ -213,9 +215,30 @@ public static class Routes
             return Results.Ok();
         });
 
+        // MOVE ITEM TO ANOTHER BOARD
+        app.MapPut("/items/{itemId:guid}/move/{boardId:guid}", async (
+            [FromServices] AppDbContext db,
+            [FromRoute] Guid itemId,
+            [FromRoute] Guid boardId) =>
+        {
+            var item = await db.Items.FindAsync(itemId);
+            if (item == null) return Results.Ok();
+            
+            var itemList = await db.Lists.FirstOrDefaultAsync(x => x.Id == item.ListId);
+            var otherLists = await db.Lists.Where(x => x.BoardId == boardId).ToListAsync();
+            var newList = otherLists.FirstOrDefault(x => x.Name.Equals(itemList?.Name, StringComparison.OrdinalIgnoreCase)) ?? otherLists.FirstOrDefault();
+            if (newList == null) return Results.Ok();
+
+            item.ListId = newList.Id;
+            await db.SaveChangesAsync();
+
+            return Results.Ok();
+        });
+        
         // UPDATE SELECTED PROVIDER
         app.MapPut("/items/{itemId:guid}/providers/{providerName}",
             async (
+                HttpContext context,
                 [FromServices] ITmDb tmDb,
                 [FromServices] AppDbContext db,
                 [FromRoute] Guid itemId,
@@ -227,13 +250,17 @@ public static class Routes
 
                 return new RazorComponentResult<_Item>(new
                 {
-                    ItemModel = dbItem
+                    ItemModel = dbItem,
+                    OtherBoards = await db.Boards.AsNoTracking()
+                        .Where(x => x.Id != context.GetBoardId())
+                        .OrderByDescending(x => x.Name).ToListAsync()
                 });
             });
 
         // UPDATE SELECTED BACKDROP
         app.MapPut("/items/{itemId:guid}/backdrops/{imageId:guid}",
             async (
+                HttpContext context,
                 [FromServices] ITmDb tmDb,
                 [FromServices] AppDbContext db,
                 [FromRoute] Guid itemId,
@@ -247,13 +274,17 @@ public static class Routes
 
                 return new RazorComponentResult<_Item>(new
                 {
-                    ItemModel = dbItem
+                    ItemModel = dbItem,
+                    OtherBoards = await db.Boards.AsNoTracking()
+                        .Where(x => x.Id != context.GetBoardId())
+                        .OrderByDescending(x => x.Name).ToListAsync()
                 });
             });
 
         // UPDATE ITEM
         app.MapPut("/items/{itemId:guid}",
             async (
+                HttpContext context,
                 [FromServices] ITmDb tmDb,
                 [FromServices] AppDbContext db,
                 [FromRoute] Guid itemId) =>
@@ -266,7 +297,10 @@ public static class Routes
 
                 return new RazorComponentResult<_Item>(new
                 {
-                    ItemModel = dbItem
+                    ItemModel = dbItem,
+                    OtherBoards = await db.Boards.AsNoTracking()
+                        .Where(x => x.Id != context.GetBoardId())
+                        .OrderByDescending(x => x.Name).ToListAsync()
                 });
             });
     }
