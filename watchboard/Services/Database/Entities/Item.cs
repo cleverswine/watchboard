@@ -10,6 +10,13 @@ public enum ItemType
     Movie
 }
 
+public enum SeriesStatus
+{
+    InProgress,
+    Returning,
+    Ended
+}
+
 public class Item
 {
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -17,6 +24,13 @@ public class Item
     [Required]
     public ItemType Type { get; set; } = ItemType.Tv;
 
+    public SeriesStatus? SeriesStatus { get; set; }
+    
+    [MaxLength(50)]
+    public string? SeriesNextEpisodeDate { get; set; }
+    public int? SeriesNextEpisodeNumber { get; set; }
+    public int? SeriesNextEpisodeSeason { get; set; }
+    
     [Required]
     [MaxLength(255)]
     public string Name { get; set; } = string.Empty;

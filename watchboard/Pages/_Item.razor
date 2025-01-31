@@ -146,6 +146,21 @@
             </div>
 
             <div class="position-absolute bottom-0 w-100">
+                @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
+                {
+                    @if (ItemModel.SeriesNextEpisodeNumber == 1)
+                    {
+                        <h6 class="card-subtitle mb-2 text-body-secondary shadow-lg">
+                            Season @(ItemModel.SeriesNextEpisodeSeason) starts on @ItemModel.SeriesNextEpisodeDate
+                        </h6>
+                    }
+                    else
+                    {
+                        <h6 class="card-subtitle mb-2 text-body-secondary shadow-lg">
+                            S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber) comes on @ItemModel.SeriesNextEpisodeDate
+                        </h6>
+                    }
+                }
                 <h5 class="card-title shadow-lg">
                     <div class="float-start">@ItemModel.Name</div>
                     <div class="float-end">

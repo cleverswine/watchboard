@@ -60,12 +60,13 @@ public class TmDb : ITmDb
         if (_cache.TryGetValue($"TmdbSearch-{query}-{limit}", out List<TmdbItem>? results) && results is not null)
             return results;
 
-        var json = await File.ReadAllTextAsync("Services/Json/search.json");
-        var searchResults = JsonSerializer.Deserialize<SearchResults>(json, JsonOpts);
+        // var json = await File.ReadAllTextAsync("Services/Json/search.json");
+        // var searchResults = JsonSerializer.Deserialize<SearchResults>(json, JsonOpts);
         
-        // var queryUrlEncoded = HttpUtility.UrlEncode(query);
-        // var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
-        // var searchResults = await _httpClient.GetFromJsonAsync<SearchResults>(url, JsonOpts);
+        var queryUrlEncoded = HttpUtility.UrlEncode(query);
+        var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
+        var searchResults = await _httpClient.GetFromJsonAsync<SearchResults>(url, JsonOpts);
+        
         results = searchResults?.Results.Where(x => ItemMediaTypes.Contains(x.MediaType)).Take(limit).ToList();
         
         if (results != null && results.Count != 0)
@@ -89,7 +90,7 @@ public class TmDb : ITmDb
         if (_cache.TryGetValue($"TmdbDetail-{type}-{id}", out TmdbItem? item) && item is not null)
             return item;
 
-        var url = $"{BaseApiPath}{type.ToLower()}/{id}?append_to_response=external_ids%2Cwatch%2Fproviders&language=en-US";
+        var url = $"{BaseApiPath}{type.ToLower()}/{id}?append_to_response=latest%2Cexternal_ids%2Cwatch%2Fproviders&language=en-US";
         item = await _httpClient.GetFromJsonAsync<TmdbItem>(url, JsonOpts);
         if (item == null) throw new NullReferenceException("TmDb Item is null");
         item.MediaType = type;

@@ -24,7 +24,7 @@ docker compose down && docker rmi watchboard && docker compose up -d
 create migrations when entity models change
 
 ```shell
-DATA_DIR="." dotnet ef migrations add Init \
+DATA_DIR="." dotnet ef migrations add SeriesStatus \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Services/Database/Migrations
@@ -42,4 +42,3 @@ DATA_DIR="." dotnet ef migrations add Init \
 - Board - dynamic col-x based on list count?
 - Board - if > 3 lists, too wide... ??
 - Item - confirm on delete
-- Item - show status (in progress, ended, etc)

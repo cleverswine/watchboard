@@ -19,7 +19,24 @@ public static class Mapping
         item.ImdbId = tmDbItem.ExternalIds.ImdbId;
         item.TmdbId = tmDbItem.Id;
         item.ProviderNamesCsv = string.Join(',', providerNames);
+        item.SeriesStatus = tmDbItem.MapToSeriesStatus();
+        item.SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate;
+        item.SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber;
+        item.SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber;
         item.SetImages(imageList.MapTo());
+    }
+
+    private static SeriesStatus? MapToSeriesStatus(this TmdbItem tmDbItem)
+    {
+        if (tmDbItem.MediaType != "tv") return null;
+        if (tmDbItem.Status == null) return null;
+        if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Ended;
+        if (tmDbItem.Status.Equals("Returning Series", StringComparison.OrdinalIgnoreCase))
+        {
+            return tmDbItem.NextEpisodeToAir == null ? SeriesStatus.Returning : SeriesStatus.InProgress;
+        }
+
+        return null;
     }
 
     public static Item MapTo(this TmdbItem tmDbItem, Guid listId, ImageList imageList)
@@ -48,7 +65,11 @@ public static class Mapping
             Expanded = false,
             ProviderNamesCsv = string.Join(',', providerNames),
             SelectedProviderName = null,
-            ListId = listId
+            ListId = listId,
+            SeriesStatus = tmDbItem.MapToSeriesStatus(),
+            SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate,
+            SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber,
+            SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber
         };
         item.SetImages(imageList.MapTo());
 
