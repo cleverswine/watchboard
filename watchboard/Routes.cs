@@ -61,7 +61,7 @@ public static class Routes
 
             context.SetBoardId(selectedBoard?.Id);
 
-            if(boardId != null)
+            if (boardId != null)
                 return Results.Redirect("/");
 
             return new RazorComponentResult<Home>(new
@@ -70,12 +70,11 @@ public static class Routes
             });
         });
 
-        app.MapGet("/settings", async () =>
+        app.MapGet("/settings", async ([FromServices] ITmDb tnDb) =>
         {
-            var json = await File.ReadAllTextAsync("/Users/Kevin.Noone/Library/Application Support/JetBrains/Rider2024.3/scratches/movieproviders.json");
             return new RazorComponentResult<Settings>(new
             {
-                ProvidersList = JsonSerializer.Deserialize<TmDbProviders>(json)?.Results ?? []
+                ProvidersList = await tnDb.GetProviders("tv")
             });
         });
     }

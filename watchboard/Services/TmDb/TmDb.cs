@@ -12,6 +12,7 @@ public interface ITmDb
     Task<ImageList> GetImages(int id, string type);
     Task<string> GetImageBase64(string imagePath, string size = "w154");
     Task<string> GetImageUrl(string imagePath, string size = "w154");
+    Task<List<TmDbProvider>> GetProviders(string type, string region = "US");
 }
 
 public class TmDb : ITmDb
@@ -42,15 +43,16 @@ public class TmDb : ITmDb
     public async Task<List<TmDbProvider>> GetProviders(string type, string region = "US")
     {
         await Task.Yield();
-        
+
         if (_cache.TryGetValue($"TmdbGetProviders-{type}-{region}", out List<TmDbProvider>? results) && results is not null)
             return results;
-        
-        var url = $"{BaseApiPath}watch/providers/{type}?watch_region={region}";
-        
-        _cache.Set($"TmdbGetProviders-{type}-{region}", results, TimeSpan.FromMinutes(60));
 
-        return results ?? [];
+        //var url = $"{BaseApiPath}watch/providers/{type}?watch_region={region}";
+        var json = await File.ReadAllTextAsync("Services/Json/movieproviders.json");
+        results = (JsonSerializer.Deserialize<TmDbProviders>(json)?.Results ?? [])
+            .Where(x => x.DisplayPriorities.ContainsKey("US")).ToList();
+        _cache.Set($"TmdbGetProviders-{type}-{region}", results, TimeSpan.FromMinutes(60));
+        return results;
     }
 
     public async Task<List<TmdbItem>> Search(string query, int limit = 8)
@@ -58,11 +60,14 @@ public class TmDb : ITmDb
         if (_cache.TryGetValue($"TmdbSearch-{query}-{limit}", out List<TmdbItem>? results) && results is not null)
             return results;
 
-        var queryUrlEncoded = HttpUtility.UrlEncode(query);
-        var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
-        var searchResults = await _httpClient.GetFromJsonAsync<SearchResults>(url, JsonOpts);
-
+        var json = await File.ReadAllTextAsync("Services/Json/search.json");
+        var searchResults = JsonSerializer.Deserialize<SearchResults>(json, JsonOpts);
+        
+        // var queryUrlEncoded = HttpUtility.UrlEncode(query);
+        // var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
+        // var searchResults = await _httpClient.GetFromJsonAsync<SearchResults>(url, JsonOpts);
         results = searchResults?.Results.Where(x => ItemMediaTypes.Contains(x.MediaType)).Take(limit).ToList();
+        
         if (results != null && results.Count != 0)
             _cache.Set($"TmdbSearch-{query}-{limit}", searchResults, TimeSpan.FromMinutes(5));
 
@@ -72,6 +77,8 @@ public class TmDb : ITmDb
             result.PosterPath = configuration.Images.BaseUrl + "w92" + result.PosterPath;
             if (!string.IsNullOrWhiteSpace(result.BackdropPath))
                 result.BackdropPath = configuration.Images.BaseUrl + "w300" + result.BackdropPath;
+            else 
+                result.BackdropPath = configuration.Images.BaseUrl + "w185" + result.PosterPath;
         }
 
         return results ?? [];

@@ -14,109 +14,120 @@
                 </div>
             </div>
 
-            <div class="position-absolute top-0 end-0">
-                <div class="d-inline-flex">
-                    <div class="collapse collapse-horizontal" id="collapseExample-@(ItemModel.Id)">
-                        <div class="d-inline-flex">
-                            <div class="dropdown mx-0">
-                                <button class="btn dropdown-toggle py-0 px-1" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    <i class="bi bi-images"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    @foreach (var img in Images)
-                                    {
-                                        <li>
-                                            <button
-                                                class="dropdown-item @(ItemModel.BackdropUrl == img.UrlPath ? "fw-bold" : "")"
-                                                hx-put="/app/items/@(ItemModel.Id)/backdrops/@(img.Id)"
-                                                hx-target="#card-@(ItemModel.Id)"
-                                                hx-params="none"
-                                                hx-swap="outerHTML">
-                                                <i class="bi bi-image"></i> @img.Name (@(img.VoteCount))
-                                            </button>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle py-0 px-1" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    @foreach (var p in ItemModel.ProviderOptions)
-                                    {
-                                        <li>
-                                            <button
-                                                class="dropdown-item @(ItemModel.SelectedProviderName == p ? "fw-bold" : "")"
-                                                hx-put="/app/items/@(ItemModel.Id)/providers/@(HttpUtility.UrlEncode(p))"
-                                                hx-target="#card-@(ItemModel.Id)"
-                                                hx-params="none"
-                                                hx-swap="outerHTML">
-                                                <i class="bi bi-eye"></i> @p
-                                            </button>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle py-0 px-1" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    <i class="bi bi-gear"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <button class="dropdown-item"
-                                                hx-put="/app/items/@(ItemModel.Id)"
-                                                hx-target="#card-@(ItemModel.Id)"
-                                                hx-params="none"
-                                                hx-swap="outerHTML">
-                                            <i class="bi bi-arrow-clockwise"></i> Refresh Data
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="dropdown-item"
-                                                hx-swap="delete swap:1s"
-                                                hx-target="#card-@(ItemModel.Id)"
-                                                hx-params="none"
-                                                hx-delete="/app/items/@(ItemModel.Id)">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle py-0 px-1" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    <i class="bi bi-info-circle"></i>
-                                </button>
-                                <div class="dropdown-menu p-4 text-body-secondary" style="width: 300px;">
-                                    <p>
-                                        <i class="bi @(ItemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-view-list")"></i> @ItemModel.ReleaseDates()
-                                        <br/>
-                                        <svg class="bi" width="16" height="19" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 24 24"
-                                             fill="currentColor">
-                                            <path d="@(ProviderSvg(ItemModel.SelectedProviderName ?? ""))"></path>
-                                        </svg>
-                                        @(ItemModel.SelectedProviderName ?? ItemModel.ProviderOptions.Count + " watch options")
-                                    </p>
-                                    <p>
-                                        <i class="bi bi-info-circle"></i> @ItemModel.TagLine
-                                    </p>
-                                    <p class="mb-0">
-                                        <i class="bi bi-box-arrow-up-right"></i> <a href="@ItemModel.ImdbUrl" target="_blank">IMDB</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn" type="button" data-bs-toggle="collapse"
+            <div class="position-absolute top-0 start-0">
+                <div class="x-d-inline-flex">
+                    <button class="btn btn px-1 py-0" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseExample-@(ItemModel.Id)" aria-expanded="false"
                             aria-controls="collapseExample-@(ItemModel.Id)">
                         <i class="bi bi-three-dots"></i>
                     </button>
+                    <div class="collapse" id="collapseExample-@(ItemModel.Id)">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button class="btn btn-lg py-0 px-1" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-images"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var img in Images)
+                                        {
+                                            <li>
+                                                <button
+                                                    class="dropdown-item @(ItemModel.BackdropUrl == img.UrlPath ? "fw-bold" : "")"
+                                                    hx-put="/app/items/@(ItemModel.Id)/backdrops/@(img.Id)"
+                                                    hx-target="#card-@(ItemModel.Id)"
+                                                    hx-params="none"
+                                                    hx-swap="outerHTML">
+                                                    <i class="bi bi-image"></i> @(img.VoteAverage.ToString("0.0")) (@(img.VoteCount) votes)
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button class="btn btn-lg py-0 px-1" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var p in ItemModel.ProviderOptions)
+                                        {
+                                            <li>
+                                                <button
+                                                    class="dropdown-item @(ItemModel.SelectedProviderName == p ? "fw-bold" : "")"
+                                                    hx-put="/app/items/@(ItemModel.Id)/providers/@(HttpUtility.UrlEncode(p))"
+                                                    hx-target="#card-@(ItemModel.Id)"
+                                                    hx-params="none"
+                                                    hx-swap="outerHTML">
+                                                    <i class="bi bi-eye"></i> @p
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button class="btn btn-lg py-0 px-1" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-gear"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <button class="dropdown-item"
+                                                    hx-put="/app/items/@(ItemModel.Id)"
+                                                    hx-target="#card-@(ItemModel.Id)"
+                                                    hx-params="none"
+                                                    hx-swap="outerHTML">
+                                                <i class="bi bi-arrow-clockwise"></i> Refresh Data
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item"
+                                                    hx-swap="delete swap:1s"
+                                                    hx-target="#card-@(ItemModel.Id)"
+                                                    hx-params="none"
+                                                    hx-delete="/app/items/@(ItemModel.Id)">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button class="btn btn-lg py-0 px-1" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
+                                    <div class="dropdown-menu p-4 text-body-secondary" style="width: 300px;">
+                                        <p>
+                                            <i class="bi @(ItemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-view-list")"></i> @ItemModel.ReleaseDates()
+                                            <br/>
+                                            <svg class="bi" width="16" height="19" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 24 24"
+                                                 fill="currentColor">
+                                                <path d="@(ProviderSvg(ItemModel.SelectedProviderName ?? ""))"></path>
+                                            </svg>
+                                            @(ItemModel.SelectedProviderName ?? ItemModel.ProviderOptions.Count + " watch options")
+                                        </p>
+                                        <p>
+                                            <i class="bi bi-info-circle"></i> @ItemModel.TagLine
+                                        </p>
+                                        <p class="mb-0">
+                                            <i class="bi bi-box-arrow-up-right"></i> <a href="@ItemModel.ImdbUrl"
+                                                                                        target="_blank">IMDB</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
