@@ -3,10 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using WatchBoard;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.TmDb;
+using WatchBoard.Services.Worker;
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddHttpContextAccessor();
+
+// Worker to update items every x hours
+if (!builder.Environment.IsDevelopment())
+    builder.Services.AddHostedService<ItemWorker>();
 
 // User Config
 var dataPath = Environment.GetEnvironmentVariable("DATA_DIR") ?? "/data";
@@ -35,7 +40,7 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await context.ApplyMigrations();
-    
+
     // var tmDb = scope.ServiceProvider.GetRequiredService<ITmDb>();
     // int[] ids = [125988,1411,79340,47141,117488,95396];
     // var board = context.Boards.First(x => x.Name == "Kevin");

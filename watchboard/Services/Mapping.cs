@@ -62,7 +62,6 @@ public static class Mapping
             PosterBase64 = null,
             ImdbId = tmDbItem.ExternalIds.ImdbId,
             TmdbId = tmDbItem.Id,
-            Expanded = false,
             ProviderNamesCsv = string.Join(',', providerNames),
             SelectedProviderName = null,
             ListId = listId,
