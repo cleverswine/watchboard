@@ -1,0 +1,16 @@
+{
+  "name": "watchboard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "htmx.org": "^2.0.4",
+    "sortablejs": "^1.15.6"
+  }
+}

@@ -30,6 +30,15 @@ DATA_DIR="." dotnet ef migrations add SeriesStatus \
 --output-dir Services/Database/Migrations
 ```
 
+## js and css libs
+
+```shell
+cd lib
+npm outdated
+# install updates
+./install.sh
+```
+
 ## TODO
 
 - Admin - crud boards

@@ -23,5 +23,21 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\lib\font\fonts\bootstrap-icons.woff" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\font\fonts\bootstrap-icons.woff2" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.scss" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\apple.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\backdrop.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\backdrop2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\highland-cow.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\ph.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\poster.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\poster2.jpg" />
+    </ItemGroup>
     
 </Project>
