@@ -24,7 +24,7 @@ docker compose down && docker rmi watchboard && docker compose up -d
 create migrations when entity models change
 
 ```shell
-DATA_DIR="." dotnet ef migrations add SeriesStatus \
+DATA_DIR="." dotnet ef migrations add MIGRATION_NAME \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Services/Database/Migrations

@@ -2,6 +2,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WatchBoard.Helpers;
 using WatchBoard.Pages;
 using WatchBoard.Services;
 using WatchBoard.Services.Database;
@@ -10,30 +11,6 @@ using WatchBoard.Services.TmDb;
 using Results = Microsoft.AspNetCore.Http.Results;
 
 namespace WatchBoard;
-
-public static class ContextHelpers
-{
-    public static Guid? GetBoardId(this HttpContext context)
-    {
-        if (context.Request.Cookies.TryGetValue("BoardId", out var value))
-            return Guid.Parse(value);
-        return null;
-    }
-
-    public static void SetBoardId(this HttpContext context, Guid? boardId)
-    {
-        if (boardId == null)
-            context.Response.Cookies.Delete("BoardId");
-        else
-            context.Response.Cookies.Append("BoardId", boardId.ToString()!, new CookieOptions {HttpOnly = true, SameSite = SameSiteMode.Strict});
-    }
-
-    public static Board? GetSelectedBoard(this HttpContext context, List<Board> boards)
-    {
-        var boardId = context.GetBoardId();
-        return boardId == null ? boards.FirstOrDefault() : boards.FirstOrDefault(b => b.Id == boardId);
-    }
-}
 
 public static class Routes
 {

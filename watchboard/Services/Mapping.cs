@@ -1,3 +1,5 @@
+using System.Globalization;
+using Humanizer;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb.Models;
 
@@ -5,6 +7,13 @@ namespace WatchBoard.Services;
 
 public static class Mapping
 {
+    public static string HumanizeDateString(this string dateTime)
+    {
+        if (!DateTime.TryParse(dateTime, out DateTime dateTimeResult)) return dateTime;
+        return Math.Abs(dateTimeResult.Date.ToUniversalTime().Subtract(DateTime.UtcNow).TotalHours) < 24 
+            ? "today!" : dateTimeResult.Humanize();
+    }
+
     public static void MapFrom(this Item item, TmdbItem tmDbItem, ImageList imageList)
     {
         var providerNames = (tmDbItem.Providers?.Results.Us.FlatRate ?? []).Select(x => x.ProviderName).ToList();
