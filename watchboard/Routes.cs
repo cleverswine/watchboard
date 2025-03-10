@@ -55,6 +55,33 @@ public static class Routes
         });
     }
 
+    public static void MapAdminPartials(this RouteGroupBuilder app)
+    {
+        // GET ALL BOARDS
+        app.MapGet("/boards", () => Results.Ok());
+        // REORDER ALL BOARDS
+        app.MapPut("/boards", () => Results.Ok());
+        
+        // CREATE A NEW BOARD
+        app.MapPost("/boards", () => Results.Ok());
+        // GET A BOARD
+        app.MapGet("/boards/{boardId:guid}", () => Results.Ok());
+        // UPDATE A BOARD
+        app.MapPut("/boards/{boardId:guid}", () => Results.Ok());
+        // DELETE A BOARD
+        app.MapDelete("/boards/{boardId:guid}", () => Results.Ok());
+        
+        // REORDER BOARD LISTS
+        app.MapPut("/boards/{boardId:guid}/lists", () => Results.Ok());
+        
+        // CREATE A BOARD LIST
+        app.MapPost("/boards/{boardId:guid}/lists", () => Results.Ok());
+        // UPDATE A BOARD LIST
+        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}", () => Results.Ok());
+        // DELETE A BOARD LIST
+        app.MapDelete("/boards/{boardId:guid}/lists/{listId:guid}", () => Results.Ok());
+    }
+    
     public static void MapHomePartials(this RouteGroupBuilder app)
     {
         app.MapGet("/empty", () => Results.Ok());
@@ -258,7 +285,7 @@ public static class Routes
                 });
             });
 
-        // UPDATE ITEM
+        // UPDATE ITEM FROM TMDB
         app.MapPut("/items/{itemId:guid}",
             async (
                 HttpContext context,
