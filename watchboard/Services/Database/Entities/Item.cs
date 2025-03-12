@@ -78,6 +78,9 @@ public class Item
     public string? Images { get; set; }
 
     public DateTimeOffset? LastUpdated { get; set; } = DateTimeOffset.UtcNow;
+
+    [NotMapped]
+    public bool Expanded { get; set; } = false;
     
     public Guid ListId { get; set; }
 

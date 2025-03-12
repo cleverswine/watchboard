@@ -250,6 +250,7 @@ public static class Routes
             {
                 var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
                 dbItem.SelectedProviderName = HttpUtility.UrlDecode(providerName);
+                dbItem.Expanded = true;
                 await db.SaveChangesAsync();
 
                 return new RazorComponentResult<_Item>(new
@@ -274,8 +275,9 @@ public static class Routes
                 var img = dbItem.GetImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
                 dbItem.BackdropBase64 = await tmDb.GetImageBase64(img.UrlPath, "w300");
                 dbItem.BackdropUrl = img.UrlPath;
+                dbItem.Expanded = true;
                 await db.SaveChangesAsync();
-
+                
                 return new RazorComponentResult<_Item>(new
                 {
                     ItemModel = dbItem,
