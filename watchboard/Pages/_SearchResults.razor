@@ -1,5 +1,4 @@
 @using WatchBoard.Services.Database.Entities
-
 @foreach (var itemModel in Items)
 {
     <div class="card text-bg-dark mb-2" id="card-@(itemModel.Id)">
@@ -8,16 +7,14 @@
             <div class="position-relative w-100 h-100">
                 <div class="position-absolute top-0 end-0">
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-plus-circle"></i>
                         </button>
                         <ul class="dropdown-menu">
                             @foreach (var l in Lists)
                             {
                                 <li>
-                                    <button class="btn" hx-swap="none"
-                                            hx-post="/app/lists/@(l.Id)/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
+                                    <button class="btn" hx-swap="none" hx-post="/app/lists/@(l.Id)/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
                                         @(l.Name)
                                     </button>
                                 </li>

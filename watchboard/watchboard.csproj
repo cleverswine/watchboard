@@ -9,37 +9,37 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AngleSharp" Version="1.2.0" />
-        <PackageReference Include="Humanizer.Core" Version="2.14.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+        <PackageReference Include="AngleSharp" Version="1.2.0"/>
+        <PackageReference Include="Humanizer.Core" Version="2.14.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="Services/Json/*.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <Content Update="Services/Json/*.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\lib\font\fonts\bootstrap-icons.woff" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\font\fonts\bootstrap-icons.woff2" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.json" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\apple.jpg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\backdrop.jpg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\backdrop2.jpg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\highland-cow.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\ph.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\poster.jpg" />
-      <_ContentIncludedByDefault Remove="wwwroot\img\poster2.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\font\fonts\bootstrap-icons.woff"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\font\fonts\bootstrap-icons.woff2"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.json"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.min.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\font\bootstrap-icons.scss"/>
+        <_ContentIncludedByDefault Remove="wwwroot\img\apple.jpg"/>
+        <_ContentIncludedByDefault Remove="wwwroot\img\backdrop.jpg"/>
+        <_ContentIncludedByDefault Remove="wwwroot\img\backdrop2.jpg"/>
+        <_ContentIncludedByDefault Remove="wwwroot\img\highland-cow.png"/>
+        <_ContentIncludedByDefault Remove="wwwroot\img\ph.png"/>
+        <_ContentIncludedByDefault Remove="wwwroot\img\poster.jpg"/>
+        <_ContentIncludedByDefault Remove="wwwroot\img\poster2.jpg"/>
     </ItemGroup>
-    
+
 </Project>

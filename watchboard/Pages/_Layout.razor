@@ -1,5 +1,4 @@
 @using Microsoft.EntityFrameworkCore
-@using WatchBoard
 @using WatchBoard.Helpers
 @using WatchBoard.Services.Database
 @using WatchBoard.Services.Database.Entities
@@ -24,16 +23,13 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">watch board</a>
-        <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Board: @SelectedBoard.Name
                     </a>
                     <ul class="dropdown-menu">
@@ -45,11 +41,10 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a class="btn" href="/settings">
+                <a class="btn" href="/admin">
                     <i class="bi bi-gear"></i> Settings
                 </a>
-                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer"
-                        aria-controls="searchDrawer">
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer" aria-controls="searchDrawer">
                     <i class="bi bi-search"></i> Search
                 </button>
             </div>
@@ -79,4 +74,5 @@
         SelectedBoard = Ctx.HttpContext?.GetSelectedBoard(Boards) ?? new Board();
         await base.OnInitializedAsync();
     }
+
 }

@@ -17,27 +17,16 @@ public interface ITmDb
 
 public class TmDb : ITmDb
 {
-    private readonly HttpClient _httpClient;
+    private static readonly JsonSerializerOptions JsonOpts = new() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+    private static readonly string[] ItemMediaTypes = ["movie", "tv"];
+    private static readonly string BaseApiPath = "https://api.themoviedb.org/3/";
     private readonly IMemoryCache _cache;
+    private readonly HttpClient _httpClient;
 
     public TmDb(HttpClient httpClient, IMemoryCache cache)
     {
         _httpClient = httpClient;
         _cache = cache;
-    }
-
-    private static readonly JsonSerializerOptions JsonOpts = new() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
-    private static readonly string[] ItemMediaTypes = ["movie", "tv"];
-    private static readonly string BaseApiPath = "https://api.themoviedb.org/3/";
-
-    private async Task<TmdbConfiguration> GetConfiguration()
-    {
-        if (_cache.TryGetValue("TmdbConfiguration", out TmdbConfiguration? configuration) && configuration is not null)
-            return configuration;
-
-        configuration = await _httpClient.GetFromJsonAsync<TmdbConfiguration>($"{BaseApiPath}configuration", JsonOpts);
-        _cache.Set("TmdbConfiguration", configuration, TimeSpan.FromMinutes(60));
-        return configuration ?? new TmdbConfiguration();
     }
 
     public async Task<List<TmDbProvider>> GetProviders(string type, string region = "US")
@@ -62,13 +51,13 @@ public class TmDb : ITmDb
 
         // var json = await File.ReadAllTextAsync("Services/Json/search.json");
         // var searchResults = JsonSerializer.Deserialize<SearchResults>(json, JsonOpts);
-        
+
         var queryUrlEncoded = HttpUtility.UrlEncode(query);
         var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
         var searchResults = await _httpClient.GetFromJsonAsync<SearchResults>(url, JsonOpts);
-        
+
         results = searchResults?.Results.Where(x => ItemMediaTypes.Contains(x.MediaType)).Take(limit).ToList();
-        
+
         if (results != null && results.Count != 0)
             _cache.Set($"TmdbSearch-{query}-{limit}", searchResults, TimeSpan.FromMinutes(5));
 
@@ -78,7 +67,7 @@ public class TmDb : ITmDb
             result.PosterPath = configuration.Images.BaseUrl + "w92" + result.PosterPath;
             if (!string.IsNullOrWhiteSpace(result.BackdropPath))
                 result.BackdropPath = configuration.Images.BaseUrl + "w300" + result.BackdropPath;
-            else 
+            else
                 result.BackdropPath = configuration.Images.BaseUrl + "w185" + result.PosterPath;
         }
 
@@ -133,5 +122,15 @@ public class TmDb : ITmDb
         data = $"data:image/{imageExtension};base64,{Convert.ToBase64String(b)}";
         _cache.Set($"TmdbPoster-{imagePath}", data, TimeSpan.FromMinutes(1));
         return data;
+    }
+
+    private async Task<TmdbConfiguration> GetConfiguration()
+    {
+        if (_cache.TryGetValue("TmdbConfiguration", out TmdbConfiguration? configuration) && configuration is not null)
+            return configuration;
+
+        configuration = await _httpClient.GetFromJsonAsync<TmdbConfiguration>($"{BaseApiPath}configuration", JsonOpts);
+        _cache.Set("TmdbConfiguration", configuration, TimeSpan.FromMinutes(60));
+        return configuration ?? new TmdbConfiguration();
     }
 }

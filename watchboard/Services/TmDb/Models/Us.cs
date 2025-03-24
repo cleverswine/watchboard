@@ -6,6 +6,7 @@ namespace WatchBoard.Services.TmDb.Models;
 public class Us
 {
     public string? Link { get; set; }
+
     [JsonPropertyName("flatrate")]
     public FlatRate[] FlatRate { get; set; } = [];
 }

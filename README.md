@@ -1,19 +1,38 @@
 # Watch Board
 
-kanban board for tv/movie watching
+A kanban board for tv/movie watching
 
-## Start
+![screenshot1.png](screenshot1.png)
 
-things to set up (first time only)
+## Set Up
+
+- Get an API token from the [TMDB developer site](https://developer.themoviedb.org/docs/getting-started).
+- Create a config file with the token in it.
+    - The directory of the config file is set using the environment variable `DATA_DIR`. It defaults to $
+      HOME/.config/watchboard.
 
 ```shell
 mkdir $HOME/.config/watchboard
 echo "{ \"TmdbToken\": \"YOUR TMDB TOKEN HERE\" }" > $HOME/.config/watchboard/appsettings.json
 ```
 
+## Run
+
+Run the ./watchboard project
+
+```shell
+dotnet run --project watchboard
+```
+
 ## Docker
 
-Tear down old image, build new image, start container
+The [docker compose](compose.yaml) + [docker](watchboard/Dockerfile) files will build an image and run it locally
+
+```shell
+docker compose up -d
+```
+
+To rebuild and rerun the app, remove the old image, build a new image, and start a container
 
 ```shell
 docker compose down && docker rmi watchboard && docker compose up -d
@@ -21,7 +40,8 @@ docker compose down && docker rmi watchboard && docker compose up -d
 
 ## EF
 
-create migrations when entity models change
+When the EF models in the [Entities](watchboard/Services/Database/Entities) directory change, create a new set of
+migrations
 
 ```shell
 DATA_DIR="." dotnet ef migrations add MIGRATION_NAME \
@@ -32,22 +52,8 @@ DATA_DIR="." dotnet ef migrations add MIGRATION_NAME \
 
 ## js and css libs
 
-```shell
-cd lib
-npm outdated
-# install updates
-./install.sh
-```
+*I took the simple approach here rather than using build tools.*
 
-## TODO
-
-- Admin - crud boards
-- Admin - crud board / lists
-- Admin - set, order interesting providers
-  - on Add item, select provider based on ^^
-- Admin - config provider icons
-- Item - add notes
-- Search - include tv, movies, or both
-- Board - dynamic col-x based on list count?
-- Board - if > 3 lists, too wide... ??
-- Item - confirm on delete
+To get updated js and css libraries (like bootstrap), update npm packages and then copy the distributable files to
+`./watchboard/wwwroot/lib/`.
+There is a [helper script](./lib/copy-dist-libs.sh) to make it easier to copy the files.

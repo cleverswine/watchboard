@@ -17,7 +17,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         {
             Boards.Add(new Board
             {
-                Name = "Kevin",
+                Name = "My Stuff",
                 Lists =
                 [
                     new List {Name = "Future", Order = 0, Items = []},

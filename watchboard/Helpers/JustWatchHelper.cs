@@ -1,5 +1,4 @@
 using AngleSharp;
-using AngleSharp.Dom;
 using WatchBoard.Services.Database.Entities;
 
 namespace WatchBoard.Helpers;
@@ -20,7 +19,7 @@ public static class JustWatchHelper
             .OpenAsync(url);
 
         var imDbId = document.Source.Text.Split("{\"imdbId\":\"")[1].Split("\",\"")[0];
-        
+
         var title = document
             .QuerySelectorAll("h1.title-detail-hero__details__title")
             .Select(m => m.InnerHtml)

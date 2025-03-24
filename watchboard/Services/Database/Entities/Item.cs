@@ -25,12 +25,13 @@ public class Item
     public ItemType Type { get; set; } = ItemType.Tv;
 
     public SeriesStatus? SeriesStatus { get; set; }
-    
+
     [MaxLength(50)]
     public string? SeriesNextEpisodeDate { get; set; }
+
     public int? SeriesNextEpisodeNumber { get; set; }
     public int? SeriesNextEpisodeSeason { get; set; }
-    
+
     [Required]
     [MaxLength(255)]
     public string Name { get; set; } = string.Empty;
@@ -81,16 +82,25 @@ public class Item
 
     [NotMapped]
     public bool Expanded { get; set; } = false;
-    
+
     public Guid ListId { get; set; }
 
     public List<string> ProviderOptions => ProviderNamesCsv?.Split(",").ToList() ?? [];
-    
-    public List<ItemImage> GetImages() =>
-        Images == null ? [] : JsonSerializer.Deserialize<List<ItemImage>>(Images) ?? [];
 
-    public void SetImages(List<ItemImage> images) => Images = JsonSerializer.Serialize(images);
-    
+    public string ImdbUrl => $"https://www.imdb.com/title/{ImdbId}/";
+
+    public string TmdbUrl => $"https://www.themoviedb.org/{Type.ToString().ToLower()}/{TmdbId}";
+
+    public List<ItemImage> GetImages()
+    {
+        return Images == null ? [] : JsonSerializer.Deserialize<List<ItemImage>>(Images) ?? [];
+    }
+
+    public void SetImages(List<ItemImage> images)
+    {
+        Images = JsonSerializer.Serialize(images);
+    }
+
     public string ReleaseDates()
     {
         if (ReleaseDate == null) return "";
@@ -101,16 +111,11 @@ public class Item
         return dates;
     }
 
-    public string ImdbUrl => $"https://www.imdb.com/title/{ImdbId}/";
-
-    public string TmdbUrl => $"https://www.themoviedb.org/{Type.ToString().ToLower()}/{TmdbId}";
-
     private string Year(string s)
     {
         return string.IsNullOrWhiteSpace(s) ? "" : s.Split('-').First();
     }
 }
-
 
 public enum ItemImageType
 {

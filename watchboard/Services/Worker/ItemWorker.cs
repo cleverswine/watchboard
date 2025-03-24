@@ -9,7 +9,7 @@ public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundSe
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
-        
+
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = serviceScopeFactory.CreateScope();
@@ -18,7 +18,7 @@ public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundSe
 
             try
             {
-                var dbItems = await db.Items.ToListAsync(cancellationToken: stoppingToken);
+                var dbItems = await db.Items.ToListAsync(stoppingToken);
                 foreach (var dbItem in dbItems)
                 {
                     if (dbItem.LastUpdated != null && dbItem.LastUpdated > DateTimeOffset.UtcNow.AddHours(-4)) continue;

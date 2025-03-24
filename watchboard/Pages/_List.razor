@@ -1,5 +1,4 @@
 @using WatchBoard.Services.Database.Entities
-
 <h4> @ListModel.Name </h4>
 
 <form class="sortable" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
@@ -13,10 +12,11 @@
 </form>
 
 @code {
-    
+
     [Parameter]
     public List ListModel { get; set; } = new() {Items = []};
 
     [Parameter]
     public List<Board> OtherBoards { get; set; } = [];
+
 }

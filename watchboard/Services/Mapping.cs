@@ -1,4 +1,3 @@
-using System.Globalization;
 using Humanizer;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb.Models;
@@ -9,9 +8,10 @@ public static class Mapping
 {
     public static string HumanizeDateString(this string dateTime)
     {
-        if (!DateTime.TryParse(dateTime, out DateTime dateTimeResult)) return dateTime;
-        return Math.Abs(dateTimeResult.Date.ToUniversalTime().Subtract(DateTime.UtcNow).TotalHours) < 24 
-            ? "today!" : dateTimeResult.Humanize();
+        if (!DateTime.TryParse(dateTime, out var dateTimeResult)) return dateTime;
+        return Math.Abs(dateTimeResult.Date.ToUniversalTime().Subtract(DateTime.UtcNow).TotalHours) < 24
+            ? "today!"
+            : dateTimeResult.Humanize();
     }
 
     public static void MapFrom(this Item item, TmdbItem tmDbItem, ImageList imageList)
@@ -41,9 +41,7 @@ public static class Mapping
         if (tmDbItem.Status == null) return null;
         if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Ended;
         if (tmDbItem.Status.Equals("Returning Series", StringComparison.OrdinalIgnoreCase))
-        {
             return tmDbItem.NextEpisodeToAir == null ? SeriesStatus.Returning : SeriesStatus.InProgress;
-        }
 
         return null;
     }

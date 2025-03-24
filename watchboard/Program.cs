@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
-using WatchBoard;
+using WatchBoard.Routes;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.TmDb;
 using WatchBoard.Services.Worker;
@@ -40,28 +40,13 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await context.ApplyMigrations();
-
-    // var tmDb = scope.ServiceProvider.GetRequiredService<ITmDb>();
-    // int[] ids = [125988,1411,79340,47141,117488,95396];
-    // var board = context.Boards.First(x => x.Name == "Kevin");
-    // var list = context.Lists.First(x => x.BoardId == board.Id);
-    // foreach (var id in ids)
-    // {
-    //     var tmDbItem = await tmDb.GetDetail(id, "tv");
-    //     var images = await tmDb.GetImages(id, "tv");
-    //     var dbItem = tmDbItem.MapTo(list.Id, images);
-    //     dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w300");
-    //     dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
-    //     context.Items.Add(dbItem);
-    // }
-    // await context.SaveChangesAsync();
 }
 
 app.UseStaticFiles();
 
 // Routes
 app.MapPages();
-app.MapGroup("/app").MapHomePartials();
-app.MapGroup("/admin").MapAdminPartials();
+app.MapGroup("/app").MapAppPartials();
+app.MapGroup("/admin").MapAdmin();
 
 app.Run();
