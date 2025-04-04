@@ -3,7 +3,7 @@ h4 {
     flex-direction: row;
     gap: 12px;
     font-size: 1.1em;
-    margin: 1em;
+    margin: 1em 0 1em 0;
 }
 
 h4:before,

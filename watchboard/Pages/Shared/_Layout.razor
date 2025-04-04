@@ -1,3 +1,4 @@
+@using Humanizer
 @using Microsoft.EntityFrameworkCore
 @using WatchBoard.Services.Database
 @using WatchBoard.Services.Database.Entities
@@ -20,17 +21,22 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">watch board</a>
-        <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-sm bg-body-tertiary">
+    <div class="container-fluid mx-4">
+        <a class="navbar-brand" href="#">@(SelectedBoard.Name)</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse d-sm-flex justify-content-end" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer" aria-controls="searchDrawer">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Board: @SelectedBoard.Name
+                        <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
                     </a>
                     <ul class="dropdown-menu">
                         @foreach (var b in Boards)
@@ -40,16 +46,11 @@
                     </ul>
                 </li>
             </ul>
-            <div class="d-flex">
-                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer" aria-controls="searchDrawer">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
         </div>
     </div>
 </nav>
 
-<div class="container">
+<div class="container-fluid px-md-4">
     @Body
 </div>
 
