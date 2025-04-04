@@ -1,12 +1,13 @@
 using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
-using WatchBoard.Routes;
+using WatchBoard;
+using WatchBoard.Services;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.TmDb;
 using WatchBoard.Services.Worker;
 
 var builder = WebApplication.CreateBuilder();
-builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddRazorComponents();
 builder.Services.AddHttpContextAccessor();
 
 // Worker to update items every x hours
@@ -33,6 +34,9 @@ builder.Services.AddHttpClient<ITmDb, TmDb>(opts =>
         new AuthenticationHeaderValue("Bearer", builder.Configuration["TmdbToken"]);
 });
 
+// App Services
+builder.Services.AddScoped<IRepository, Repository>();
+
 var app = builder.Build();
 
 // Apply migrations and seed data if necessary
@@ -45,8 +49,7 @@ using (var scope = app.Services.CreateScope())
 app.UseStaticFiles();
 
 // Routes
-app.MapPages();
-app.MapGroup("/app").MapAppPartials();
-app.MapGroup("/admin").MapAdmin();
+app.MapPageRoutes();
+app.MapGroup("/app").MapPartials();
 
 app.Run();

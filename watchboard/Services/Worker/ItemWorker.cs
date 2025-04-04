@@ -25,7 +25,7 @@ public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundSe
 
                     var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
                     var images = await tmDb.GetImages(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-                    dbItem.MapFrom(tmDbItem, images);
+                    dbItem.CopyFromTmDb(tmDbItem, images);
                     dbItem.LastUpdated = DateTimeOffset.UtcNow;
                     await db.SaveChangesAsync(stoppingToken);
                 }

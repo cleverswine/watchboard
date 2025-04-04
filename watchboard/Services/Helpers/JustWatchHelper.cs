@@ -1,7 +1,7 @@
 using AngleSharp;
 using WatchBoard.Services.Database.Entities;
 
-namespace WatchBoard.Helpers;
+namespace WatchBoard.Services.Helpers;
 
 /*
  * https://www.justwatch.com/us/movie/fight-club

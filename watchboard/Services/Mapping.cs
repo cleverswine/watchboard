@@ -14,7 +14,7 @@ public static class Mapping
             : dateTimeResult.Humanize();
     }
 
-    public static void MapFrom(this Item item, TmdbItem tmDbItem, ImageList imageList)
+    public static void CopyFromTmDb(this Item item, TmdbItem tmDbItem, ImageList imageList)
     {
         var providerNames = (tmDbItem.Providers?.Results.Us.FlatRate ?? []).Select(x => x.ProviderName).ToList();
         providerNames.Insert(0, "Servarr");
@@ -32,21 +32,10 @@ public static class Mapping
         item.SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate;
         item.SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber;
         item.SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber;
-        item.SetImages(imageList.MapTo());
+        item.SetImages(imageList.MapFromTmDb());
     }
 
-    private static SeriesStatus? MapToSeriesStatus(this TmdbItem tmDbItem)
-    {
-        if (tmDbItem.MediaType != "tv") return null;
-        if (tmDbItem.Status == null) return null;
-        if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Ended;
-        if (tmDbItem.Status.Equals("Returning Series", StringComparison.OrdinalIgnoreCase))
-            return tmDbItem.NextEpisodeToAir == null ? SeriesStatus.Returning : SeriesStatus.InProgress;
-
-        return null;
-    }
-
-    public static Item MapTo(this TmdbItem tmDbItem, Guid listId, ImageList imageList)
+    public static Item MapFromTmDb(this TmdbItem tmDbItem, Guid listId, ImageList imageList)
     {
         var providerNames = (tmDbItem.Providers?.Results.Us.FlatRate ?? []).Select(x => x.ProviderName).ToList();
         providerNames.Insert(0, "Servarr");
@@ -77,12 +66,12 @@ public static class Mapping
             SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber,
             SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber
         };
-        item.SetImages(imageList.MapTo());
+        item.SetImages(imageList.MapFromTmDb());
 
         return item;
     }
 
-    private static List<ItemImage> MapTo(this ImageList imageList)
+    private static List<ItemImage> MapFromTmDb(this ImageList imageList)
     {
         var images = imageList.Backdrops.Select(x => new ItemImage
         {
@@ -115,5 +104,16 @@ public static class Mapping
         }));
 
         return images;
+    }
+
+    private static SeriesStatus? MapToSeriesStatus(this TmdbItem tmDbItem)
+    {
+        if (tmDbItem.MediaType != "tv") return null;
+        if (tmDbItem.Status == null) return null;
+        if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Ended;
+        if (tmDbItem.Status.Equals("Returning Series", StringComparison.OrdinalIgnoreCase))
+            return tmDbItem.NextEpisodeToAir == null ? SeriesStatus.Returning : SeriesStatus.InProgress;
+
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 using WatchBoard.Services.Database.Entities;
 
-namespace WatchBoard.Helpers;
+namespace WatchBoard.Services.Helpers;
 
 public static class ContextHelpers
 {
