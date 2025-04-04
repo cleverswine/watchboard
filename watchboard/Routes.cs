@@ -74,6 +74,14 @@ public static class Routes
             response.Headers.Append("HX-Trigger", "newItem");
             return Results.Ok();
         });
+        
+        // ADD ITEM
+        app.MapPost("/items/{tmDbId:int}", async (HttpContext context, HttpResponse response, [FromServices] IRepository repo, [FromRoute] int tmDbId, [FromQuery] string type) =>
+        {
+            await repo.AddItemToBoard(context.GetBoardId(), tmDbId, type);
+            response.Headers.Append("HX-Trigger", "newItem");
+            return Results.Ok();
+        });
 
         // DELETE ITEM
         app.MapDelete("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) =>

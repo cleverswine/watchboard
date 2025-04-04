@@ -11,6 +11,7 @@ public interface IRepository
     Task<List<Board>> GetBoards();
     Task<List?> GetListById(Guid id);
     Task<Item?> GetItemById(Guid id);
+    Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task<Item> AddItem(Guid listId, int tmDbId, string type);
     Task MoveItem(Guid itemId, Guid boardId);
     Task<Item> SetProvider(Guid itemId, string providerName);
@@ -27,7 +28,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     {
         var boards = db.Boards
             .AsNoTracking()
-            .Include(x => x.Lists.OrderBy(l => l.Order))
+            .Include(x => x.Lists.OrderByDescending(l => l.Order))
             .ThenInclude(x => x.Items.OrderBy(i => i.Order));
         if (id.HasValue)
             return await boards.FirstOrDefaultAsync(x => x.Id == id);
@@ -56,6 +57,16 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
+    public async Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type)
+    {
+        var listId = db.Boards
+            .Include(x => x.Lists.OrderByDescending(l => l.Order))
+            .FirstOrDefault(x => x.Id == boardId)?
+            .Lists.FirstOrDefault()?.Id ?? throw new KeyNotFoundException();
+
+        return await AddItem(listId, tmDbId, type);
+    }
+    
     public async Task<Item> AddItem(Guid listId, int tmDbId, string type)
     {
         var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;

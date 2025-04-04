@@ -1,7 +1,8 @@
 @using System.Web
 @using WatchBoard.Services
 @using WatchBoard.Services.Database.Entities
-<div hx-indicator="#indicator-@(ItemModel.Id)" class="card text-bg-dark mx-auto" id="card-@(ItemModel.Id)" style="max-width: 310px;">
+
+<div hx-indicator="#indicator-@(ItemModel.Id)" class="card text-bg-dark mx-auto" id="card-@(ItemModel.Id)" style="width: 302px;">
     <img src="@(ItemModel.BackdropBase64)" width="300" height="169" class="card-img" alt="@ItemModel.Name">
     <div class="card-img-overlay p-0">
 
@@ -110,7 +111,7 @@
 
             </div>
 
-            <div class="position-absolute bottom-0 w-100 bg-body-secondary bg-opacity-50 p-2">
+            <div class="position-absolute bottom-0 w-100 bg-body-secondary bg-opacity-75 pt-2 px-2">
                 @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
                 {
                     @if (ItemModel.SeriesNextEpisodeNumber == 1)
@@ -122,18 +123,20 @@
                     else
                     {
                         <h6 class="card-subtitle mb-2 text-body-secondary shadow-lg">
-                            S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber) premieres @ItemModel.SeriesNextEpisodeDate?.HumanizeDateString()
+                            S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber)&nbsp;&nbsp;<i class="bi bi-arrow-right"></i>&nbsp;@ItemModel.SeriesNextEpisodeDate?.HumanizeDateString()
                         </h6>
                     }
                 }
-                <h5 class="card-title shadow-lg">
-                    <div class="float-start">@ItemModel.Name</div>
-                    <div class="float-end">
-                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="@(ProviderSvg(ItemModel.SelectedProviderName ?? ""))"></path>
-                        </svg>
+                <h6 class="card-title shadow-lg">
+                    <div class="d-flex justify-content-between align-content-end">
+                        <div class="text-truncate pe-3">@ItemModel.Name</div>
+                        <div class="">
+                            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="@(ProviderSvg(ItemModel.SelectedProviderName ?? ""))"></path>
+                            </svg>
+                        </div>
                     </div>
-                </h5>
+                </h6>
             </div>
 
         </div>

@@ -5,10 +5,10 @@
 
 <_Search></_Search>
 
-<div class="row">
+<div>
     @foreach (var l in Lists)
     {
-        <div class="col-xs-12 col-sm-6 col-md-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
+        <div class="mb-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
             <_List ListModel="l" OtherBoards="OtherBoards"></_List>
         </div>
     }

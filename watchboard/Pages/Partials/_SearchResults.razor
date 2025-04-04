@@ -6,21 +6,9 @@
         <div class="card-img-overlay">
             <div class="position-relative w-100 h-100">
                 <div class="position-absolute top-0 end-0">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-plus-circle"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach (var l in Lists)
-                            {
-                                <li>
-                                    <button class="btn" hx-swap="none" hx-post="/app/lists/@(l.Id)/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
-                                        @(l.Name)
-                                    </button>
-                                </li>
-                            }
-                        </ul>
-                    </div>
+                    <button class="btn p-0" hx-swap="none" hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
                 </div>
                 <div class="position-absolute bottom-0">
                     <h5 class="card-title shadow-lg">@itemModel.Name</h5>
