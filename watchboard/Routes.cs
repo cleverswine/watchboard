@@ -89,6 +89,12 @@ public static class Routes
             await repo.DeleteItem(itemId);
             return Results.Ok();
         });
+        
+        // EDIT ITEM
+        app.MapGet("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_ItemDetail>(new
+        {
+            ItemModel = await repo.GetItemById(itemId)
+        }));
 
         // MOVE ITEM TO ANOTHER BOARD
         app.MapPut("/items/{itemId:guid}/move/{boardId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid boardId) =>

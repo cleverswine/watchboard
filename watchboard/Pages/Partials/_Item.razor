@@ -69,6 +69,13 @@
                         <button class="btn py-0 me-1 px-0 ps-1" type="button" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-delete="/app/items/@(ItemModel.Id)" hx-confirm="Are you sure you wish to remove this?">
                             <i class="bi bi-trash"></i>
                         </button>
+                        <button
+                            hx-get="/app/items/@(ItemModel.Id)"
+                            hx-target="#modals-here"
+                            hx-trigger="click"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modals-here"
+                            class="btn primary">Open Modal</button>
                         <div class="dropdown">
                             <button class="btn py-0 me-1 px-0 ps-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-images"></i>
