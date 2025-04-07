@@ -17,3 +17,8 @@ htmx.onLoad(function (content) {
         });
     }
 });
+
+function handleChange(evt) {
+    const img = document.getElementById("img-" + evt.getAttribute("ds-id"));
+    img.setAttribute("src", "/app/tmdb/images" + evt.getAttribute("ds-url"));
+}

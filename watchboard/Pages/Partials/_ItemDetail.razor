@@ -1,142 +1,150 @@
 @using WatchBoard.Services.Database.Entities
 
-<form class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">@ItemModel.Name</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                data-bs-target="#home-tab-@(ItemModel.Id)" type="button" role="tab"
-                                aria-controls="home-tab-pane" aria-selected="true">
-                            Details
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                data-bs-target="#profile-tab-@(ItemModel.Id)" type="button" role="tab"
-                                aria-controls="profile-tab-pane" aria-selected="false">
-                            Providers
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                data-bs-target="#contact-tab-@(ItemModel.Id)" type="button" role="tab"
-                                aria-controls="contact-tab-pane" aria-selected="false">
-                            Images
-                        </button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home-tab-@(ItemModel.Id)" role="tabpanel"
-                         aria-labelledby="home-tab-@(ItemModel.Id)" tabindex="0">
-                        <div class="pt-3 px-2">
+<div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-swap="outerHTML">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">@ItemModel.Name</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+                        Details
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="provider-tab" data-bs-toggle="tab" data-bs-target="#provider-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                        Providers
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="images-tab" data-bs-toggle="tab" data-bs-target="#images-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+                        Images
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+                        Settings
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="details-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="details-tab-@(ItemModel.Id)" tabindex="0">
+                    <div class="pt-3 px-2">
+                        <p>
+                            @ItemModel.ReleaseDates()
+                        </p>
+                        @if (!string.IsNullOrWhiteSpace(ItemModel.TagLine))
+                        {
                             <p>
-                                @ItemModel.ReleaseDates()
+                                @ItemModel.TagLine
                             </p>
-                            @if (!string.IsNullOrWhiteSpace(ItemModel.TagLine))
-                            {
-                                <p>
-                                    @ItemModel.TagLine
-                                </p>
-                            }
-                            @if (!string.IsNullOrWhiteSpace(ItemModel.Overview))
-                            {
-                                <p>
-                                    @ItemModel.Overview
-                                </p>
-                            }
+                        }
+                        @if (!string.IsNullOrWhiteSpace(ItemModel.Overview))
+                        {
                             <p>
-                                <a class="icon-link me-2" href="@(ItemModel.ImdbUrl)">
-                                    TmDb
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                              d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
-                                        <path fill-rule="evenodd"
-                                              d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
-                                    </svg>
-                                </a>
-                                <a class="icon-link" href="@(ItemModel.ImdbUrl)">
-                                    ImDb
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                              d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
-                                        <path fill-rule="evenodd"
-                                              d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
-                                    </svg>
-                                </a>
+                                @ItemModel.Overview
                             </p>
-                        </div>
+                        }
+                        <p>
+                            <a class="icon-link me-2" href="@(ItemModel.ImdbUrl)">
+                                TmDb
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+                                </svg>
+                            </a>
+                            <a class="icon-link" href="@(ItemModel.ImdbUrl)">
+                                ImDb
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+                                </svg>
+                            </a>
+                        </p>
                     </div>
-                    <div class="tab-pane fade" id="profile-tab-@(ItemModel.Id)" role="tabpanel"
-                         aria-labelledby="profile-tab-@(ItemModel.Id)" tabindex="0">
-                        <div class="pt-3 px-2">
-                            @foreach (var providerOption in ItemModel.ProviderOptions)
-                            {
-                                <div class="form-check">
-                                    @if (providerOption == ItemModel.SelectedProviderName)
-                                    {
-                                        <input class="form-check-input" type="radio" id="selectedProvider"
-                                               name="selectedProvider" checked>
-                                    }
-                                    else
-                                    {
-                                        <input class="form-check-input" type="radio" id="selectedProvider"
-                                               name="selectedProvider">
-                                    }
-                                    <label class="form-check-label" for="selectedProvider">
-                                        @providerOption
-                                    </label>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="contact-tab-@(ItemModel.Id)" role="tabpanel"
-                         aria-labelledby="contact-tab-@(ItemModel.Id)" tabindex="0">
-                        <div class="pt-3 px-2">
-
-                            <div class="w-100 text-center mb-2">
-                                <img id="img-@(ItemModel.Id)" class="img-thumbnail" src="@(ItemModel.BackdropBase64)"
-                                     width="200" height="112" alt="@ItemModel.Name"/>
+                </div>
+                <div class="tab-pane fade" id="provider-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="provider-tab-@(ItemModel.Id)" tabindex="0">
+                    <div class="pt-3 px-2">
+                        @foreach (var providerOption in ItemModel.ProviderOptions)
+                        {
+                            <div class="form-check">
+                                @if (providerOption == ItemModel.SelectedProviderName)
+                                {
+                                    <input class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" value="@(providerOption)" checked>
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" value="@(providerOption)">
+                                }
+                                <label class="form-check-label" for="selectedProviderId-@(providerOption.Replace(" ", "").Trim())">
+                                    @providerOption
+                                </label>
                             </div>
+                        }
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="images-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="images-tab-@(ItemModel.Id)" tabindex="0">
+                    <div class="pt-3 px-2 d-flex gap-3">
 
-                            @foreach (var i in ItemModel.GetImages())
+                        <div>
+                            @foreach (var i in ItemModel.GetBackdropImages().OrderByDescending(x => x.VoteCount).ThenByDescending(x => x.VoteAverage).Take(12))
                             {
                                 <div class="form-check">
                                     @if (i.UrlPath == ItemModel.BackdropUrl)
                                     {
-                                        <input onclick="handleChange(this)" class="form-check-input" type="radio"
-                                               ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImage" checked>
+                                        <input onclick="handleChange(this)" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)" checked>
                                     }
                                     else
                                     {
-                                        <input onclick="handleChange(this)" class="form-check-input" type="radio"
-                                               ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImage"/>
+                                        <input onclick="handleChange(this)" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)"/>
                                     }
-                                    <label class="form-check-label" for="selectedImage">
-                                        @i.Name
+                                    <label class="form-check-label" for="selectedImageId-@(i.Id)">
+                                        votes: @i.VoteCount / avg: @i.VoteAverage
                                     </label>
                                 </div>
                             }
                         </div>
+
+                        <div>
+                            <img id="img-@(ItemModel.Id)" class="img-thumbnail" src="@(ItemModel.BackdropBase64)" width="200" height="112" alt="@ItemModel.Name"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="settings-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="settings-tab-@(ItemModel.Id)" tabindex="0">
+                    <div class="pt-3 px-2">
+                        <button class="btn btn-link" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh Data
+                        </button>
+                    </div>
+                    <div class="pt-3 px-2">
+                        <button class="btn py-0 me-1 px-0 ps-1" type="button" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-delete="/app/items/@(ItemModel.Id)" hx-confirm="Are you sure you wish to remove this?">
+                            <i class="bi bi-trash"></i> Delete Item
+                        </button>
+                        <button type="button" class="btn btn-secondary">Move to...</button>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+        </div>
+
+        <div class="modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-danger" 
+                    hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" 
+                    hx-delete="/app/items/@(ItemModel.Id)" hx-confirm="Are you sure you wish to remove this?" 
+                    data-bs-dismiss="modal">Delete</button>
+            <div>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 
 @code {
-    [Parameter] public Item ItemModel { get; set; } = new();
+
+    [Parameter]
+    public Item ItemModel { get; set; } = new();
 
 }

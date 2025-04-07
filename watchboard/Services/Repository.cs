@@ -107,7 +107,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<Item> SetBackdrop(Guid itemId, Guid imageId)
     {
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        var img = dbItem.GetImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
+        var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
         dbItem.BackdropBase64 = await tmDb.GetImageBase64(img.UrlPath, "w300");
         dbItem.BackdropUrl = img.UrlPath;
         dbItem.Expanded = true;

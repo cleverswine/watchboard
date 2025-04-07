@@ -32,7 +32,7 @@ public static class Routes
                 Boards = await repo.GetBoards()
             });
         });
-        
+
         app.MapGet("/empty", () => Results.Ok());
     }
 
@@ -74,14 +74,15 @@ public static class Routes
             response.Headers.Append("HX-Trigger", "newItem");
             return Results.Ok();
         });
-        
+
         // ADD ITEM
-        app.MapPost("/items/{tmDbId:int}", async (HttpContext context, HttpResponse response, [FromServices] IRepository repo, [FromRoute] int tmDbId, [FromQuery] string type) =>
-        {
-            await repo.AddItemToBoard(context.GetBoardId(), tmDbId, type);
-            response.Headers.Append("HX-Trigger", "newItem");
-            return Results.Ok();
-        });
+        app.MapPost("/items/{tmDbId:int}",
+            async (HttpContext context, HttpResponse response, [FromServices] IRepository repo, [FromRoute] int tmDbId, [FromQuery] string type) =>
+            {
+                await repo.AddItemToBoard(context.GetBoardId(), tmDbId, type);
+                response.Headers.Append("HX-Trigger", "newItem");
+                return Results.Ok();
+            });
 
         // DELETE ITEM
         app.MapDelete("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) =>
@@ -89,7 +90,7 @@ public static class Routes
             await repo.DeleteItem(itemId);
             return Results.Ok();
         });
-        
+
         // EDIT ITEM
         app.MapGet("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_ItemDetail>(new
         {
@@ -102,6 +103,22 @@ public static class Routes
             await repo.MoveItem(itemId, boardId);
             return Results.Ok();
         });
+
+        // UPDATE ITEM
+        app.MapPut("/items/{itemId:guid}",
+            async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
+            {
+                var form = await context.Request.ReadFormAsync();
+                var s = form["selectedProvider"];
+                var i = form["selectedImage"];
+                await repo.SetProvider(itemId, s!);
+                var item = await repo.SetBackdrop(itemId, Guid.Parse(i!));
+                return new RazorComponentResult<_Item>(new
+                {
+                    ItemModel = item,
+                    OtherBoards = await repo.GetBoards()
+                });
+            });
 
         // UPDATE SELECTED PROVIDER
         app.MapPut("/items/{itemId:guid}/providers/{providerName}",
@@ -119,8 +136,15 @@ public static class Routes
                 OtherBoards = await repo.GetBoards()
             }));
 
+        // GET TMDB IMG BYTES
+        app.MapGet("/tmdb/images/{imgUrl}", async ([FromRoute] string imgUrl, [FromServices] ITmDb tmDb) =>
+        {
+            var b = await tmDb.GetImageBytes("/" + imgUrl);
+            return Results.File(b, "image/" + imgUrl.Split(".")[1]);
+        });
+
         // UPDATE ITEM FROM TMDB
-        app.MapPut("/items/{itemId:guid}",
+        app.MapPut("/items/{itemId:guid}/refresh",
             async ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_Item>(new
             {
                 ItemModel = await repo.RefreshItem(itemId),

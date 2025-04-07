@@ -91,9 +91,10 @@ public class Item
 
     public string TmdbUrl => $"https://www.themoviedb.org/{Type.ToString().ToLower()}/{TmdbId}";
 
-    public List<ItemImage> GetImages()
+    public List<ItemImage> GetBackdropImages()
     {
-        return Images == null ? [] : JsonSerializer.Deserialize<List<ItemImage>>(Images) ?? [];
+        return Images == null ? [] : JsonSerializer.Deserialize<List<ItemImage>>(Images)?
+            .Where(x => x.Type == ItemImageType.Backdrop).ToList() ?? [];
     }
 
     public void SetImages(List<ItemImage> images)
