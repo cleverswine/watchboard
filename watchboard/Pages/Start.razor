@@ -1,0 +1,56 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <title>Watch Board</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="/lib/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/lib/bootstrap-icons.min.css" rel="stylesheet"/>
+    <link href="/css/app.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<div class="container mt-4">
+    <h3>Get started</h3>
+    <div class="text-muted">Detailed settings can be modified later in the Admin section</div>
+
+    <form class="mt-4">
+        <div class="mb-3">
+            <label for="tmDbApiKey" class="form-label">TMDB API Key</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="tmDbApiKey" aria-label="TMDB API Key" aria-describedby="tmDbApiKey-addon">
+                <button class="btn btn-outline-secondary" type="button" id="tmDbApiKey-addon">Test</button>
+            </div>
+            <div id="tmDbApiKeyHelp" class="form-text">To get an API key, log in or create an account at
+                <a href="https://www.themoviedb.org/login?to=read_me&redirect=%2Fdocs%2Fgetting-started">TMDB</a> and
+                then
+                <a href="https://developer.themoviedb.org/docs/getting-started">read the Getting Started guide</a>.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="initialBoards" class="form-label">Initial Boards (comma-seperated)</label>
+            <input type="text" class="form-control" id="initialBoards" aria-describedby="initialBoards"/>
+            <div id="initialBoardsHelp" class="form-text">
+                Specify the names of some initial boards to create. For example: <strong>My Stuff, Family, Kids</strong>
+                will create 3 boards.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+
+<script src="/lib/bootstrap.bundle.min.js"></script>
+<script src="/lib/htmx.min.js"></script>
+<script src="/js/app.js"></script>
+
+</body>
+</html>
+
+@code {
+
+}

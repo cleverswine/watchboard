@@ -1,0 +1,46 @@
+@using WatchBoard.PagesAdmin.Shared
+@using WatchBoard.Services.Database.Entities
+@layout _Layout
+
+<div class="row mt-4 mb-3">
+    <h5><i class="bi bi-view-stacked"></i> Manage Boards</h5>
+    <p class="text-muted">
+        Manage boards and the lists for each board. </p>
+</div>
+
+@foreach (var b in BoardModels)
+{
+    <table class="table align-middle table-sm table-striped">
+        <thead>
+        <tr>
+            <td colspan="2" class="fs-5">
+                <button class="btn btn-link"><i class="bi bi-trash"></i></button>
+                <button class="btn btn-link"><i class="bi bi-pencil-square"></i></button>
+                @b.Name
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var l in b.Lists)
+        {
+            <tr>
+                <td style="width: 180px;">
+                    <button class="btn btn-link"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-link"><i class="bi bi-arrows-move"></i></button>
+                    <button class="btn btn-link"><i class="bi bi-trash"></i></button>
+                </td>
+                <td>
+                    @l.Name
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    [Parameter]
+    public List<Board> BoardModels { get; set; } = [];
+
+}

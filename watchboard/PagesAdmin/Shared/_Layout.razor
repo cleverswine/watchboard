@@ -10,7 +10,7 @@
 <html lang="en" data-bs-theme="dark">
 
 <head>
-    <title>Watch Board</title>
+    <title>Watch Board :: Admin</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="/lib/bootstrap.min.css" rel="stylesheet"/>
@@ -22,27 +22,21 @@
 
 <nav class="navbar navbar-expand-sm bg-body-tertiary">
     <div class="container-fluid mx-4">
-        <a class="navbar-brand" href="#">@(SelectedBoard.Name)</a>
+        <a class="navbar-brand" href="#">Admin</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse d-sm-flex justify-content-end" id="navbarTogglerDemo02">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer" aria-controls="searchDrawer">
-                        <i class="bi bi-search"></i> Search
-                    </button>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
+                    <a class="nav-link" href="/admin/boards">
+                        <i class="bi bi-view-stacked"></i> Manage Boards
                     </a>
-                    <ul class="dropdown-menu">
-                        @foreach (var b in Boards)
-                        {
-                            <li><a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a></li>
-                        }
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/providers">
+                        <i class="bi bi-eye"></i> Watch Providers
+                    </a>
                 </li>
             </ul>
         </div>
@@ -56,7 +50,6 @@
 <script src="/lib/Sortable.min.js"></script>
 <script src="/lib/bootstrap.bundle.min.js"></script>
 <script src="/lib/htmx.min.js"></script>
-<script src="/js/app.js"></script>
 
 </body>
 </html>

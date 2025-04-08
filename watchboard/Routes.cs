@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WatchBoard.Pages;
 using WatchBoard.Pages.Partials;
+using WatchBoard.PagesAdmin;
 using WatchBoard.Services;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.Helpers;
@@ -15,6 +16,28 @@ public static class Routes
 {
     public static void MapPageRoutes(this WebApplication app)
     {
+        // START FRESH PAGE
+        app.MapGet("/start", () => { return new RazorComponentResult<Start>(); });
+        
+        // ADMIN HOME PAGE
+        app.MapGet("/admin", () => { return new RazorComponentResult<Admin>(); });
+        
+        app.MapGet("/admin/providers", async ([FromServices] IRepository repo) =>
+        {
+            return new RazorComponentResult<Providers>(new
+            {
+                ProvidersList = await repo.GetTmDbProviders()
+            });
+        });
+        
+        app.MapGet("/admin/boards", async ([FromServices] IRepository repo) =>
+        {
+            return new RazorComponentResult<Boards>(new
+            {
+                BoardModels = await repo.GetBoards()
+            });
+        });
+        
         // HOME PAGE
         app.MapGet("/", async (HttpContext context, [FromServices] IRepository repo, [FromQuery] Guid? boardId) =>
         {
@@ -33,10 +56,11 @@ public static class Routes
             });
         });
 
+        // EMPTY PAGE
         app.MapGet("/empty", () => Results.Ok());
     }
 
-    public static void MapPartials(this RouteGroupBuilder app)
+    public static RouteGroupBuilder MapAppPartials(this RouteGroupBuilder app)
     {
         // SEARCH
         app.MapPost("/search", async (HttpContext context, [FromServices] IRepository repo, [FromServices] ITmDb tmDb) =>
@@ -151,5 +175,12 @@ public static class Routes
             {
                 ItemModel = await repo.RefreshItem(itemId)
             }));
+
+        return app;
+    }
+    
+    public static void MapAdminPartials(this RouteGroupBuilder app)
+    {
+
     }
 }

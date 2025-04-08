@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb;
+using WatchBoard.Services.TmDb.Models;
 
 namespace WatchBoard.Services;
 
@@ -20,6 +21,7 @@ public interface IRepository
     Task DeleteItem(Guid id);
     Task SortList(Guid id, string?[] itemIdsStr);
     Task<List<Item>> Search(string keyword);
+    Task<List<TmDbProvider>> GetTmDbProviders();
 }
 
 public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
@@ -38,7 +40,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<List<Board>> GetBoards()
     {
         return await db.Boards
-            .Include(x => x.Lists)
+            .Include(x => x.Lists.OrderBy(l => l.Order))
             .AsNoTracking()
             .ToListAsync();
     }
@@ -186,5 +188,10 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             BackdropUrl = x.BackdropPath ?? "/img/ph.png"
         }).ToList();
         return items;
+    }
+
+    public async Task<List<TmDbProvider>> GetTmDbProviders()
+    {
+        return await tmDb.GetProviders("tv");
     }
 }
