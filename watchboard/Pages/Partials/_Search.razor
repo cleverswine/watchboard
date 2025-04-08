@@ -4,9 +4,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <p>Search for movies and TV shows to add to the watch board.</p>
+        <p>Search for movies and TV shows to add.</p>
         <form class="d-flex flex-row mb-3" hx-post="/app/search" hx-target="#searchResults">
-            <input class="form-control" type="search" name="SearchName" placeholder="Search" aria-label="Search">
+            <input id="searchInput" class="form-control" type="search" name="SearchName" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div id="searchResults"></div>

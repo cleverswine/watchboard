@@ -4,9 +4,9 @@
 <form class="sortable d-md-flex flex-wrap gap-4" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
     @foreach (var i in ListModel.Items)
     {
-        <div class="mb-md-0 mb-sm-4">
+        <div>
             <input type='hidden' name='item' value='@i.Id'/>
-            <_Item ItemModel="i" OtherBoards="OtherBoards"></_Item>
+            <_Item ItemModel="i"></_Item>
         </div>
     }
 </form>
@@ -15,8 +15,5 @@
 
     [Parameter]
     public List ListModel { get; set; } = new() {Items = []};
-
-    [Parameter]
-    public List<Board> OtherBoards { get; set; } = [];
 
 }

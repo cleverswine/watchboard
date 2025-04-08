@@ -54,8 +54,7 @@ public static class Routes
         // GET LIST
         app.MapGet("/lists/{listId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid listId) => new RazorComponentResult<_List>(new
         {
-            ListModel = await repo.GetListById(listId),
-            OtherBoards = await repo.GetBoards()
+            ListModel = await repo.GetListById(listId)
         }));
 
         // SORT LIST
@@ -92,10 +91,16 @@ public static class Routes
         });
 
         // EDIT ITEM
-        app.MapGet("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_ItemDetail>(new
+        app.MapGet("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) =>
         {
-            ItemModel = await repo.GetItemById(itemId)
-        }));
+            var item = await repo.GetItemById(itemId);
+            if (item == null) throw new KeyNotFoundException();
+            return new RazorComponentResult<_ItemDetail>(new
+            {
+                ItemModel = item,
+                Boards = (await repo.GetBoards()).Where(x => x.Lists.All(l => l.Id != item.ListId)).ToList()
+            });
+        });
 
         // MOVE ITEM TO ANOTHER BOARD
         app.MapPut("/items/{itemId:guid}/move/{boardId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid boardId) =>
@@ -115,8 +120,7 @@ public static class Routes
                 var item = await repo.SetBackdrop(itemId, Guid.Parse(i!));
                 return new RazorComponentResult<_Item>(new
                 {
-                    ItemModel = item,
-                    OtherBoards = await repo.GetBoards()
+                    ItemModel = item
                 });
             });
 
@@ -124,16 +128,14 @@ public static class Routes
         app.MapPut("/items/{itemId:guid}/providers/{providerName}",
             async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] string providerName) => new RazorComponentResult<_Item>(new
             {
-                ItemModel = await repo.SetProvider(itemId, HttpUtility.HtmlDecode(providerName)),
-                OtherBoards = await repo.GetBoards()
+                ItemModel = await repo.SetProvider(itemId, HttpUtility.HtmlDecode(providerName))
             }));
 
         // UPDATE SELECTED BACKDROP
         app.MapPut("/items/{itemId:guid}/backdrops/{imageId:guid}",
             async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) => new RazorComponentResult<_Item>(new
             {
-                ItemModel = await repo.SetBackdrop(itemId, imageId),
-                OtherBoards = await repo.GetBoards()
+                ItemModel = await repo.SetBackdrop(itemId, imageId)
             }));
 
         // GET TMDB IMG BYTES
@@ -147,8 +149,7 @@ public static class Routes
         app.MapPut("/items/{itemId:guid}/refresh",
             async ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_Item>(new
             {
-                ItemModel = await repo.RefreshItem(itemId),
-                OtherBoards = await repo.GetBoards()
+                ItemModel = await repo.RefreshItem(itemId)
             }));
     }
 }

@@ -3,7 +3,9 @@
 <div class="modal-dialog modal-dialog-centered">
     <form class="modal-content" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-swap="outerHTML">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">@ItemModel.Name</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                @ItemModel.Name
+            </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -15,7 +17,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="provider-tab" data-bs-toggle="tab" data-bs-target="#provider-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-                        Providers
+                        Watch Options
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -25,16 +27,23 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
-                        Settings
+                        Other
                     </button>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="details-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="details-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
-                        <p>
-                            @ItemModel.ReleaseDates()
-                        </p>
+
+                        @if (ItemModel.Type == ItemType.Tv)
+                        {
+                            <p><i class="bi bi-collection-play"></i> TV Show <br/>@ItemModel.ReleaseDates()</p>
+                        }
+                        else
+                        {
+                            <p><i class="bi bi-camera-reels"></i> Movie <br/>@ItemModel.ReleaseDates()</p>
+                        }
+
                         @if (!string.IsNullOrWhiteSpace(ItemModel.TagLine))
                         {
                             <p>
@@ -72,11 +81,11 @@
                             <div class="form-check">
                                 @if (providerOption == ItemModel.SelectedProviderName)
                                 {
-                                    <input class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" value="@(providerOption)" checked>
+                                    <input class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption)" checked>
                                 }
                                 else
                                 {
-                                    <input class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" value="@(providerOption)">
+                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption)">
                                 }
                                 <label class="form-check-label" for="selectedProviderId-@(providerOption.Replace(" ", "").Trim())">
                                     @providerOption
@@ -94,11 +103,11 @@
                                 <div class="form-check">
                                     @if (i.UrlPath == ItemModel.BackdropUrl)
                                     {
-                                        <input onclick="handleChange(this)" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)" checked>
+                                        <input onclick="handleImgChange(this)" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)" checked>
                                     }
                                     else
                                     {
-                                        <input onclick="handleChange(this)" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)"/>
+                                        <input onclick="handleImgChange(this)" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)"/>
                                     }
                                     <label class="form-check-label" for="selectedImageId-@(i.Id)">
                                         votes: @i.VoteCount / avg: @i.VoteAverage
@@ -115,29 +124,35 @@
                 </div>
                 <div class="tab-pane fade" id="settings-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="settings-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
-                        <button class="btn btn-link" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
-                            <i class="bi bi-arrow-clockwise"></i> Refresh Data
+                        <button class="btn btn-link link-light link-underline link-underline-opacity-0" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
+                            <i class="bi bi-download me-2"></i>Refresh Metadata from TmDb
+                            <div class="htmx-indicator ms-3 spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
                         </button>
                     </div>
-                    <div class="pt-3 px-2">
-                        <button class="btn py-0 me-1 px-0 ps-1" type="button" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-delete="/app/items/@(ItemModel.Id)" hx-confirm="Are you sure you wish to remove this?">
-                            <i class="bi bi-trash"></i> Delete Item
+                    <div class="pt-1 px-2">
+                        @foreach (var b in Boards)
+                        {
+                            <button hx-put="/app/items/@(ItemModel.Id)/move/@(b.Id)" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" type="button" class="btn btn-link link-light link-underline link-underline-opacity-0">
+                                <i class="bi bi-arrow-right me-2"></i>Move item to: @(b.Name)
+                            </button>
+                        }
+                    </div>
+                    <div class="pt-1 px-2">
+                        <button type="button" class="btn btn-link link-danger link-underline link-underline-opacity-0" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-delete="/app/items/@(ItemModel.Id)" hx-confirm="Are you sure you wish to remove this?" data-bs-dismiss="modal">
+                            <i class="bi bi-trash me-2"></i>Delete this item
                         </button>
-                        <button type="button" class="btn btn-secondary">Move to...</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal-footer d-flex justify-content-between">
-            <button type="button" class="btn btn-danger" 
-                    hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" 
-                    hx-delete="/app/items/@(ItemModel.Id)" hx-confirm="Are you sure you wish to remove this?" 
-                    data-bs-dismiss="modal">Delete</button>
-            <div>
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+        <div class="modal-footer">
+            <button type="submit" id="itemDetailSubmitBtn" class="btn btn-primary" data-bs-dismiss="modal" disabled>Save
+                Changes
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
     </form>
 </div>
@@ -146,5 +161,8 @@
 
     [Parameter]
     public Item ItemModel { get; set; } = new();
+
+    [Parameter]
+    public List<Board> Boards { get; set; } = [];
 
 }

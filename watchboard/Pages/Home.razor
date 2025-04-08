@@ -9,7 +9,7 @@
     @foreach (var l in Lists)
     {
         <div class="mb-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
-            <_List ListModel="l" OtherBoards="OtherBoards"></_List>
+            <_List ListModel="l"></_List>
         </div>
     }
 </div>
@@ -33,5 +33,4 @@
     [Parameter]
     public List<Board> Boards { get; set; } = [];
 
-    private List<Board> OtherBoards => Boards.Where(x => x.Id != Lists.FirstOrDefault()?.BoardId).ToList();
 }

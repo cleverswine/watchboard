@@ -18,7 +18,19 @@ htmx.onLoad(function (content) {
     }
 });
 
-function handleChange(evt) {
+document.addEventListener("DOMContentLoaded", function() {
+    const element = document.getElementById('searchDrawer')
+    element.addEventListener('shown.bs.offcanvas', event => {
+        document.getElementById('searchInput').focus();
+    });
+});
+
+function handleImgChange(evt) {
     const img = document.getElementById("img-" + evt.getAttribute("ds-id"));
     img.setAttribute("src", "/app/tmdb/images" + evt.getAttribute("ds-url"));
+    enableItemDetailSubmitBtn();
+}
+
+function enableItemDetailSubmitBtn() {
+    document.getElementById('itemDetailSubmitBtn').removeAttribute('disabled');
 }

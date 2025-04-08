@@ -38,6 +38,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<List<Board>> GetBoards()
     {
         return await db.Boards
+            .Include(x => x.Lists)
             .AsNoTracking()
             .ToListAsync();
     }
