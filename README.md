@@ -2,7 +2,13 @@
 
 A kanban board for tv/movie watching
 
-![screenshot1.png](screenshot1.png)
+- multiple boards
+- drag items to reorder and move from list to list
+- dialog with details, links to imdb, etc
+- ability change the backdrop picture
+- select which provider to watch on (netflix, amazon, home server, etc)
+
+![screenshot1.png](screenshot2.png)
 
 ## Set Up
 
