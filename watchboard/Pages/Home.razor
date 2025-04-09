@@ -1,6 +1,7 @@
 @using WatchBoard.Pages.Shared
 @using WatchBoard.Pages.Partials
 @using WatchBoard.Services.Database.Entities
+@using Microsoft.AspNetCore.Components.Sections
 @layout _Layout
 
 <_Search></_Search>
@@ -25,6 +26,22 @@
     </div>
 </div>
 
+<SectionContent SectionName="selected-board-name">
+    <span>@SelectedBoard.Name</span>
+</SectionContent>
+
+<SectionContent SectionName="board-dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
+    </a>
+    <ul class="dropdown-menu">
+        @foreach (var b in Boards)
+        {
+            <li><a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a></li>
+        }
+    </ul>
+</SectionContent>
+
 @code {
 
     [Parameter]
@@ -32,5 +49,7 @@
 
     [Parameter]
     public List<Board> Boards { get; set; } = [];
+
+    private Board SelectedBoard => Boards.FirstOrDefault(x => x.Id == Lists[0].BoardId) ?? Boards.First();
 
 }

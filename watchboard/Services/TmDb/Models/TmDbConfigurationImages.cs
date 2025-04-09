@@ -3,13 +3,7 @@ using System.Text.Json.Serialization;
 namespace WatchBoard.Services.TmDb.Models;
 
 [Serializable]
-public class TmdbConfiguration
-{
-    public Images Images { get; set; } = new();
-}
-
-[Serializable]
-public class Images
+public class TmDbConfigurationImages
 {
     [JsonPropertyName("base_url")]
     public string? BaseUrl { get; set; }

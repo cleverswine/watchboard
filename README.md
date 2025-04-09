@@ -50,7 +50,7 @@ When the EF models in the [Entities](watchboard/Services/Database/Entities) dire
 migrations
 
 ```shell
-DATA_DIR="." dotnet ef migrations add MIGRATION_NAME \
+DATA_DIR="." dotnet ef migrations add UpdateProviderStuff \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Services/Database/Migrations

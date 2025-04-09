@@ -1,8 +1,6 @@
 using System.Net.Mime;
-using System.Web;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using WatchBoard.Pages;
 using WatchBoard.Pages.Partials;
 using WatchBoard.PagesAdmin;
@@ -140,29 +138,15 @@ public static class Routes
             async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
             {
                 var form = await context.Request.ReadFormAsync();
-                var s = form["selectedProvider"];
-                var i = form["selectedImage"];
-                await repo.SetProvider(itemId, s!);
-                var item = await repo.SetBackdrop(itemId, Guid.Parse(i!));
+                var selectedProvider = form["selectedProvider"];
+                var selectedImage = form["selectedImage"];
+                await repo.SetProvider(itemId, int.Parse(selectedProvider.ToString()));
+                var item = await repo.SetBackdrop(itemId, Guid.Parse(selectedImage.ToString()));
                 return new RazorComponentResult<_Item>(new
                 {
                     ItemModel = item
                 });
             });
-
-        // UPDATE SELECTED PROVIDER
-        app.MapPut("/items/{itemId:guid}/providers/{providerName}",
-            async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] string providerName) => new RazorComponentResult<_Item>(new
-            {
-                ItemModel = await repo.SetProvider(itemId, HttpUtility.HtmlDecode(providerName))
-            }));
-
-        // UPDATE SELECTED BACKDROP
-        app.MapPut("/items/{itemId:guid}/backdrops/{imageId:guid}",
-            async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) => new RazorComponentResult<_Item>(new
-            {
-                ItemModel = await repo.SetBackdrop(itemId, imageId)
-            }));
 
         // GET TMDB BACKDROP IMAGE TAG
         app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) =>

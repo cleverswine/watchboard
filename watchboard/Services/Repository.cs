@@ -15,7 +15,7 @@ public interface IRepository
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task<Item> AddItem(Guid listId, int tmDbId, string type);
     Task MoveItem(Guid itemId, Guid boardId);
-    Task<Item> SetProvider(Guid itemId, string providerName);
+    Task<Item> SetProvider(Guid itemId, int providerId);
     Task<Item> SetBackdrop(Guid itemId, Guid imageId);
     Task<string> GetBackdropUrl(Guid itemId, Guid imageId);
     Task<Item> RefreshItem(Guid itemId);
@@ -70,14 +70,14 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
         return await AddItem(listId, tmDbId, type);
     }
-    
+
     public async Task<Item> AddItem(Guid listId, int tmDbId, string type)
     {
         var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
         var tmDbItem = await tmDb.GetDetail(tmDbId, type);
         var images = await tmDb.GetImages(tmDbId, type);
-        var dbItem = tmDbItem.MapFromTmDb(listId, images);
-        dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w300");
+        var dbItem = tmDbItem.MapTmDbToItem(listId, images);
+        dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
         dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
         dbItem.Order = order;
         db.Items.Add(dbItem);
@@ -99,11 +99,15 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         await db.SaveChangesAsync();
     }
 
-    public async Task<Item> SetProvider(Guid itemId, string providerName)
+    public async Task<Item> SetProvider(Guid itemId, int providerId)
     {
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        dbItem.SelectedProviderName = providerName;
-        dbItem.Expanded = true;
+        var providers = dbItem.GetProviders();
+        foreach (var p in providers)
+        {
+            p.Selected = providerId == p.Id;
+        }
+        dbItem.SetProviders(providers);
         await db.SaveChangesAsync();
         return dbItem;
     }
@@ -112,9 +116,8 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     {
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
         var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
-        dbItem.BackdropBase64 = await tmDb.GetImageBase64(img.UrlPath, "w300");
+        dbItem.BackdropBase64 = await tmDb.GetImageBase64(img.UrlPath);
         dbItem.BackdropUrl = img.UrlPath;
-        dbItem.Expanded = true;
         await db.SaveChangesAsync();
         return dbItem;
     }
@@ -131,7 +134,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
         var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
         var images = await tmDb.GetImages(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-        dbItem.CopyFromTmDb(tmDbItem, images);
+        dbItem.UpdateFromTmDb(tmDbItem, images);
         await db.SaveChangesAsync();
         return dbItem;
     }

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace WatchBoard.Services.TmDb.Models;
 
 [Serializable]
-public class FlatRate
+public class TmDbWatchProvidersResultsFlatRate
 {
     [JsonPropertyName("logo_path")]
     public string? LogoPath { get; set; }

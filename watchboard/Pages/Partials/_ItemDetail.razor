@@ -76,19 +76,19 @@
                 </div>
                 <div class="tab-pane fade" id="provider-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="provider-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
-                        @foreach (var providerOption in ItemModel.ProviderOptions)
+                        @foreach (var providerOption in ItemModel.GetProviders())
                         {
                             <div class="form-check">
-                                @if (providerOption == ItemModel.SelectedProviderName)
+                                @if (providerOption.Selected)
                                 {
-                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption)" checked>
+                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption.Id)" checked>
                                 }
                                 else
                                 {
-                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Replace(" ", "").Trim())" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption)">
+                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption.Id)">
                                 }
-                                <label class="form-check-label" for="selectedProviderId-@(providerOption.Replace(" ", "").Trim())">
-                                    @providerOption
+                                <label class="form-check-label" for="selectedProviderId-@(providerOption.Id)">
+                                    @providerOption.Name
                                 </label>
                             </div>
                         }
@@ -131,7 +131,7 @@
                 </div>
                 <div class="tab-pane fade" id="settings-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="settings-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
-                        <button class="btn btn-link link-light link-underline link-underline-opacity-0" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
+                        <button class="btn btn-link link-light link-underline link-underline-opacity-0" hx-put="/app/items/@(ItemModel.Id)/refresh" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
                             <i class="bi bi-download me-2"></i>Refresh Metadata from TmDb
                             <div class="htmx-indicator ms-3 spinner-border spinner-border-sm" role="status">
                                 <span class="visually-hidden">Loading...</span>

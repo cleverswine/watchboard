@@ -7,9 +7,9 @@ namespace WatchBoard.Services.TmDb;
 
 public interface ITmDb
 {
-    Task<List<TmdbItem>> Search(string query, int limit = 8);
-    Task<TmdbItem> GetDetail(int id, string type);
-    Task<ImageList> GetImages(int id, string type);
+    Task<List<TmDbItem>> Search(string query, int limit = 8);
+    Task<TmDbItem> GetDetail(int id, string type);
+    Task<TmDbItemImageList> GetImages(int id, string type);
     Task<string> GetImageBase64(string imagePath, string size = "w300");
     Task<string> GetImageUrl(string imagePath, string size = "w300");
     Task<List<TmDbProvider>> GetProviders(string type, string region = "US");
@@ -44,9 +44,9 @@ public class TmDb : ITmDb
         return results;
     }
 
-    public async Task<List<TmdbItem>> Search(string query, int limit = 8)
+    public async Task<List<TmDbItem>> Search(string query, int limit = 8)
     {
-        if (_cache.TryGetValue($"TmdbSearch-{query}-{limit}", out List<TmdbItem>? results) && results is not null)
+        if (_cache.TryGetValue($"TmdbSearch-{query}-{limit}", out List<TmDbItem>? results) && results is not null)
             return results;
 
         // var json = await File.ReadAllTextAsync("Services/Json/search.json");
@@ -54,7 +54,7 @@ public class TmDb : ITmDb
 
         var queryUrlEncoded = HttpUtility.UrlEncode(query);
         var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
-        var searchResults = await _httpClient.GetFromJsonAsync<SearchResults>(url, JsonOpts);
+        var searchResults = await _httpClient.GetFromJsonAsync<TmDbSearchResults>(url, JsonOpts);
 
         results = searchResults?.Results.Where(x => ItemMediaTypes.Contains(x.MediaType)).Take(limit).ToList();
 
@@ -74,13 +74,13 @@ public class TmDb : ITmDb
         return results ?? [];
     }
 
-    public async Task<TmdbItem> GetDetail(int id, string type)
+    public async Task<TmDbItem> GetDetail(int id, string type)
     {
-        if (_cache.TryGetValue($"TmdbDetail-{type}-{id}", out TmdbItem? item) && item is not null)
+        if (_cache.TryGetValue($"TmdbDetail-{type}-{id}", out TmDbItem? item) && item is not null)
             return item;
 
         var url = $"{BaseApiPath}{type.ToLower()}/{id}?append_to_response=latest%2Cexternal_ids%2Cwatch%2Fproviders&language=en-US";
-        item = await _httpClient.GetFromJsonAsync<TmdbItem>(url, JsonOpts);
+        item = await _httpClient.GetFromJsonAsync<TmDbItem>(url, JsonOpts);
         if (item == null) throw new NullReferenceException("TmDb Item is null");
         item.MediaType = type;
 
@@ -88,13 +88,13 @@ public class TmDb : ITmDb
         return item;
     }
 
-    public async Task<ImageList> GetImages(int id, string type)
+    public async Task<TmDbItemImageList> GetImages(int id, string type)
     {
-        if (_cache.TryGetValue($"TmdbImages-{type}-{id}", out ImageList? item) && item is not null)
+        if (_cache.TryGetValue($"TmdbImages-{type}-{id}", out TmDbItemImageList? item) && item is not null)
             return item;
 
         var url = $"{BaseApiPath}{type.ToLower()}/{id}/images";
-        item = await _httpClient.GetFromJsonAsync<ImageList>(url, JsonOpts);
+        item = await _httpClient.GetFromJsonAsync<TmDbItemImageList>(url, JsonOpts);
         if (item == null) throw new NullReferenceException("TmDb Item is null");
 
         _cache.Set($"TmdbImages-{type}-{id}", item, TimeSpan.FromMinutes(60));
@@ -124,13 +124,13 @@ public class TmDb : ITmDb
         return data;
     }
 
-    private async Task<TmdbConfiguration> GetConfiguration()
+    private async Task<TmDbConfiguration> GetConfiguration()
     {
-        if (_cache.TryGetValue("TmdbConfiguration", out TmdbConfiguration? configuration) && configuration is not null)
+        if (_cache.TryGetValue("TmdbConfiguration", out TmDbConfiguration? configuration) && configuration is not null)
             return configuration;
 
-        configuration = await _httpClient.GetFromJsonAsync<TmdbConfiguration>($"{BaseApiPath}configuration", JsonOpts);
+        configuration = await _httpClient.GetFromJsonAsync<TmDbConfiguration>($"{BaseApiPath}configuration", JsonOpts);
         _cache.Set("TmdbConfiguration", configuration, TimeSpan.FromMinutes(60));
-        return configuration ?? new TmdbConfiguration();
+        return configuration ?? new TmDbConfiguration();
     }
 }

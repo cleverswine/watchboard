@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace WatchBoard.Services.TmDb.Models;
 
 [Serializable]
-public class ExternalIds
+public class TmDbItemExternalIds
 {
     [JsonPropertyName("imdb_id")]
     public string? ImdbId { get; set; }

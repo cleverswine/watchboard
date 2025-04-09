@@ -1,10 +1,5 @@
-@using Microsoft.EntityFrameworkCore
-@using WatchBoard.Services.Database
-@using WatchBoard.Services.Database.Entities
-@using WatchBoard.Services.Helpers
+@using Microsoft.AspNetCore.Components.Sections
 @inherits LayoutComponentBase
-@inject AppDbContext Db
-@inject IHttpContextAccessor Ctx
 
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
@@ -22,7 +17,9 @@
 
 <nav class="navbar navbar-expand-sm bg-body-tertiary">
     <div class="container-fluid mx-4">
-        <a class="navbar-brand" href="#">@(SelectedBoard.Name)</a>
+        <a class="navbar-brand" href="#">
+            <SectionOutlet SectionName="selected-board-name" />
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -34,15 +31,7 @@
                     </button>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
-                    </a>
-                    <ul class="dropdown-menu">
-                        @foreach (var b in Boards)
-                        {
-                            <li><a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a></li>
-                        }
-                    </ul>
+                    <SectionOutlet SectionName="board-dropdown" />
                 </li>
             </ul>
         </div>
@@ -60,16 +49,3 @@
 
 </body>
 </html>
-
-@code {
-    private List<Board> Boards { get; set; } = [];
-    private Board SelectedBoard { get; set; } = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        Boards = await Db.Boards.AsNoTracking().OrderByDescending(x => x.Name).ToListAsync();
-        SelectedBoard = Ctx.HttpContext?.GetSelectedBoard(Boards) ?? new Board();
-        await base.OnInitializedAsync();
-    }
-
-}

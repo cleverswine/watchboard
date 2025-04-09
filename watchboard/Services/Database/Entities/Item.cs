@@ -4,19 +4,6 @@ using System.Text.Json;
 
 namespace WatchBoard.Services.Database.Entities;
 
-public enum ItemType
-{
-    Tv,
-    Movie
-}
-
-public enum SeriesStatus
-{
-    InProgress,
-    Returning,
-    Ended
-}
-
 public class Item
 {
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -63,12 +50,8 @@ public class Item
 
     [MaxLength(16384)]
     public string? PosterBase64 { get; set; }
-
-    [MaxLength(2048)]
-    public string? ProviderNamesCsv { get; set; }
-
-    [MaxLength(255)]
-    public string? SelectedProviderName { get; set; }
+    
+    public string? ProvidersJson { get; set; }
 
     [MaxLength(255)]
     public string? ImdbId { get; set; }
@@ -80,26 +63,36 @@ public class Item
 
     public DateTimeOffset? LastUpdated { get; set; } = DateTimeOffset.UtcNow;
 
-    [NotMapped]
-    public bool Expanded { get; set; } = false;
-
     public Guid ListId { get; set; }
 
-    public List<string> ProviderOptions => ProviderNamesCsv?.Split(",").ToList() ?? [];
-
+    
     public string ImdbUrl => $"https://www.imdb.com/title/{ImdbId}/";
 
     public string TmdbUrl => $"https://www.themoviedb.org/{Type.ToString().ToLower()}/{TmdbId}";
 
     public List<ItemImage> GetBackdropImages()
     {
-        return Images == null ? [] : JsonSerializer.Deserialize<List<ItemImage>>(Images)?
-            .Where(x => x.Type == ItemImageType.Backdrop).ToList() ?? [];
+        return Images == null
+            ? []
+            : JsonSerializer.Deserialize<List<ItemImage>>(Images)?
+                .Where(x => x.Type == ItemImageType.Backdrop).ToList() ?? [];
     }
 
     public void SetImages(List<ItemImage> images)
     {
         Images = JsonSerializer.Serialize(images);
+    }
+    
+    public List<ItemProvider> GetProviders()
+    {
+        if (ProvidersJson == null) return [];
+        var itemProviders = JsonSerializer.Deserialize<List<ItemProvider>>(ProvidersJson) ?? throw new JsonException("Could not deserialize ProvidersJson");
+        return itemProviders;
+    }
+    
+    public void SetProviders(List<ItemProvider> providers)
+    {
+        ProvidersJson = JsonSerializer.Serialize(providers);
     }
 
     public string ReleaseDates()
@@ -116,21 +109,4 @@ public class Item
     {
         return string.IsNullOrWhiteSpace(s) ? "" : s.Split('-').First();
     }
-}
-
-public enum ItemImageType
-{
-    Backdrop,
-    Logo,
-    Poster
-}
-
-public class ItemImage
-{
-    public Guid Id { get; set; } = Guid.NewGuid();
-    public ItemImageType Type { get; set; } = ItemImageType.Backdrop;
-    public string Name { get; set; } = string.Empty;
-    public string UrlPath { get; set; } = string.Empty;
-    public double VoteAverage { get; set; }
-    public int VoteCount { get; set; }
 }

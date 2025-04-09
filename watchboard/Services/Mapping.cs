@@ -15,11 +15,8 @@ public static class Mapping
             : dateTimeResult.Humanize(true, now.AddDays(-1));
     }
 
-    public static void CopyFromTmDb(this Item item, TmdbItem tmDbItem, ImageList imageList)
+    public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbItemImageList imageList)
     {
-        var providerNames = (tmDbItem.Providers?.Results.Us.FlatRate ?? []).Select(x => x.ProviderName).ToList();
-        providerNames.Insert(0, "Servarr");
-
         item.Name = tmDbItem.Name ?? item.Name;
         item.Overview = tmDbItem.Overview;
         item.TagLine = tmDbItem.TagLine;
@@ -28,19 +25,16 @@ public static class Mapping
         item.NumberOfSeasons = tmDbItem.NumberOfSeasons;
         item.ImdbId = tmDbItem.ExternalIds.ImdbId;
         item.TmdbId = tmDbItem.Id;
-        item.ProviderNamesCsv = string.Join(',', providerNames);
-        item.SeriesStatus = tmDbItem.MapToSeriesStatus();
+        item.SeriesStatus = tmDbItem.MapTmDbToSeriesStatus();
         item.SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate;
         item.SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber;
         item.SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber;
-        item.SetImages(imageList.MapFromTmDb());
+        item.SetImages(imageList.MapTmDbToImageList());
+        item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
     }
 
-    public static Item MapFromTmDb(this TmdbItem tmDbItem, Guid listId, ImageList imageList)
+    public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbItemImageList imageList)
     {
-        var providerNames = (tmDbItem.Providers?.Results.Us.FlatRate ?? []).Select(x => x.ProviderName).ToList();
-        providerNames.Insert(0, "Servarr");
-
         var item = new Item
         {
             Name = tmDbItem.ItemName ?? "UNKNOWN",
@@ -59,20 +53,34 @@ public static class Mapping
             PosterBase64 = null,
             ImdbId = tmDbItem.ExternalIds.ImdbId,
             TmdbId = tmDbItem.Id,
-            ProviderNamesCsv = string.Join(',', providerNames),
-            SelectedProviderName = null,
             ListId = listId,
-            SeriesStatus = tmDbItem.MapToSeriesStatus(),
+            SeriesStatus = tmDbItem.MapTmDbToSeriesStatus(),
             SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate,
             SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber,
             SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber
         };
-        item.SetImages(imageList.MapFromTmDb());
-
+        item.SetImages(imageList.MapTmDbToImageList());
+        item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
+        
         return item;
     }
 
-    private static List<ItemImage> MapFromTmDb(this ImageList imageList)
+    private static List<ItemProvider> MapTmDbToItemProviders(this TmDbWatchProviders watchProviders)
+    {
+        var itemProviders = watchProviders.Results.Us.FlatRate.Select(x => new ItemProvider
+        {
+            Id = x.ProviderId, Name = x.ProviderName ?? x.ProviderId.ToString(), DisplayPriority = x.DisplayPriority
+        }).ToList();
+
+        itemProviders.Insert(0, new ItemProvider
+        {
+            Id = -1, Name = "Home", DisplayPriority = -1
+        });
+
+        return itemProviders;
+    }
+
+    private static List<ItemImage> MapTmDbToImageList(this TmDbItemImageList imageList)
     {
         var images = imageList.Backdrops.Select(x => new ItemImage
         {
@@ -107,7 +115,7 @@ public static class Mapping
         return images;
     }
 
-    private static SeriesStatus? MapToSeriesStatus(this TmdbItem tmDbItem)
+    private static SeriesStatus? MapTmDbToSeriesStatus(this TmDbItem tmDbItem)
     {
         if (tmDbItem.MediaType != "tv") return null;
         if (tmDbItem.Status == null) return null;

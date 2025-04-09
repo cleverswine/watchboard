@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace WatchBoard.Services.TmDb.Models;
 
 [Serializable]
-public class TmdbItem
+public class TmDbItem
 {
     public int Id { get; set; }
 
@@ -29,7 +29,7 @@ public class TmdbItem
     public string? LastAirDate { get; set; }
 
     [JsonPropertyName("next_episode_to_air")]
-    public Episode? NextEpisodeToAir { get; set; }
+    public TmDbItemEpisode? NextEpisodeToAir { get; set; }
 
     // Common
     [JsonPropertyName("media_type")]
@@ -47,45 +47,11 @@ public class TmdbItem
     public string? BackdropPath { get; set; }
 
     [JsonPropertyName("watch/providers")]
-    public WatchProviders? Providers { get; set; } = new();
+    public TmDbWatchProviders? Providers { get; set; } = new();
 
     [JsonPropertyName("external_ids")]
-    public ExternalIds ExternalIds { get; set; } = new();
+    public TmDbItemExternalIds ExternalIds { get; set; } = new();
 
     public string? ItemName => Title ?? Name;
     public string? ItemReleaseDate => ReleaseDate ?? FirstAirDate;
-}
-
-[Serializable]
-public class Episode
-{
-    [JsonPropertyName("id")]
-    public int Id { get; set; }
-
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = string.Empty;
-
-    [JsonPropertyName("overview")]
-    public string Overview { get; set; } = string.Empty;
-
-    [JsonPropertyName("air_date")]
-    public string AirDate { get; set; } = string.Empty;
-
-    [JsonPropertyName("episode_number")]
-    public int EpisodeNumber { get; set; }
-
-    [JsonPropertyName("episode_type")]
-    public string EpisodeType { get; set; } = string.Empty;
-
-    [JsonPropertyName("runtime")]
-    public int? Runtime { get; set; }
-
-    [JsonPropertyName("season_number")]
-    public int SeasonNumber { get; set; }
-
-    [JsonPropertyName("show_id")]
-    public int ShowId { get; set; }
-
-    [JsonPropertyName("still_path")]
-    public string StillPath { get; set; } = string.Empty;
 }
