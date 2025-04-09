@@ -6,8 +6,8 @@ namespace WatchBoard.Services.TmDb.Models;
 public class ExternalIds
 {
     [JsonPropertyName("imdb_id")]
-    public string ImdbId { get; set; }
+    public string? ImdbId { get; set; }
 
     [JsonPropertyName("tvdb_id")]
-    public int TvDbId { get; set; }
+    public int? TvDbId { get; set; }
 }

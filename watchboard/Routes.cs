@@ -1,6 +1,8 @@
+using System.Net.Mime;
 using System.Web;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using WatchBoard.Pages;
 using WatchBoard.Pages.Partials;
 using WatchBoard.PagesAdmin;
@@ -162,11 +164,13 @@ public static class Routes
                 ItemModel = await repo.SetBackdrop(itemId, imageId)
             }));
 
-        // GET TMDB IMG BYTES
-        app.MapGet("/tmdb/images/{imgUrl}", async ([FromRoute] string imgUrl, [FromServices] ITmDb tmDb) =>
+        // GET TMDB BACKDROP IMAGE TAG
+        app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) =>
         {
-            var b = await tmDb.GetImageBytes("/" + imgUrl);
-            return Results.File(b, "image/" + imgUrl.Split(".")[1]);
+            var url = await repo.GetBackdropUrl(itemId, imageId);
+            var s =
+                $"<img class=\"img-thumbnail\" src=\"{url}\" width=\"200\" height=\"112\" alt=\"{imageId}\"/>";
+            return Results.Content(s, MediaTypeNames.Text.Html);
         });
 
         // UPDATE ITEM FROM TMDB

@@ -7,13 +7,7 @@ htmx.onLoad(function (content) {
         new Sortable(sortable, {
             animation: 150,
             group: 'shared',
-            ghostClass: 'blue-background-class',
-
-            // Make the `.htmx-indicator` unsortable
-            // filter: ".htmx-indicator",
-            // onMove: function (evt) {
-            //     return evt.related.className.indexOf('htmx-indicator') === -1;
-            // }
+            ghostClass: 'blue-background-class'
         });
     }
 });
@@ -24,12 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('searchInput').focus();
     });
 });
-
-function handleImgChange(evt) {
-    const img = document.getElementById("img-" + evt.getAttribute("ds-id"));
-    img.setAttribute("src", "/app/tmdb/images" + evt.getAttribute("ds-url"));
-    enableItemDetailSubmitBtn();
-}
 
 function enableItemDetailSubmitBtn() {
     document.getElementById('itemDetailSubmitBtn').removeAttribute('disabled');

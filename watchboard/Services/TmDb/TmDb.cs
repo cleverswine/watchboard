@@ -10,7 +10,6 @@ public interface ITmDb
     Task<List<TmdbItem>> Search(string query, int limit = 8);
     Task<TmdbItem> GetDetail(int id, string type);
     Task<ImageList> GetImages(int id, string type);
-    Task<byte[]> GetImageBytes(string imagePath, string size = "w300");
     Task<string> GetImageBase64(string imagePath, string size = "w300");
     Task<string> GetImageUrl(string imagePath, string size = "w300");
     Task<List<TmDbProvider>> GetProviders(string type, string region = "US");
@@ -107,19 +106,6 @@ public class TmDb : ITmDb
         ArgumentNullException.ThrowIfNull(imagePath);
         var configuration = await GetConfiguration();
         return configuration.Images.BaseUrl + size + imagePath;
-    }
-
-    public async Task<byte[]> GetImageBytes(string imagePath, string size = "w300")
-    {
-        ArgumentNullException.ThrowIfNull(imagePath);
-
-        if (_cache.TryGetValue($"GetImageBytes-{imagePath}-{size}", out byte[]? b) && b is not null)
-            return b;
-
-        var url = await GetImageUrl(imagePath, size);
-        b = await _httpClient.GetByteArrayAsync(url);
-        _cache.Set($"GetImageBytes-{imagePath}", b, TimeSpan.FromMinutes(1));
-        return b;
     }
     
     public async Task<string> GetImageBase64(string imagePath, string size = "w300")

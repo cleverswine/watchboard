@@ -17,6 +17,7 @@ public interface IRepository
     Task MoveItem(Guid itemId, Guid boardId);
     Task<Item> SetProvider(Guid itemId, string providerName);
     Task<Item> SetBackdrop(Guid itemId, Guid imageId);
+    Task<string> GetBackdropUrl(Guid itemId, Guid imageId);
     Task<Item> RefreshItem(Guid itemId);
     Task DeleteItem(Guid id);
     Task SortList(Guid id, string?[] itemIdsStr);
@@ -116,6 +117,13 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         dbItem.Expanded = true;
         await db.SaveChangesAsync();
         return dbItem;
+    }
+
+    public async Task<string> GetBackdropUrl(Guid itemId, Guid imageId)
+    {
+        var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
+        var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
+        return await tmDb.GetImageUrl(img.UrlPath);
     }
 
     public async Task<Item> RefreshItem(Guid itemId)
