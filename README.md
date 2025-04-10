@@ -1,14 +1,15 @@
 # Watch Board
 
-A kanban board for tv/movie watching
+A vertical kanban board for tv/movie watching
 
 - multiple boards
+- search via the TMDB API to add tv shows and movies
 - drag items to reorder and move from list to list
 - dialog with details, links to imdb, etc
 - ability change the backdrop picture
 - select which provider to watch on (netflix, amazon, home server, etc)
 
-![screenshot1.png](screenshot2.png)
+![screenshot2.png](screenshot2.png)
 
 ## Set Up
 
@@ -50,7 +51,7 @@ When the EF models in the [Entities](watchboard/Services/Database/Entities) dire
 migrations
 
 ```shell
-DATA_DIR="." dotnet ef migrations add UpdateProviderStuff \
+DATA_DIR="." dotnet ef migrations add MIGRATION_NAME_HERE \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Services/Database/Migrations

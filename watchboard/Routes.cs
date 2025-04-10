@@ -18,10 +18,10 @@ public static class Routes
     {
         // START FRESH PAGE
         app.MapGet("/start", () => { return new RazorComponentResult<Start>(); });
-        
+
         // ADMIN HOME PAGE
         app.MapGet("/admin", () => { return new RazorComponentResult<Admin>(); });
-        
+
         app.MapGet("/admin/providers", async ([FromServices] IRepository repo) =>
         {
             return new RazorComponentResult<Providers>(new
@@ -29,7 +29,7 @@ public static class Routes
                 ProvidersList = await repo.GetTmDbProviders()
             });
         });
-        
+
         app.MapGet("/admin/boards", async ([FromServices] IRepository repo) =>
         {
             return new RazorComponentResult<Boards>(new
@@ -37,7 +37,7 @@ public static class Routes
                 BoardModels = await repo.GetBoards()
             });
         });
-        
+
         // HOME PAGE
         app.MapGet("/", async (HttpContext context, [FromServices] IRepository repo, [FromQuery] Guid? boardId) =>
         {
@@ -140,22 +140,26 @@ public static class Routes
                 var form = await context.Request.ReadFormAsync();
                 var selectedProvider = form["selectedProvider"];
                 var selectedImage = form["selectedImage"];
-                await repo.SetProvider(itemId, int.Parse(selectedProvider.ToString()));
-                var item = await repo.SetBackdrop(itemId, Guid.Parse(selectedImage.ToString()));
+                if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
+                    await repo.SetProvider(itemId, selectedProviderId);
+                if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
+                    await repo.SetBackdrop(itemId, selectedImageId);
+                
                 return new RazorComponentResult<_Item>(new
                 {
-                    ItemModel = item
+                    ItemModel = await repo.GetItemById(itemId)
                 });
             });
 
         // GET TMDB BACKDROP IMAGE TAG
-        app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) =>
-        {
-            var url = await repo.GetBackdropUrl(itemId, imageId);
-            var s =
-                $"<img class=\"img-thumbnail\" src=\"{url}\" width=\"200\" height=\"112\" alt=\"{imageId}\"/>";
-            return Results.Content(s, MediaTypeNames.Text.Html);
-        });
+        app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}",
+            async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) =>
+            {
+                var url = await repo.GetBackdropUrl(itemId, imageId);
+                var s =
+                    $"<img class=\"img-thumbnail\" src=\"{url}\" width=\"200\" height=\"112\" alt=\"{imageId}\"/>";
+                return Results.Content(s, MediaTypeNames.Text.Html);
+            });
 
         // UPDATE ITEM FROM TMDB
         app.MapPut("/items/{itemId:guid}/refresh",
@@ -166,9 +170,8 @@ public static class Routes
 
         return app;
     }
-    
+
     public static void MapAdminPartials(this RouteGroupBuilder app)
     {
-
     }
 }

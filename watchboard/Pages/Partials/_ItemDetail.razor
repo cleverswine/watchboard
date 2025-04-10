@@ -58,14 +58,14 @@
                         }
                         <p>
                             <a class="icon-link me-2" href="@(ItemModel.ImdbUrl)">
-                                TmDb
+                                TMDB
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
                                     <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
                                 </svg>
                             </a>
                             <a class="icon-link" href="@(ItemModel.ImdbUrl)">
-                                ImDb
+                                IMDB
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
                                     <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
@@ -81,50 +81,58 @@
                             <div class="form-check">
                                 @if (providerOption.Selected)
                                 {
-                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption.Id)" checked>
+                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" value="@(providerOption.Id)" checked>
                                 }
                                 else
                                 {
-                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" ds-id="@ItemModel.Id" value="@(providerOption.Id)">
+                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" value="@(providerOption.Id)">
                                 }
                                 <label class="form-check-label" for="selectedProviderId-@(providerOption.Id)">
                                     @providerOption.Name
                                 </label>
                             </div>
                         }
+                        <div class="mt-3 fw-lighter" style="font-size: 0.8em;">
+                            Watch provider data supplied by <a href="https://www.justwatch.com/">JustWatch</a>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="images-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="images-tab-@(ItemModel.Id)" tabindex="0">
-                    <div class="pt-3 px-2 d-flex gap-3">
+                    <div class="pt-3 px-2">
 
-                        <div>
-                            @foreach (var i in ItemModel.GetBackdropImages().OrderByDescending(x => x.VoteCount).ThenByDescending(x => x.VoteAverage).Take(12))
-                            {
-                                <div class="form-check" hx-indicator="#img-thumbnail-spinner">
-                                    @if (i.UrlPath == ItemModel.BackdropUrl)
-                                    {
-                                        <input hx-get="/app/items/@(ItemModel.Id)/backdrops/@(i.Id)" hx-target="#backdrop-thumbnail" hx-swap="innerHTML" onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)" checked>
-                                    }
-                                    else
-                                    {
-                                        <input hx-get="/app/items/@(ItemModel.Id)/backdrops/@(i.Id)" hx-target="#backdrop-thumbnail" hx-swap="innerHTML" onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" ds-id="@ItemModel.Id" ds-url="@(i.UrlPath)" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)"/>
-                                    }
-                                    <label class="form-check-label" for="selectedImageId-@(i.Id)">
-                                        votes: @i.VoteCount / avg: @i.VoteAverage
-                                    </label>
+                        <div class="d-flex gap-3">
+                            <div>
+                                @foreach (var i in ItemModel.GetBackdropImages().OrderByDescending(x => x.VoteCount).ThenByDescending(x => x.VoteAverage).Take(12))
+                                {
+                                    <div class="form-check" hx-indicator="#img-thumbnail-spinner">
+                                        @if (i.UrlPath == ItemModel.BackdropUrl)
+                                        {
+                                            <input hx-get="/app/items/@(ItemModel.Id)/backdrops/@(i.Id)" hx-target="#backdrop-thumbnail" hx-swap="innerHTML" onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)" checked>
+                                        }
+                                        else
+                                        {
+                                            <input hx-get="/app/items/@(ItemModel.Id)/backdrops/@(i.Id)" hx-target="#backdrop-thumbnail" hx-swap="innerHTML" onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)"/>
+                                        }
+                                        <label class="form-check-label" for="selectedImageId-@(i.Id)">
+                                            <i class="bi bi-image"></i> votes: @i.VoteCount / avg: @i.VoteAverage
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="position-relative">
+                                <div id="backdrop-thumbnail">
+                                    <img class="img-thumbnail" src="@(ItemModel.BackdropBase64)" width="200" height="112" alt="@ItemModel.Name"/>
                                 </div>
-                            }
+                                <div class="htmx-indicator position-absolute top-0 start-0 ms-3 mt-3" id="img-thumbnail-spinner">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="position-relative">
-                            <div id="backdrop-thumbnail">
-                                <img class="img-thumbnail" src="@(ItemModel.BackdropBase64)" width="200" height="112" alt="@ItemModel.Name"/>
-                            </div>
-                            <div class="htmx-indicator position-absolute top-0 start-0 ms-3 mt-3" id="img-thumbnail-spinner">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
+                        <div class="mt-3 fw-lighter" style="font-size: 0.8em;">
+                            Image data supplied by <a href="https://developer.themoviedb.org">TMDB</a>
                         </div>
                         
                     </div>
@@ -132,7 +140,7 @@
                 <div class="tab-pane fade" id="settings-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="settings-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
                         <button class="btn btn-link link-light link-underline link-underline-opacity-0" hx-put="/app/items/@(ItemModel.Id)/refresh" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
-                            <i class="bi bi-download me-2"></i>Refresh Metadata from TmDb
+                            <i class="bi bi-download me-2"></i>Refresh Metadata from TMDB
                             <div class="htmx-indicator ms-3 spinner-border spinner-border-sm" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
