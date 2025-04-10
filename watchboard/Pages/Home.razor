@@ -37,7 +37,9 @@
     <ul class="dropdown-menu">
         @foreach (var b in Boards)
         {
-            <li><a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a></li>
+            <li>
+                <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
+            </li>
         }
     </ul>
 </SectionContent>

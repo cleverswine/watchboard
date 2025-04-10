@@ -1,0 +1,17 @@
+@using WatchBoard.Services.Database.Entities
+<tr id="admin-board-row-@(BoardModel.Id)">
+    <td class="fs-4 ps-2">
+        @BoardModel.Name
+    </td>
+    <td class="text-end">
+        <button class="btn btn-link" hx-target="#admin-board-row-@(BoardModel.Id)" hx-swap="outerHTML" hx-get="/admin/boards/@(BoardModel.Id)/edit"><i class="bi bi-pencil-square"></i></button>
+        <button class="btn btn-link link-danger"><i class="bi bi-trash"></i></button>
+    </td>
+</tr>
+
+@code {
+
+    [Parameter]
+    public Board BoardModel { get; set; } = new();
+
+}

@@ -41,8 +41,4 @@
         <_ContentIncludedByDefault Remove="wwwroot\img\poster2.jpg"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="PagesAdmin\Partials\" />
-    </ItemGroup>
-
 </Project>

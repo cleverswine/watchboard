@@ -50,8 +50,7 @@ app.UseStaticFiles();
 
 // Routes
 app.MapPageRoutes();
-app.MapGroup("/app")
-    .MapAppPartials()
-    .MapAdminPartials();
+app.MapGroup("/app").MapAppPartials();
+app.MapGroup("/admin").MapAdminPages();
 
 app.Run();

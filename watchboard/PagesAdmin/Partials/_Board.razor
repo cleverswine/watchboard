@@ -1,0 +1,18 @@
+@using WatchBoard.Services.Database.Entities
+<table class="table align-middle table-sm table-striped mb-4 border border-secondary-subtle">
+    <thead>
+    <_BoardRow BoardModel="BoardModel"></_BoardRow>
+    </thead>
+    <tbody>
+    @foreach (var l in BoardModel.Lists)
+    {
+        <_ListRow ListModel="l"></_ListRow>
+    }
+    </tbody>
+</table>
+
+@code {
+    
+    [Parameter]
+    public Board BoardModel { get; set; } = new();
+}

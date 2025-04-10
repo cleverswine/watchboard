@@ -18,7 +18,7 @@
 <nav class="navbar navbar-expand-sm bg-body-tertiary">
     <div class="container-fluid mx-4">
         <a class="navbar-brand" href="#">
-            <SectionOutlet SectionName="selected-board-name" />
+            <SectionOutlet SectionName="selected-board-name"/>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,8 +30,22 @@
                         <i class="bi bi-search"></i> Search
                     </button>
                 </li>
+
                 <li class="nav-item dropdown">
-                    <SectionOutlet SectionName="board-dropdown" />
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-gear"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="/admin/manageBoards">Manage Boards</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/admin/manageProviders">Manage Watch Providers</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <SectionOutlet SectionName="board-dropdown"/>
                 </li>
             </ul>
         </div>

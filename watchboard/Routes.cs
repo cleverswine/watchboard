@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WatchBoard.Pages;
 using WatchBoard.Pages.Partials;
 using WatchBoard.PagesAdmin;
+using WatchBoard.PagesAdmin.Partials;
 using WatchBoard.Services;
 using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.Helpers;
@@ -42,7 +43,7 @@ public static class Routes
         app.MapGet("/", async (HttpContext context, [FromServices] IRepository repo, [FromQuery] Guid? boardId) =>
         {
             var bid = boardId ?? context.GetBoardId();
-            var selectedBoard = await repo.GetBoardById(bid);
+            var selectedBoard = await repo.GetBoard(bid);
 
             context.SetBoardId(selectedBoard?.Id);
 
@@ -60,7 +61,7 @@ public static class Routes
         app.MapGet("/empty", () => Results.Ok());
     }
 
-    public static RouteGroupBuilder MapAppPartials(this RouteGroupBuilder app)
+    public static void MapAppPartials(this RouteGroupBuilder app)
     {
         // SEARCH
         app.MapPost("/search", async (HttpContext context, [FromServices] IRepository repo, [FromServices] ITmDb tmDb) =>
@@ -70,7 +71,7 @@ public static class Routes
 
             return new RazorComponentResult<_SearchResults>(new
             {
-                Items = await repo.Search(s!),
+                Items = await repo.SearchForItems(s!),
                 Lists = new List<List>()
             });
         });
@@ -78,7 +79,7 @@ public static class Routes
         // GET LIST
         app.MapGet("/lists/{listId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid listId) => new RazorComponentResult<_List>(new
         {
-            ListModel = await repo.GetListById(listId)
+            ListModel = await repo.GetList(listId)
         }));
 
         // SORT LIST
@@ -117,7 +118,7 @@ public static class Routes
         // EDIT ITEM
         app.MapGet("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) =>
         {
-            var item = await repo.GetItemById(itemId);
+            var item = await repo.GetItem(itemId);
             if (item == null) throw new KeyNotFoundException();
             return new RazorComponentResult<_ItemDetail>(new
             {
@@ -129,7 +130,7 @@ public static class Routes
         // MOVE ITEM TO ANOTHER BOARD
         app.MapPut("/items/{itemId:guid}/move/{boardId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid boardId) =>
         {
-            await repo.MoveItem(itemId, boardId);
+            await repo.MoveItemToOtherBoard(itemId, boardId);
             return Results.Ok();
         });
 
@@ -141,13 +142,13 @@ public static class Routes
                 var selectedProvider = form["selectedProvider"];
                 var selectedImage = form["selectedImage"];
                 if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
-                    await repo.SetProvider(itemId, selectedProviderId);
+                    await repo.SetItemProvider(itemId, selectedProviderId);
                 if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
-                    await repo.SetBackdrop(itemId, selectedImageId);
-                
+                    await repo.SetItemBackdrop(itemId, selectedImageId);
+
                 return new RazorComponentResult<_Item>(new
                 {
-                    ItemModel = await repo.GetItemById(itemId)
+                    ItemModel = await repo.GetItem(itemId)
                 });
             });
 
@@ -155,7 +156,7 @@ public static class Routes
         app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}",
             async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) =>
             {
-                var url = await repo.GetBackdropUrl(itemId, imageId);
+                var url = await repo.GetItemBackdropUrl(itemId, imageId);
                 var s =
                     $"<img class=\"img-thumbnail\" src=\"{url}\" width=\"200\" height=\"112\" alt=\"{imageId}\"/>";
                 return Results.Content(s, MediaTypeNames.Text.Html);
@@ -167,11 +168,133 @@ public static class Routes
             {
                 ItemModel = await repo.RefreshItem(itemId)
             }));
-
-        return app;
     }
 
-    public static void MapAdminPartials(this RouteGroupBuilder app)
+    public static void MapAdminPages(this RouteGroupBuilder app)
     {
+        // ADMIN PAGES
+        app.MapGet("/", () => new RazorComponentResult<Admin>());
+
+        app.MapGet("/manageProviders", async ([FromServices] IRepository repo) => new RazorComponentResult<Providers>(new
+        {
+            ProvidersList = await repo.GetTmDbProviders()
+        }));
+
+        app.MapGet("/manageBoards", async ([FromServices] IRepository repo) => new RazorComponentResult<Boards>(new
+        {
+            BoardModels = await repo.GetBoards()
+        }));
+
+        // GET BOARD ROW
+        app.MapGet("/boards/{boardId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid boardId) =>
+        new RazorComponentResult<_BoardRow>(new
+        {
+            BoardModel = await repo.GetBoard(boardId)
+        }));
+
+        // GET BOARD ROW EDIT
+        app.MapGet("/boards/{boardId:guid}/edit", async ([FromServices] IRepository repo, [FromRoute] Guid boardId) =>
+        new RazorComponentResult<_BoardRowEdit>(new
+        {
+            BoardModel = await repo.GetBoard(boardId)
+        }));
+
+        // SAVE BOARD ROW
+        app.MapPut("/boards/{boardId:guid}", async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid boardId) =>
+        {
+            var form = await context.Request.ReadFormAsync();
+            var s = form["BoardName"];
+            return new RazorComponentResult<_BoardRow>(new
+            {
+                BoardModel = await repo.UpdateBoard(boardId, s.ToString())
+            });
+        });
+
+        // DELETE BOARD ROW
+        app.MapDelete("/boards/{boardId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid boardId) =>
+        {
+            await repo.DeleteBoard(boardId);
+            return Results.Ok();
+        });
+
+        // ADD BOARD ROW
+        app.MapPost("/boards", async (HttpContext context, [FromServices] IRepository repo) =>
+        {
+            var form = await context.Request.ReadFormAsync();
+            var s = form["BoardName"];
+            return new RazorComponentResult<_BoardRow>(new
+            {
+                BoardModel = await repo.AddBoard(s.ToString())
+            });
+        });
+
+        // GET LIST ROW
+        app.MapGet("/boards/{boardId:guid}/lists/{listId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
+        new RazorComponentResult<_ListRow>(new
+        {
+            ListModel = await repo.GetList(listId)
+        }));
+
+        // GET LIST ROW EDIT
+        app.MapGet("/boards/{boardId:guid}/lists/{listId:guid}/edit",
+            async ([FromServices] IRepository repo, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
+            new RazorComponentResult<_ListRowEdit>(new
+            {
+                ListModel = await repo.GetList(listId)
+            }));
+
+        // SAVE LIST ROW
+        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}",
+            async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
+            {
+                var form = await context.Request.ReadFormAsync();
+                var s = form["ListName"];
+                return new RazorComponentResult<_ListRow>(new
+                {
+                    ListModel = await repo.UpdateList(listId, s.ToString())
+                });
+            });
+
+        // DELETE LIST ROW
+        app.MapDelete("/boards/{boardId:guid}/lists/{listId:guid}",
+            async ([FromServices] IRepository repo, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
+            {
+                await repo.DeleteList(listId);
+                return Results.Ok();
+            });
+
+        // ADD LIST ROW
+        app.MapPost("/boards/{boardId:guid}/lists", async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid boardId) =>
+        {
+            var form = await context.Request.ReadFormAsync();
+            var s = form["ListName"];
+            await repo.AddList(s.ToString());
+            return new RazorComponentResult<_Board>(new
+            {
+                BoardModel = await repo.GetBoard(boardId)
+            });
+        });
+
+        // MOVE LIST ROW UP
+        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/up",
+            async ([FromServices] IRepository repo, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
+            {
+                await repo.MoveListUp(listId);
+                return new RazorComponentResult<_Board>(new
+                {
+                    BoardModel = await repo.GetBoard(boardId)
+                });
+            });
+
+        // MOVE LIST ROW DOWN
+        app.MapPut("/boards/{boardId:guid}/lists/{listId:guid}/down",
+            async ([FromServices] IRepository repo, [FromRoute] Guid boardId, [FromRoute] Guid listId) =>
+            {
+                await repo.MoveListDown(listId);
+                return new RazorComponentResult<_Board>(new
+                {
+                    BoardModel = await repo.GetBoard(boardId)
+                });
+            });
     }
 }
