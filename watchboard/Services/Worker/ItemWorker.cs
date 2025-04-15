@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WatchBoard.Database;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.TmDb;
 

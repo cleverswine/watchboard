@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using WatchBoard.Services.Database.Entities;
+using WatchBoard.Database.Entities;
 
-namespace WatchBoard.Services.Database;
+namespace WatchBoard.Database;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

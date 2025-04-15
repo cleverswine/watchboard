@@ -1,6 +1,8 @@
 using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
 using WatchBoard;
+using WatchBoard.Database;
+using WatchBoard.Routes;
 using WatchBoard.Services;
 using WatchBoard.Services.Database;
 using WatchBoard.Services.TmDb;
@@ -49,8 +51,8 @@ using (var scope = app.Services.CreateScope())
 app.UseStaticFiles();
 
 // Routes
-app.MapPageRoutes();
-app.MapGroup("/app").MapAppPartials();
-app.MapGroup("/admin").MapAdminPages();
+app.MapPages()
+    .MapGroup("/app")
+    .MapSearch().MapBoards().MapLists().MapItems();
 
 app.Run();

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using WatchBoard.Database;
 using WatchBoard.Services.Database;
 
 #nullable disable
@@ -11,8 +12,8 @@ using WatchBoard.Services.Database;
 namespace WatchBoard.Services.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250123185053_Init")]
-    partial class Init
+    [Migration("20250131203349_SeriesStatus")]
+    partial class SeriesStatus
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +101,19 @@ namespace WatchBoard.Services.Database.Migrations
                     b.Property<string>("SelectedProviderName")
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("SeriesNextEpisodeDate")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("SeriesNextEpisodeNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SeriesNextEpisodeSeason")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SeriesStatus")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("TagLine")
                         .HasMaxLength(255)

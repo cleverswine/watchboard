@@ -1,4 +1,4 @@
-namespace WatchBoard.Services.Database.Entities;
+namespace WatchBoard.Database.Entities;
 
 public enum SeriesStatus
 {

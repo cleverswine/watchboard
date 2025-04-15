@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WatchBoard.Database;
+using WatchBoard.Database.Entities;
 using WatchBoard.Services.Database;
-using WatchBoard.Services.Database.Entities;
 using WatchBoard.Services.TmDb;
 using WatchBoard.Services.TmDb.Models;
 
@@ -106,16 +107,16 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     {
         var list = await db.Lists.FindAsync(id) ?? throw new KeyNotFoundException();
         if (list.Order == 0) return list;
-        
+
         var lists = await db.Lists
             .Where(x => x.BoardId == list.BoardId)
             .OrderBy(x => x.Order)
             .ToArrayAsync();
         if (lists.Length == 1) return list;
-        
+
         lists[list.Order - 1].Order = list.Order;
         lists[list.Order].Order = list.Order - 1;
-        
+
         await db.SaveChangesAsync();
         return list;
     }
@@ -123,16 +124,16 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<List> MoveListDown(Guid id)
     {
         var list = await db.Lists.FindAsync(id) ?? throw new KeyNotFoundException();
-        
+
         var lists = await db.Lists
             .Where(x => x.BoardId == list.BoardId)
             .OrderBy(x => x.Order)
             .ToArrayAsync();
         if (list.Order >= lists.Length - 1) return list;
-        
+
         lists[list.Order + 1].Order = list.Order;
         lists[list.Order].Order = list.Order + 1;
-        
+
         await db.SaveChangesAsync();
         return list;
     }
@@ -165,10 +166,12 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
     public async Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type)
     {
-        var listId = db.Boards
-            .Include(x => x.Lists.OrderByDescending(l => l.Order))
-            .FirstOrDefault(x => x.Id == boardId)?
-            .Lists.FirstOrDefault()?.Id ?? throw new KeyNotFoundException();
+        var listId = db.Lists.FirstOrDefault(x => x.Name == "Queue" && x.BoardId == boardId)?.Id
+                     ??
+                     (db.Boards
+                         .Include(x => x.Lists.OrderByDescending(l => l.Order))
+                         .FirstOrDefault(x => x.Id == boardId)?
+                         .Lists.FirstOrDefault()?.Id ?? throw new KeyNotFoundException());
 
         return await AddItem(listId, tmDbId, type);
     }

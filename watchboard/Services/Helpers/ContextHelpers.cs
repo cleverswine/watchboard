@@ -1,4 +1,4 @@
-using WatchBoard.Services.Database.Entities;
+using WatchBoard.Database.Entities;
 
 namespace WatchBoard.Services.Helpers;
 

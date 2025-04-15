@@ -1,7 +1,7 @@
 @using WatchBoard.Pages.Shared
 @using WatchBoard.Pages.Partials
-@using WatchBoard.Services.Database.Entities
 @using Microsoft.AspNetCore.Components.Sections
+@using WatchBoard.Database.Entities
 @layout _Layout
 
 <_Search></_Search>
@@ -16,11 +16,7 @@
 </div>
 
 <!-- Bootstrap Modal for ItemDetails -->
-<div id="modals-here"
-     class="modal modal-blur fade"
-     style="display: none"
-     aria-hidden="false"
-     tabindex="-1">
+<div id="modals-here" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">XXX</div>
     </div>
@@ -31,17 +27,19 @@
 </SectionContent>
 
 <SectionContent SectionName="board-dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
-    </a>
-    <ul class="dropdown-menu">
-        @foreach (var b in Boards)
-        {
-            <li>
-                <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
-            </li>
-        }
-    </ul>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
+        </a>
+        <ul class="dropdown-menu">
+            @foreach (var b in Boards)
+            {
+                <li>
+                    <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
+                </li>
+            }
+        </ul>
+    </li>
 </SectionContent>
 
 @code {

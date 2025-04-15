@@ -39,6 +39,15 @@
         <_ContentIncludedByDefault Remove="wwwroot\img\ph.png"/>
         <_ContentIncludedByDefault Remove="wwwroot\img\poster.jpg"/>
         <_ContentIncludedByDefault Remove="wwwroot\img\poster2.jpg"/>
+        <_ContentIncludedByDefault Remove="Pages.Admin\Admin.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Boards.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Partials\_Board.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Partials\_BoardRow.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Partials\_BoardRowEdit.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Partials\_ListRow.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Partials\_ListRowEdit.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Providers.razor" />
+        <_ContentIncludedByDefault Remove="Pages.Admin\Shared\_Layout.razor" />
     </ItemGroup>
 
 </Project>

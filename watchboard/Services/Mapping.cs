@@ -1,5 +1,5 @@
 using Humanizer;
-using WatchBoard.Services.Database.Entities;
+using WatchBoard.Database.Entities;
 using WatchBoard.Services.TmDb.Models;
 
 namespace WatchBoard.Services;
@@ -82,7 +82,12 @@ public static class Mapping
 
         itemProviders.Insert(0, new ItemProvider
         {
-            Id = -1, Name = "Home", DisplayPriority = -1
+            Id = -2, Name = "Television", DisplayPriority = -2
+        });
+        
+        itemProviders.Insert(0, new ItemProvider
+        {
+            Id = -1, Name = "Home Server", DisplayPriority = -1
         });
 
         return itemProviders;

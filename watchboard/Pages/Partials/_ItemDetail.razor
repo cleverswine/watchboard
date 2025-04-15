@@ -1,5 +1,4 @@
-@using WatchBoard.Services.Database.Entities
-
+@using WatchBoard.Database.Entities
 <div class="modal-dialog modal-dialog-centered">
     <form class="modal-content" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-swap="outerHTML">
         <div class="modal-header">
@@ -55,6 +54,22 @@
                             <p>
                                 @ItemModel.Overview
                             </p>
+                        }
+                        @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
+                        {
+                            @if (ItemModel.SeriesNextEpisodeNumber == 1)
+                            {
+                                <p>
+                                    Season @(ItemModel.SeriesNextEpisodeSeason) starts @ItemModel.SeriesNextEpisodeDate
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="text-body-secondary">
+                                    <i class="bi bi-info-circle"></i>
+                                    S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber) premieres on @ItemModel.SeriesNextEpisodeDate
+                                </p>
+                            }
                         }
                         <p>
                             <a class="icon-link me-2" href="@(ItemModel.ImdbUrl)">

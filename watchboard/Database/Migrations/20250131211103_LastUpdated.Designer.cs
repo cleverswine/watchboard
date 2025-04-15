@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using WatchBoard.Database;
 using WatchBoard.Services.Database;
 
 #nullable disable
@@ -11,8 +12,8 @@ using WatchBoard.Services.Database;
 namespace WatchBoard.Services.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250131203349_SeriesStatus")]
-    partial class SeriesStatus
+    [Migration("20250131211103_LastUpdated")]
+    partial class LastUpdated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +61,9 @@ namespace WatchBoard.Services.Database.Migrations
 
                     b.Property<string>("ImdbId")
                         .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset?>("LastUpdated")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ListId")
