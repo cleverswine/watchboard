@@ -17,6 +17,14 @@ public static class Mapping
 
     public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbItemImageList imageList)
     {
+        var selectedProvider = item.GetProviders().FirstOrDefault(x => x.Selected);
+        var updatedProviders = tmDbItem.Providers?.MapTmDbToItemProviders() ?? [];
+        if (selectedProvider != null)
+        {
+            var updatedSelectedProvider = updatedProviders.FirstOrDefault(x => x.Id == selectedProvider.Id);
+            if (updatedSelectedProvider != null) updatedSelectedProvider.Selected = true;
+        }
+
         item.Name = tmDbItem.Name ?? item.Name;
         item.Overview = tmDbItem.Overview;
         item.TagLine = tmDbItem.TagLine;
@@ -30,7 +38,7 @@ public static class Mapping
         item.SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber;
         item.SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber;
         item.SetImages(imageList.MapTmDbToImageList());
-        item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
+        item.SetProviders(updatedProviders);
     }
 
     public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbItemImageList imageList)
@@ -61,7 +69,7 @@ public static class Mapping
         };
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
-        
+
         return item;
     }
 
