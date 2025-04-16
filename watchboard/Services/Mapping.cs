@@ -8,11 +8,10 @@ public static class Mapping
 {
     public static string HumanizeDateString(this string dateTime)
     {
-        var now = DateTime.UtcNow;
+        var now = DateOnly.FromDateTime(DateTime.UtcNow);
         if (!DateTime.TryParse(dateTime, out var dateTimeResult)) return dateTime;
-        return Math.Abs(dateTimeResult.ToUniversalTime().Subtract(now).TotalHours) < 24
-            ? "today!"
-            : dateTimeResult.Humanize(true, now.AddDays(-1));
+        var then = DateOnly.FromDateTime(dateTimeResult);
+        return now.CompareTo(then) == 0 ? "today!" : then.Humanize();
     }
 
     public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbItemImageList imageList)
