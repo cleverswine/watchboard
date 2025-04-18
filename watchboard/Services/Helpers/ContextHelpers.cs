@@ -1,5 +1,3 @@
-using WatchBoard.Database.Entities;
-
 namespace WatchBoard.Services.Helpers;
 
 public static class ContextHelpers
@@ -17,11 +15,5 @@ public static class ContextHelpers
             context.Response.Cookies.Delete("BoardId");
         else
             context.Response.Cookies.Append("BoardId", boardId.ToString()!, new CookieOptions {HttpOnly = true, SameSite = SameSiteMode.Strict});
-    }
-
-    public static Board? GetSelectedBoard(this HttpContext context, List<Board> boards)
-    {
-        var boardId = context.GetBoardId();
-        return boardId == null ? boards.FirstOrDefault() : boards.FirstOrDefault(b => b.Id == boardId);
     }
 }

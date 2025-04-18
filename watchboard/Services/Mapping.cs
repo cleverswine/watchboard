@@ -9,8 +9,7 @@ public static class Mapping
     public static string HumanizeDateString(this string dateTime)
     {
         var now = DateOnly.FromDateTime(DateTime.UtcNow);
-        if (!DateTime.TryParse(dateTime, out var dateTimeResult)) return dateTime;
-        var then = DateOnly.FromDateTime(dateTimeResult);
+        var then = DateOnly.Parse(dateTime);
         return now.CompareTo(then) == 0 ? "today!" : then.Humanize();
     }
 

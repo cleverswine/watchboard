@@ -9,14 +9,23 @@ A vertical kanban board for tv/movie watching
 - ability change the backdrop picture
 - select which provider to watch on (netflix, amazon, home server, etc)
 
-![screenshot2.png](screenshot2.png)
+<details>
+    <summary>Screenshots!</summary>
+
+    ![screenshot3.png](screenshot3.png)
+
+    ![screenshot2.png](screenshot2.png)
+
+    ![screenshot4.png](screenshot4.png)
+</details>
+
 
 ## Set Up
 
 - Get an API token from the [TMDB developer site](https://developer.themoviedb.org/docs/getting-started).
 - Create a config file with the token in it.
-    - The directory of the config file is set using the environment variable `DATA_DIR`. It defaults to $
-      HOME/.config/watchboard.
+    - The directory of the config file is set using the environment variable `DATA_DIR`. 
+    - It defaults to $HOME/.config/watchboard/
 
 ```shell
 mkdir $HOME/.config/watchboard
@@ -25,7 +34,7 @@ echo "{ \"TmdbToken\": \"YOUR TMDB TOKEN HERE\" }" > $HOME/.config/watchboard/ap
 
 ## Run
 
-Run the ./watchboard project
+Run the ./watchboard project. A sqlite database will be created and seeded in the DATA_DIR set above.
 
 ```shell
 dotnet run --project watchboard
@@ -47,14 +56,14 @@ docker compose down && docker rmi watchboard && docker compose up -d
 
 ## EF
 
-When the EF models in the [Entities](watchboard/Services/Database/Entities) directory change, create a new set of
+When the EF models in the [Entities](watchboard/Database/Entities) directory change, create a new set of
 migrations
 
 ```shell
 DATA_DIR="." dotnet ef migrations add MIGRATION_NAME_HERE \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
---output-dir Services/Database/Migrations
+--output-dir Database/Migrations
 ```
 
 ## js and css libs

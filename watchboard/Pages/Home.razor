@@ -1,46 +1,62 @@
 @using WatchBoard.Pages.Shared
 @using WatchBoard.Pages.Partials
-@using Microsoft.AspNetCore.Components.Sections
 @using WatchBoard.Database.Entities
 @layout _Layout
 
-<_Search></_Search>
-
-<div>
-    @foreach (var l in Lists)
-    {
-        <div class="mb-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
-            <_List ListModel="l"></_List>
-        </div>
-    }
-</div>
-
-<!-- Bootstrap Modal for ItemDetails -->
-<div id="modals-here" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">XXX</div>
-    </div>
-</div>
-
-<SectionContent SectionName="selected-board-name">
-    <span>@SelectedBoard.Name</span>
-</SectionContent>
-
-<SectionContent SectionName="board-dropdown">
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
+<nav class="navbar navbar-expand-sm bg-body-tertiary">
+    <div class="container-fluid mx-4">
+        <a class="navbar-brand" href="#">
+            <span>@SelectedBoard.Name</span>
         </a>
-        <ul class="dropdown-menu">
-            @foreach (var b in Boards)
-            {
-                <li>
-                    <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-flex justify-content-end" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer" aria-controls="searchDrawer">
+                        <i class="bi bi-search"></i> Search
+                    </button>
                 </li>
-            }
-        </ul>
-    </li>
-</SectionContent>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-view-stacked"></i> @SelectedBoard.Name
+                    </a>
+                    <ul class="dropdown-menu">
+                        @foreach (var b in Boards.Where(x => x.Id != SelectedBoard.Id))
+                        {
+                            <li>
+                                <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid px-md-4">
+    
+    <_Search></_Search>
+
+    <div>
+        @foreach (var l in Lists)
+        {
+            <div class="mb-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
+                <_List ListModel="l"></_List>
+            </div>
+        }
+    </div>
+
+    <!-- Bootstrap Modal for ItemDetails -->
+    <div id="modals-here" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">XXX</div>
+        </div>
+    </div>
+    
+</div>
 
 @code {
 

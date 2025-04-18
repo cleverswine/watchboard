@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WatchBoard.Database;
 using WatchBoard.Database.Entities;
-using WatchBoard.Services.Database;
 using WatchBoard.Services.TmDb;
-using WatchBoard.Services.TmDb.Models;
 
 namespace WatchBoard.Services;
 
@@ -11,16 +9,8 @@ public interface IRepository
 {
     Task<List<Board>> GetBoards();
     Task<Board?> GetBoard(Guid? id);
-    Task<Board> UpdateBoard(Guid id, string name);
-    Task DeleteBoard(Guid id);
-    Task<Board> AddBoard(string name);
 
     Task<List?> GetList(Guid id);
-    Task<List> UpdateList(Guid id, string name);
-    Task<List> MoveListUp(Guid id);
-    Task<List> MoveListDown(Guid id);
-    Task DeleteList(Guid id);
-    Task<List> AddList(string name);
     Task SortList(Guid id, string?[] itemIdsStr);
 
     Task<Item?> GetItem(Guid id);
@@ -33,8 +23,6 @@ public interface IRepository
     Task<Item> RefreshItem(Guid itemId);
     Task DeleteItem(Guid id);
     Task<List<Item>> SearchForItems(string keyword);
-
-    Task<List<TmDbProvider>> GetTmDbProviders();
 }
 
 public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
@@ -48,35 +36,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         if (id.HasValue)
             return await boards.FirstOrDefaultAsync(x => x.Id == id);
         return await boards.FirstOrDefaultAsync();
-    }
-
-    public async Task<Board> UpdateBoard(Guid id, string name)
-    {
-        var b = await db.Boards.FindAsync(id) ?? throw new KeyNotFoundException();
-        b.Name = name;
-        await db.SaveChangesAsync();
-        return b;
-    }
-
-    public async Task DeleteBoard(Guid id)
-    {
-        var b = await db.Boards
-            .Include(x => x.Lists)
-            .FirstOrDefaultAsync(x => x.Id == id) ?? throw new KeyNotFoundException();
-        foreach (var l in b.Lists)
-        {
-            var items = db.Items.Where(x => x.ListId == l.Id);
-            db.Items.RemoveRange(items);
-            db.Lists.Remove(l);
-        }
-
-        db.Boards.Remove(b);
-        await db.SaveChangesAsync();
-    }
-
-    public async Task<Board> AddBoard(string name)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<List<Board>> GetBoards()
@@ -93,68 +52,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             .AsNoTracking()
             .Include(x => x.Items.OrderBy(y => y.Order))
             .FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    public async Task<List> UpdateList(Guid id, string name)
-    {
-        var list = await db.Lists.FindAsync(id) ?? throw new KeyNotFoundException();
-        list.Name = name;
-        await db.SaveChangesAsync();
-        return list;
-    }
-
-    public async Task<List> MoveListUp(Guid id)
-    {
-        var list = await db.Lists.FindAsync(id) ?? throw new KeyNotFoundException();
-        if (list.Order == 0) return list;
-
-        var lists = await db.Lists
-            .Where(x => x.BoardId == list.BoardId)
-            .OrderBy(x => x.Order)
-            .ToArrayAsync();
-        if (lists.Length == 1) return list;
-
-        lists[list.Order - 1].Order = list.Order;
-        lists[list.Order].Order = list.Order - 1;
-
-        await db.SaveChangesAsync();
-        return list;
-    }
-
-    public async Task<List> MoveListDown(Guid id)
-    {
-        var list = await db.Lists.FindAsync(id) ?? throw new KeyNotFoundException();
-
-        var lists = await db.Lists
-            .Where(x => x.BoardId == list.BoardId)
-            .OrderBy(x => x.Order)
-            .ToArrayAsync();
-        if (list.Order >= lists.Length - 1) return list;
-
-        lists[list.Order + 1].Order = list.Order;
-        lists[list.Order].Order = list.Order + 1;
-
-        await db.SaveChangesAsync();
-        return list;
-    }
-
-    public async Task DeleteList(Guid id)
-    {
-        var l = await db.Lists
-            .Include(x => x.Items)
-            .FirstOrDefaultAsync(x => x.Id == id) ?? throw new KeyNotFoundException();
-        foreach (var i in l.Items)
-        {
-            db.Items.Remove(i);
-        }
-
-        db.Lists.Remove(l);
-        await db.SaveChangesAsync();
-    }
-
-    public async Task<List> AddList(string name)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<Item?> GetItem(Guid id)
@@ -305,10 +202,5 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             BackdropUrl = x.BackdropPath ?? "/img/ph.png"
         }).ToList();
         return items;
-    }
-
-    public async Task<List<TmDbProvider>> GetTmDbProviders()
-    {
-        return await tmDb.GetProviders("tv");
     }
 }
