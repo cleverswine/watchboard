@@ -9,23 +9,11 @@ A vertical kanban board for tv/movie watching
 - ability change the backdrop picture
 - select which provider to watch on (netflix, amazon, home server, etc)
 
-<details>
-    <summary>Screenshots!</summary>
-
-    ![screenshot3.png](screenshot3.png)
-
-    ![screenshot2.png](screenshot2.png)
-
-    ![screenshot4.png](screenshot4.png)
-</details>
-
-
 ## Set Up
 
 - Get an API token from the [TMDB developer site](https://developer.themoviedb.org/docs/getting-started).
 - Create a config file with the token in it.
-    - The directory of the config file is set using the environment variable `DATA_DIR`. 
-    - It defaults to $HOME/.config/watchboard/
+    - The directory of the config file is set using the environment variable `DATA_DIR`. It defaults to `$HOME/.config/watchboard/`
 
 ```shell
 mkdir $HOME/.config/watchboard
@@ -34,7 +22,7 @@ echo "{ \"TmdbToken\": \"YOUR TMDB TOKEN HERE\" }" > $HOME/.config/watchboard/ap
 
 ## Run
 
-Run the ./watchboard project. A sqlite database will be created and seeded in the DATA_DIR set above.
+Run the ./watchboard project. A sqlite database will be created and seeded in the `DATA_DIR` set above.
 
 ```shell
 dotnet run --project watchboard
@@ -73,3 +61,11 @@ DATA_DIR="." dotnet ef migrations add MIGRATION_NAME_HERE \
 To get updated js and css libraries (like bootstrap), update npm packages and then copy the distributable files to
 `./watchboard/wwwroot/lib/`.
 There is a [helper script](./lib/copy-dist-libs.sh) to make it easier to copy the files.
+
+## Screenshots
+
+![screenshot5.png](screenshot5.png)
+
+![screenshot3.png](screenshot3.png)
+
+![screenshot4.png](screenshot4.png)
