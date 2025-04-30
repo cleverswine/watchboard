@@ -7,7 +7,7 @@ namespace WatchBoard.Services.TmDb;
 
 public interface ITmDb
 {
-    Task<List<TmDbItem>> Search(string query, int limit = 8);
+    Task<List<TmDbItem>> Search(string query, string type = "tv", int limit = 8);
     Task<TmDbItem> GetDetail(int id, string type);
     Task<TmDbItemImageList> GetImages(int id, string type);
     Task<string> GetImageBase64(string imagePath, string size = "w300");
@@ -20,23 +20,24 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
     private static readonly string[] ItemMediaTypes = ["movie", "tv"];
     private static readonly string BaseApiPath = "https://api.themoviedb.org/3/";
 
-    public async Task<List<TmDbItem>> Search(string query, int limit = 8)
+    public async Task<List<TmDbItem>> Search(string query, string type = "tv", int limit = 8)
     {
-        if (cache.TryGetValue($"TmDbSearch-{query}-{limit}", out List<TmDbItem>? results) && results is not null)
+        if (cache.TryGetValue($"TmDbSearch-{query}-{limit}-{type}", out List<TmDbItem>? results) && results is not null)
             return results;
         
         var queryUrlEncoded = HttpUtility.UrlEncode(query);
-        var url = $"{BaseApiPath}search/multi?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
+        var url = $"{BaseApiPath}search/{type}?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
         var searchResults = await httpClient.GetFromJsonAsync<TmDbSearchResults>(url, JsonOpts);
 
-        results = searchResults?.Results.Where(x => ItemMediaTypes.Contains(x.MediaType)).Take(limit).ToList();
+        results = searchResults?.Results.Take(limit).ToList();
 
         if (results != null && results.Count != 0)
-            cache.Set($"TmDbSearch-{query}-{limit}", searchResults, TimeSpan.FromMinutes(5));
+            cache.Set($"TmDbSearch-{query}-{limit}-{type}", searchResults, TimeSpan.FromMinutes(5));
 
         var configuration = await GetConfiguration();
         foreach (var result in results ?? [])
         {
+            result.MediaType = type;
             result.PosterPath = configuration.Images.BaseUrl + "w92" + result.PosterPath;
             if (!string.IsNullOrWhiteSpace(result.BackdropPath))
                 result.BackdropPath = configuration.Images.BaseUrl + "w300" + result.BackdropPath;

@@ -22,7 +22,7 @@ public interface IRepository
     Task<string> GetItemBackdropUrl(Guid itemId, Guid imageId);
     Task<Item> RefreshItem(Guid itemId);
     Task DeleteItem(Guid id);
-    Task<List<Item>> SearchForItems(string keyword);
+    Task<List<Item>> SearchForItems(string keyword, ItemType itemType);
 }
 
 public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
@@ -185,9 +185,9 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         await db.SaveChangesAsync();
     }
 
-    public async Task<List<Item>> SearchForItems(string keyword)
+    public async Task<List<Item>> SearchForItems(string keyword, ItemType itemType)
     {
-        var tmDbResults = await tmDb.Search(keyword);
+        var tmDbResults = await tmDb.Search(keyword, itemType.ToString().ToLower());
         var items = tmDbResults.Select(x => new Item
         {
             Id = Guid.Empty,
@@ -199,7 +199,9 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             NumberOfSeasons = x.NumberOfSeasons,
             TmdbId = x.Id,
             PosterUrl = x.PosterPath ?? "/img/ph.png",
-            BackdropUrl = x.BackdropPath ?? "/img/ph.png"
+            BackdropUrl = x.BackdropPath ?? "/img/ph.png",
+            OriginalLanguage = x.OriginalLanguage,
+            OriginCountry = x.OriginCountry.FirstOrDefault() ?? ""
         }).ToList();
         return items;
     }

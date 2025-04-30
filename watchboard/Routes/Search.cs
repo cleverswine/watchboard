@@ -16,14 +16,17 @@ public static class Search
         {
             var form = await context.Request.ReadFormAsync();
             var s = form["SearchName"];
+            if (string.IsNullOrWhiteSpace(s)) throw new Exception("Search Name is required.");
+            var t = form["SearchType"];
+            if (string.IsNullOrWhiteSpace(t)) t = "tv";
 
             return new RazorComponentResult<_SearchResults>(new
             {
-                Items = await repo.SearchForItems(s!),
+                Items = await repo.SearchForItems(s, Enum.Parse<ItemType>(t)),
                 Lists = new List<List>()
             });
         });
-        
+
         return app;
     }
 }

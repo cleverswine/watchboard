@@ -13,7 +13,7 @@
                 <div class="position-absolute bottom-0">
                     <h5 class="card-title shadow-lg">@itemModel.Name</h5>
                     <div class="card-text">
-                        <i class="bi @(itemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-tv")"></i> @itemModel.ReleaseDates()
+                        <i class="bi @(itemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-tv")"></i> [@(itemModel.OriginalLanguage?.ToUpper() ?? "??")] @itemModel.ReleaseDates()
                     </div>
                 </div>
             </div>

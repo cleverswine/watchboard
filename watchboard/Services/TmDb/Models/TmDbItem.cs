@@ -52,6 +52,12 @@ public class TmDbItem
     [JsonPropertyName("external_ids")]
     public TmDbItemExternalIds ExternalIds { get; set; } = new();
 
+    [JsonPropertyName("origin_country")]
+    public string[] OriginCountry { get; set; } = [];
+    
+    [JsonPropertyName("original_language")]
+    public string? OriginalLanguage { get; set; }
+
     public string? ItemName => Title ?? Name;
     public string? ItemReleaseDate => ReleaseDate ?? FirstAirDate;
 }

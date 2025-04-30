@@ -36,6 +36,12 @@ public class Item
 
     public int NumberOfSeasons { get; set; }
 
+    [MaxLength(80)]
+    public string? OriginalLanguage { get; set; }
+
+    [MaxLength(80)]
+    public string? OriginCountry { get; set; }
+    
     public int Order { get; set; } = 0;
 
     [MaxLength(2048)]
@@ -49,7 +55,7 @@ public class Item
 
     [MaxLength(16384)]
     public string? PosterBase64 { get; set; }
-    
+
     public string? ProvidersJson { get; set; }
 
     [MaxLength(255)]
@@ -64,7 +70,6 @@ public class Item
 
     public Guid ListId { get; set; }
 
-    
     public string ImdbUrl => $"https://www.imdb.com/title/{ImdbId}/";
 
     public string TmdbUrl => $"https://www.themoviedb.org/{Type.ToString().ToLower()}/{TmdbId}";
@@ -81,14 +86,14 @@ public class Item
     {
         Images = JsonSerializer.Serialize(images);
     }
-    
+
     public List<ItemProvider> GetProviders()
     {
         if (ProvidersJson == null) return [];
         var itemProviders = JsonSerializer.Deserialize<List<ItemProvider>>(ProvidersJson) ?? throw new JsonException("Could not deserialize ProvidersJson");
         return itemProviders;
     }
-    
+
     public void SetProviders(List<ItemProvider> providers)
     {
         ProvidersJson = JsonSerializer.Serialize(providers);

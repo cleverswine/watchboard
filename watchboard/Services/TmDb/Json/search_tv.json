@@ -1,0 +1,412 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/67fcIGb48dlUTFlERayDgMuRtuG.jpg",
+      "genre_ids": [
+        18,
+        9648
+      ],
+      "id": 123925,
+      "origin_country": [
+        "IT"
+      ],
+      "original_language": "it",
+      "original_name": "Anna",
+      "overview": "A 13-year-old Sicilian girl must contend with a viral contagion that has killed off all adults on the island as she sets out in search of her kidnapped brother.",
+      "popularity": 1.9943,
+      "poster_path": "/957Zi8wV3Em9NDEiRLlkkF27dX6.jpg",
+      "first_air_date": "2021-04-23",
+      "name": "Anna",
+      "vote_average": 7.1,
+      "vote_count": 66
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3dtGYkhbL5NvsGvPTpiucAQ4CHs.jpg",
+      "genre_ids": [
+        18,
+        10751
+      ],
+      "id": 40665,
+      "origin_country": [
+        "DE"
+      ],
+      "original_language": "de",
+      "original_name": "Anna",
+      "overview": "Anna is a German television series.",
+      "popularity": 3.5526,
+      "poster_path": "/okcSITz2HCUdO9GUfKamNFtv8xy.jpg",
+      "first_air_date": "1987-12-25",
+      "name": "Anna",
+      "vote_average": 6.8,
+      "vote_count": 8
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [],
+      "id": 278795,
+      "origin_country": [
+        "IN"
+      ],
+      "original_language": "ta",
+      "original_name": "Anna",
+      "overview": "Shanmugam, a loving but over-protective brother raises his four younger sisters and believes that marriage should be their final goal, little realising that the girls have their aspirations as well.",
+      "popularity": 0.0143,
+      "poster_path": "/yjADSfTqJJ7Zp10wddqZ2fEfav9.jpg",
+      "first_air_date": "2023-05-22",
+      "name": "Anna",
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [],
+      "id": 30401,
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "The Dream Team with Annabelle and Michael",
+      "overview": "",
+      "popularity": 8.1779,
+      "poster_path": null,
+      "first_air_date": "2003-01-20",
+      "name": "The Dream Team with Annabelle and Michael",
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/olfeZyRQZdXFs84cqYsKAb1L4do.jpg",
+      "genre_ids": [
+        9648,
+        18,
+        80
+      ],
+      "id": 70218,
+      "origin_country": [
+        "RU"
+      ],
+      "original_language": "ru",
+      "original_name": "Анна-детективъ",
+      "overview": "Nineteen-year-old Anna, living at the end of the nineteenth century in the town of Zatonsk, unexpectedly discovers that she possesses supernatural powers. The spirits of the dead literally haunt her, begging to help. Aided by her visions, Anna manages to investigate and solve a number of mysterious crimes which have baffled the police. An experienced detective, 37-year-old Yakov Shtolman, who is assigned to the police department and teams up with Anna and becomes her partner in hunting down criminals.",
+      "popularity": 8.2526,
+      "poster_path": "/wPjY8OCWce5BKcbFsdqclo6Quxx.jpg",
+      "first_air_date": "2016-11-07",
+      "name": "Detective Anna",
+      "vote_average": 7.1,
+      "vote_count": 14
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3SY4dbjSPCzfqV9CaYf94U36zHS.jpg",
+      "genre_ids": [
+        18,
+        10766
+      ],
+      "id": 7812,
+      "origin_country": [
+        "DE"
+      ],
+      "original_language": "de",
+      "original_name": "Anna und die Liebe",
+      "overview": "Anna und die Liebe is the eleventh Telenovela made in Germany. It has aired since August 25, 2008 on German channel Sat.1 and Austrian Channel ORF 1.",
+      "popularity": 81.2864,
+      "poster_path": "/an5gLn6U5yBwRFdy3YdY0hb1Wpd.jpg",
+      "first_air_date": "2008-08-25",
+      "name": "Anna und die Liebe",
+      "vote_average": 4.6,
+      "vote_count": 8
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tOtaFciuDdAmXbpkYpJIIxOp6ge.jpg",
+      "genre_ids": [
+        18,
+        10751
+      ],
+      "id": 84812,
+      "origin_country": [
+        "CN"
+      ],
+      "original_language": "zh",
+      "original_name": "王贵与安娜",
+      "overview": "",
+      "popularity": 9.7445,
+      "poster_path": "/wmrSVMbj1TvffgyMEavsaQ4ql6G.jpg",
+      "first_air_date": "2009-03-07",
+      "name": "Wang Gui & Anna",
+      "vote_average": 8,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iFnPbLycpwQb56IgynwebkgSHQi.jpg",
+      "genre_ids": [],
+      "id": 116580,
+      "origin_country": [
+        "JP"
+      ],
+      "original_language": "ja",
+      "original_name": "京都迷宮案内",
+      "overview": "A masterpiece of human mystery in which newspaper reporter Sugiura, played by Isao Hashizume, takes a sharp look at the inner workings of events and people!",
+      "popularity": 3.2136,
+      "poster_path": "/44YJNVh6pwHlTdIuZInpZl8gjeA.jpg",
+      "first_air_date": "1999-01-14",
+      "name": "Kyōto Meikyū Annai",
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        18
+      ],
+      "id": 105361,
+      "origin_country": [
+        "IL"
+      ],
+      "original_language": "he",
+      "original_name": "לאהוב את אנה",
+      "overview": "Menashe never thought that he would love again. For the past decade, he has been the widowed father to four bright and sensitive children. When his kids surprise him with a computer for his birthday, he has no idea that with a few simple clicks he will be introduced to the woman who makes him feel young again… Simply, Anna. Anna is half Menashe’s age, a beautiful and haunting Ukrainian woman searching for love, and for a new life. When Menashe brings Anna home, his simple life becomes complicated by jealousy, betrayal, and even a romantic rivalry for Anna with his two sons. Her beauty and mysteriousness shakes his family as well as the all town.",
+      "popularity": 2.8212,
+      "poster_path": "/rUcfXD7LHXEnfz9p7EkWDXocMwx.jpg",
+      "first_air_date": "2008-07-01",
+      "name": "Loving Anna",
+      "vote_average": 8,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ny8Sh6xoeZGN7WS0mEciNr2SLSv.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 196268,
+      "origin_country": [
+        "KR"
+      ],
+      "original_language": "ko",
+      "original_name": "안나",
+      "overview": "The story of a woman who ends up living a completely different life due to a petty lie.",
+      "popularity": 3.8231,
+      "poster_path": "/2Dq9A4l5KaoBz1LerrDcBVgHdJm.jpg",
+      "first_air_date": "2022-06-24",
+      "name": "Anna",
+      "vote_average": 7.539,
+      "vote_count": 51
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6eECZ6obnGWNkICv1102rRRLIdg.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 74833,
+      "origin_country": [
+        "RU"
+      ],
+      "original_language": "ru",
+      "original_name": "Анна Каренина",
+      "overview": "In late-19th-century Russian high society, St. Petersburg aristocrat Anna Karenina enters into a life-changing affair with the dashing Count Alexei Vronsky. An eight part adaptation of Leo Tolstoy's \"Anna Karenina\" from Vronsky's point of view.",
+      "popularity": 1.4367,
+      "poster_path": "/pAtWutn8Njdyd37V9ByjfAjHQum.jpg",
+      "first_air_date": "2017-04-17",
+      "name": "Anna Karenina",
+      "vote_average": 1,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/19iRXjbwf0GrOWTyX1Gw7HGqqE6.jpg",
+      "genre_ids": [
+        16,
+        10762,
+        35
+      ],
+      "id": 206352,
+      "origin_country": [
+        "FR"
+      ],
+      "original_language": "fr",
+      "original_name": "Anna et ses amis",
+      "overview": "What do you get when you cross an imaginative little girl, an impatient frog, an over-confident dog, a thoughtful cat, and a naïve earthworm? A hilarious and heartwarming preschool series featuring five inseparable friends celebrating the power of friendship, imaginative play, and backyard “grown-up” adventures! Enter the simple whimsical world of Anna and Friends and the joyfulness and enthusiasm that childhood brings.",
+      "popularity": 5.5612,
+      "poster_path": "/lqNDbwiuL4NFlqGyLtUZ8Ni6eZW.jpg",
+      "first_air_date": "2022-02-05",
+      "name": "Anna & Friends",
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/fOLkCDkD8inTI2fdfQTXgLHwNZS.jpg",
+      "genre_ids": [
+        35,
+        18
+      ],
+      "id": 9952,
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Anna and the King",
+      "overview": "A stern schoolteacher clashes with an aristocratic 19th-century king.",
+      "popularity": 4.4638,
+      "poster_path": "/FUhjqEHxP9ndNObLIRmR4MBFos.jpg",
+      "first_air_date": "1972-09-11",
+      "name": "Anna and the King",
+      "vote_average": 6.5,
+      "vote_count": 6
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/4Abd5US4YniJgepkh7kziWqiQXv.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 25646,
+      "origin_country": [
+        "GB"
+      ],
+      "original_language": "en",
+      "original_name": "Anna Karenina",
+      "overview": "In 19th century Russia, aristocrat Anna Karenina has a passionate extramarital affair with the dashing Count Vronsky that could lead to both their ruin. A four-part British television adaptation of Tolstoy's novel.",
+      "popularity": 1.4509,
+      "poster_path": "/yhnQl7DCuGoACzfDgWZ0dKk7tlS.jpg",
+      "first_air_date": "2000-05-09",
+      "name": "Anna Karenina",
+      "vote_average": 7,
+      "vote_count": 9
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        18,
+        35
+      ],
+      "id": 115050,
+      "origin_country": [
+        "KR"
+      ],
+      "original_language": "ko",
+      "original_name": "애나야 밥먹자",
+      "overview": "An adorable love story of Park Ji Yong, a good-looking home shopping host, and Sohn Ana, a secluded girl who never leaves home and whose only joy of life is home shopping.\n\n(Source: OnDemandKorea)",
+      "popularity": 0.3896,
+      "poster_path": "/o6KjiHxyxaVpujY3xDC7J2xW6sf.jpg",
+      "first_air_date": "2017-08-08",
+      "name": "Let's Eat Something, Anna",
+      "vote_average": 1.4,
+      "vote_count": 5
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/cElydeQSNZmX8NRFPEB0FTTYigo.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 74169,
+      "origin_country": [
+        "IT"
+      ],
+      "original_language": "it",
+      "original_name": "Anna Karenina",
+      "overview": "Anna and Kitty. Two lives. One of desperate passion that ends in tragedy, the other, an existence made real through love. Two destinies that interweave, giving rise to two, so very different stories, yet lived in pursuit of the same desire- to find a love that lets them fully be themselves, to live without having to conform to society’s pretenses.",
+      "popularity": 1.978,
+      "poster_path": "/b6seDdJl7B1bRcy32qgAqZAMNNY.jpg",
+      "first_air_date": "2013-12-02",
+      "name": "Anna Karenina",
+      "vote_average": 7.5,
+      "vote_count": 15
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        18
+      ],
+      "id": 134085,
+      "origin_country": [
+        "RU"
+      ],
+      "original_language": "ru",
+      "original_name": "Анна К",
+      "overview": "Anna Karenina is a socialite and wife of the soon-to-be governor of St. Petersburg, who enters a life-changing love affair with Vronsky, the dashing heir of an aluminum empire.",
+      "popularity": 0.8747,
+      "poster_path": "/jnRAS66hdq4DSMQ781LwuWOPUE9.jpg",
+      "first_air_date": "",
+      "name": "Anna K",
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/nHid3Ch7p8s5LYCfkudgzK4Nfrg.jpg",
+      "genre_ids": [
+        80,
+        18
+      ],
+      "id": 9508,
+      "origin_country": [
+        "GB"
+      ],
+      "original_language": "en",
+      "original_name": "Anna Lee",
+      "overview": "Anna Lee is a British television series produced by Brian Eastman and Carnival Films for London Weekend Television. Following a 1993 pilot, five two-hour programmes were produced in 1994, loosely based on the detective novels of Liza Cody. These were broadcast in the U.S. on the A&E cable network. The title role was played by Imogen Stubbs. Music was by Anne Dudley with theme song \"Sister, Sister\" and some additional songs by Luciana Caporaso. Considerable alterations were made from the original books so that sometimes they seem to share only their titles. According to actor Ken Stott's webpage:",
+      "popularity": 2.5513,
+      "poster_path": "/7LeBvsxY7McaWUuvLdasJXFR5Sq.jpg",
+      "first_air_date": "1994-02-27",
+      "name": "Anna Lee",
+      "vote_average": 7.1,
+      "vote_count": 7
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3PO7Vu054JPxNsD3Gy0o83PX0Gg.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 50059,
+      "origin_country": [
+        "PH"
+      ],
+      "original_language": "tl",
+      "original_name": "Anna Karenina",
+      "overview": "Anna Karenina is a Filipino drama series created by RJ Nuevas and produced by GMA Network. It premiered on June 3, 2013 on GMA Telebabad block, replacing Indio and June 4, 2013 worldwide via GMA Pinoy TV. The series concluded its sixteen-week run on October 25, 2013, with a total of 80 episodes, and replaced by Kahit Nasaan Ka Man on its timeslot. The series features Krystal Reyes, Barbie Forteza and Joyce Ching. It is based on the 1996 original television series of the same title under the production of Viva Television starring Antoinette Taus, Sunshine Dizon, Kim delos Santos and Tanya Garcia.",
+      "popularity": 4.5582,
+      "poster_path": "/o6R5BvNLDhwUz4pNx1GY6BhDhDR.jpg",
+      "first_air_date": "2013-06-03",
+      "name": "Anna Karenina",
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/33pxNvY53jf0NlxgcPTl3pwmN3t.jpg",
+      "genre_ids": [
+        35
+      ],
+      "id": 36459,
+      "origin_country": [
+        "JP"
+      ],
+      "original_language": "ja",
+      "original_name": "アンナさんのおまめ",
+      "overview": "Anna is everyone's dream; beautiful, intelligent, kind and elegant. But in this drama, she is not the heroine... it is her best friend Lily. Lily is a girl who is overly confident of her own beauty and fantasizes that the whole world is in love with her. She even feels sorry for Anna who is always chased by the boys... as she believes that they are using Anna to become acquainted with her own self. --TV Asahi",
+      "popularity": 1.2771,
+      "poster_path": "/qeIZCDUxINalAe1al6XM4D6Ac2f.jpg",
+      "first_air_date": "2006-10-13",
+      "name": "The Best Friend of Beautiful Anna",
+      "vote_average": 0,
+      "vote_count": 0
+    }
+  ],
+  "total_pages": 6,
+  "total_results": 117
+}

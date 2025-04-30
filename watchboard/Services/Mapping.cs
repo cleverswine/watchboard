@@ -35,6 +35,8 @@ public static class Mapping
         item.SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate;
         item.SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber;
         item.SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber;
+        item.OriginalLanguage = tmDbItem.OriginalLanguage;
+        item.OriginCountry = tmDbItem.OriginCountry.FirstOrDefault() ?? "";
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(updatedProviders);
     }
@@ -63,7 +65,9 @@ public static class Mapping
             SeriesStatus = tmDbItem.MapTmDbToSeriesStatus(),
             SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate,
             SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber,
-            SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber
+            SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber,
+            OriginalLanguage = tmDbItem.OriginalLanguage,
+            OriginCountry = tmDbItem.OriginCountry.FirstOrDefault() ?? ""
         };
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
