@@ -24,7 +24,7 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
     {
         if (cache.TryGetValue($"TmDbSearch-{query}-{limit}-{type}", out List<TmDbItem>? results) && results is not null)
             return results;
-        
+
         var queryUrlEncoded = HttpUtility.UrlEncode(query);
         var url = $"{BaseApiPath}search/{type}?query={queryUrlEncoded}&include_adult=false&language=en-US&page=1";
         var searchResults = await httpClient.GetFromJsonAsync<TmDbSearchResults>(url, JsonOpts);
@@ -81,7 +81,7 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         var configuration = await GetConfiguration();
         return configuration.Images.BaseUrl + size + imagePath;
     }
-    
+
     public async Task<string> GetImageBase64(string imagePath, string size = "w300")
     {
         ArgumentNullException.ThrowIfNull(imagePath);
@@ -103,8 +103,11 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         if (cache.TryGetValue("TmdDConfiguration", out TmDbConfiguration? configuration) && configuration is not null)
             return configuration;
 
-        configuration = await httpClient.GetFromJsonAsync<TmDbConfiguration>($"{BaseApiPath}configuration", JsonOpts);
+        configuration = await httpClient.GetFromJsonAsync<TmDbConfiguration>($"{BaseApiPath}configuration", JsonOpts) ?? new TmDbConfiguration();
+        configuration.Languages = await httpClient.GetFromJsonAsync<List<TmDbConfigurationLanguage>>($"{BaseApiPath}configuration/languages", JsonOpts) ?? [];
+        configuration.Countries = await httpClient.GetFromJsonAsync<List<TmDbConfigurationCountry>>($"{BaseApiPath}configuration/countries", JsonOpts) ?? [];
+        
         cache.Set("TmdDConfiguration", configuration, TimeSpan.FromMinutes(120));
-        return configuration ?? new TmDbConfiguration();
+        return configuration;
     }
 }

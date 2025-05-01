@@ -7,4 +7,7 @@ public class TmDbConfiguration
 {
     [JsonPropertyName("images")]
     public TmDbConfigurationImages Images { get; set; } = new();
+
+    public List<TmDbConfigurationCountry> Countries { get; set; } = [];
+    public List<TmDbConfigurationLanguage> Languages { get; set; } = [];
 }

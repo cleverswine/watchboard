@@ -200,8 +200,8 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             TmdbId = x.Id,
             PosterUrl = x.PosterPath ?? "/img/ph.png",
             BackdropUrl = x.BackdropPath ?? "/img/ph.png",
-            OriginalLanguage = x.OriginalLanguage,
-            OriginCountry = x.OriginCountry.FirstOrDefault() ?? ""
+            OriginalLanguage = x.OriginalLanguage?.ToUpper() ?? "",
+            OriginCountry = string.Join(", ", x.OriginCountry)
         }).ToList();
         return items;
     }

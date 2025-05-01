@@ -42,7 +42,7 @@ public class Item
     [MaxLength(80)]
     public string? OriginCountry { get; set; }
     
-    public int Order { get; set; } = 0;
+    public int Order { get; set; }
 
     [MaxLength(2048)]
     public string BackdropUrl { get; set; } = string.Empty;

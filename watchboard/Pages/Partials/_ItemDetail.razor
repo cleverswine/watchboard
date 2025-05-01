@@ -55,6 +55,11 @@
                                 @ItemModel.Overview
                             </p>
                         }
+                        <p>
+                            Language: @ItemModel.OriginalLanguage
+                            <br/>
+                            Country: @ItemModel.OriginCountry
+                        </p>
                         @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
                         {
                             @if (ItemModel.SeriesNextEpisodeNumber == 1)
