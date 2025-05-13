@@ -12,15 +12,6 @@ public static class Items
     public static RouteGroupBuilder MapItems(this RouteGroupBuilder app)
     {
         // ADD ITEM
-        app.MapPost("/lists/{listId:guid}/items/{tmDbId:int}", async (HttpResponse response, [FromServices] IRepository repo, [FromRoute] Guid listId,
-            [FromRoute] int tmDbId, [FromQuery] string type) =>
-        {
-            await repo.AddItem(listId, tmDbId, type);
-            response.Headers.Append("HX-Trigger", "newItem");
-            return Results.Ok();
-        });
-
-        // ADD ITEM
         app.MapPost("/items/{tmDbId:int}",
             async (HttpContext context, HttpResponse response, [FromServices] IRepository repo, [FromRoute] int tmDbId, [FromQuery] string type) =>
             {

@@ -15,7 +15,6 @@ public interface IRepository
 
     Task<Item?> GetItem(Guid id);
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
-    Task<Item> AddItem(Guid listId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
     Task<Item> SetItemProvider(Guid itemId, int providerId);
     Task<Item> SetItemBackdrop(Guid itemId, Guid imageId);
@@ -71,20 +70,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
                          .Lists.FirstOrDefault()?.Id ?? throw new KeyNotFoundException());
 
         return await AddItem(listId, tmDbId, type);
-    }
-
-    public async Task<Item> AddItem(Guid listId, int tmDbId, string type)
-    {
-        var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
-        var tmDbItem = await tmDb.GetDetail(tmDbId, type);
-        var images = await tmDb.GetImages(tmDbId, type);
-        var dbItem = tmDbItem.MapTmDbToItem(listId, images);
-        dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
-        dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
-        dbItem.Order = order;
-        db.Items.Add(dbItem);
-        await db.SaveChangesAsync();
-        return dbItem;
     }
 
     public async Task MoveItemToOtherBoard(Guid itemId, Guid boardId)
@@ -204,5 +189,19 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             OriginCountry = string.Join(", ", x.OriginCountry)
         }).ToList();
         return items;
+    }
+
+    private async Task<Item> AddItem(Guid listId, int tmDbId, string type)
+    {
+        var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
+        var tmDbItem = await tmDb.GetDetail(tmDbId, type);
+        var images = await tmDb.GetImages(tmDbId, type);
+        var dbItem = tmDbItem.MapTmDbToItem(listId, images);
+        dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
+        dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
+        dbItem.Order = order;
+        db.Items.Add(dbItem);
+        await db.SaveChangesAsync();
+        return dbItem;
     }
 }

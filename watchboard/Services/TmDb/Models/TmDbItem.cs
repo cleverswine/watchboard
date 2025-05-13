@@ -54,7 +54,7 @@ public class TmDbItem
 
     [JsonPropertyName("origin_country")]
     public string[] OriginCountry { get; set; } = [];
-    
+
     [JsonPropertyName("original_language")]
     public string? OriginalLanguage { get; set; }
 

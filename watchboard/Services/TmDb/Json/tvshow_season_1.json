@@ -1,0 +1,3337 @@
+{
+  "_id": "5dcc353ee263bb001170d896",
+  "air_date": "2022-02-17",
+  "episodes": [
+    {
+      "air_date": "2022-02-17",
+      "episode_number": 1,
+      "episode_type": "standard",
+      "id": 1982925,
+      "name": "Good News About Hell",
+      "overview": "Mark is promoted to lead a team who've had their memories surgically divided between their work and personal lives.",
+      "production_code": "101",
+      "runtime": 57,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/sP3GZe9j7BY3CAyZGFuZxxnGpN1.jpg",
+      "vote_average": 8.1,
+      "vote_count": 101
+    },
+    {
+      "air_date": "2022-02-17",
+      "episode_number": 2,
+      "episode_type": "standard",
+      "id": 3396429,
+      "name": "Half Loop",
+      "overview": "The team train new hire Helly on macrodata refinement. Mark takes a day off to meet with a mysterious former colleague.",
+      "production_code": "102",
+      "runtime": 53,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/wIQP0P2tyE7VRIN3xR8Efq7UgKt.jpg",
+      "vote_average": 8.2,
+      "vote_count": 88,
+      "crew": [
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "5dcc358b79a1c3001044d709",
+          "adult": false,
+          "gender": 2,
+          "id": 7399,
+          "known_for_department": "Acting",
+          "name": "Ben Stiller",
+          "original_name": "Ben Stiller",
+          "popularity": 5.6917,
+          "profile_path": "/scgpxhI05JpdNXXfmpK6z0rPOWN.jpg"
+        },
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "6217f112ce5d82006925087f",
+          "adult": false,
+          "gender": 2,
+          "id": 3442409,
+          "known_for_department": "Writing",
+          "name": "Dan Erickson",
+          "original_name": "Dan Erickson",
+          "popularity": 0.4318,
+          "profile_path": "/qzQ30V43kbVoMjJXRw6ydkicXEP.jpg"
+        },
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "6217fde67fcab300624508d5",
+          "adult": false,
+          "gender": 2,
+          "id": 1796097,
+          "known_for_department": "Directing",
+          "name": "Matt Lake",
+          "original_name": "Matt Lake",
+          "popularity": 0.5849,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6217fd7acb8028001bac2c6f",
+          "adult": false,
+          "gender": 2,
+          "id": 37267,
+          "known_for_department": "Editing",
+          "name": "Geoffrey Richman",
+          "original_name": "Geoffrey Richman",
+          "popularity": 0.5369,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "6217fddf3a9937006cc8172f",
+          "adult": false,
+          "gender": 1,
+          "id": 2245313,
+          "known_for_department": "Directing",
+          "name": "Katie Carroll",
+          "original_name": "Katie Carroll",
+          "popularity": 0.752,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "6217fe9193388b001b365278",
+          "adult": false,
+          "gender": 0,
+          "id": 1372083,
+          "known_for_department": "Art",
+          "name": "Benji Cox",
+          "original_name": "Benji Cox",
+          "popularity": 0.2406,
+          "profile_path": null
+        },
+        {
+          "job": "Production Sound Mixer",
+          "department": "Sound",
+          "credit_id": "62187c34d144430043f7f65e",
+          "adult": false,
+          "gender": 2,
+          "id": 91092,
+          "known_for_department": "Sound",
+          "name": "Danny Michael",
+          "original_name": "Danny Michael",
+          "popularity": 1.2814,
+          "profile_path": null
+        },
+        {
+          "job": "In Memory Of",
+          "department": "Crew",
+          "credit_id": "621865d95be00e00420cead8",
+          "adult": false,
+          "gender": 2,
+          "id": 3442820,
+          "known_for_department": "Crew",
+          "name": "Caleb Smith",
+          "original_name": "Caleb Smith",
+          "popularity": 0.1585,
+          "profile_path": null
+        },
+        {
+          "job": "Second Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "621863b5a88587001bee91b2",
+          "adult": false,
+          "gender": 2,
+          "id": 3335123,
+          "known_for_department": "Directing",
+          "name": "Max O'Brasky",
+          "original_name": "Max O'Brasky",
+          "popularity": 0.1088,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6218622754f6eb004390f2e8",
+          "adult": false,
+          "gender": 0,
+          "id": 959055,
+          "known_for_department": "Editing",
+          "name": "Gershon Hinkson",
+          "original_name": "Gershon Hinkson",
+          "popularity": 0.6248,
+          "profile_path": null
+        },
+        {
+          "job": "Camera Operator",
+          "department": "Camera",
+          "credit_id": "621808057b7b4d006c806f3e",
+          "adult": false,
+          "gender": 2,
+          "id": 1683263,
+          "known_for_department": "Camera",
+          "name": "Peter Agliata",
+          "original_name": "Peter Agliata",
+          "popularity": 0.3127,
+          "profile_path": null
+        },
+        {
+          "job": "Producer's Assistant",
+          "department": "Production",
+          "credit_id": "623ec88cc50ad20047edb48c",
+          "adult": false,
+          "gender": 1,
+          "id": 2843780,
+          "known_for_department": "Camera",
+          "name": "Erika Rydell",
+          "original_name": "Erika Rydell",
+          "popularity": 0.1336,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "622af9ea12c604004617e6fa",
+          "adult": false,
+          "gender": 0,
+          "id": 1416804,
+          "known_for_department": "Art",
+          "name": "Jeannette Kim",
+          "original_name": "Jeannette Kim",
+          "popularity": 0.4697,
+          "profile_path": null
+        },
+        {
+          "job": "Conceptual Illustrator",
+          "department": "Art",
+          "credit_id": "622afaaf9a3c490071f2170c",
+          "adult": false,
+          "gender": 0,
+          "id": 1790080,
+          "known_for_department": "Art",
+          "name": "Eric Fehlberg",
+          "original_name": "Eric Fehlberg",
+          "popularity": 0.4603,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "622af9c412c604006e016fc5",
+          "adult": false,
+          "gender": 1,
+          "id": 1411803,
+          "known_for_department": "Art",
+          "name": "Katya Blumenberg",
+          "original_name": "Katya Blumenberg",
+          "popularity": 0.5413,
+          "profile_path": null
+        },
+        {
+          "job": "Payroll Accountant",
+          "department": "Production",
+          "credit_id": "622afe2d498ef9006d16e211",
+          "adult": false,
+          "gender": 0,
+          "id": 2492050,
+          "known_for_department": "Production",
+          "name": "Courtney L. Newsome",
+          "original_name": "Courtney L. Newsome",
+          "popularity": 0.1892,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "674068b48337acae076dd51e",
+          "adult": false,
+          "gender": 1,
+          "id": 2209823,
+          "known_for_department": "Art",
+          "name": "Juliana Barreto Barreto",
+          "original_name": "Juliana Barreto Barreto",
+          "popularity": 0.2083,
+          "profile_path": null
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "WMC Activist 1",
+          "credit_id": "621861b919ab59001c6d84ec",
+          "order": 501,
+          "adult": false,
+          "gender": 2,
+          "id": 1643957,
+          "known_for_department": "Acting",
+          "name": "Hudson Flynn",
+          "original_name": "Hudson Flynn",
+          "popularity": 0.0778,
+          "profile_path": null
+        },
+        {
+          "character": "WMC Activist 2",
+          "credit_id": "621861c2a6d931001b59921e",
+          "order": 502,
+          "adult": false,
+          "gender": 0,
+          "id": 3325199,
+          "known_for_department": "Acting",
+          "name": "Ruby Stevens",
+          "original_name": "Ruby Stevens",
+          "popularity": 0.1684,
+          "profile_path": null
+        },
+        {
+          "character": "Alexa",
+          "credit_id": "6211364e89b561001b7c27aa",
+          "order": 512,
+          "adult": false,
+          "gender": 1,
+          "id": 292214,
+          "known_for_department": "Acting",
+          "name": "Nikki M. James",
+          "original_name": "Nikki M. James",
+          "popularity": 1.4923,
+          "profile_path": "/1UrvslAV9FOF82Hh9A96kgfVaT1.jpg"
+        },
+        {
+          "character": "Peter 'Petey' Kilmer",
+          "credit_id": "621135a3f6fd1800426996ca",
+          "order": 517,
+          "adult": false,
+          "gender": 2,
+          "id": 75604,
+          "known_for_department": "Acting",
+          "name": "Yul Vazquez",
+          "original_name": "Yul Vazquez",
+          "popularity": 2.2854,
+          "profile_path": "/chAxqgeJVoRoQukw7zRYgtlo4KI.jpg"
+        },
+        {
+          "character": "Doug Graner",
+          "credit_id": "6217fc1bce5d82001b3fc435",
+          "order": 529,
+          "adult": false,
+          "gender": 2,
+          "id": 171652,
+          "known_for_department": "Acting",
+          "name": "Michael Cumpsty",
+          "original_name": "Michael Cumpsty",
+          "popularity": 1.5671,
+          "profile_path": "/gNcS8eLp9aXnXuGFAQZVwD8qkVb.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "2022-02-24",
+      "episode_number": 3,
+      "episode_type": "standard",
+      "id": 3396430,
+      "name": "In Perpetuity",
+      "overview": "Mark takes the team on a field trip, but Helly continues to rebel. A deteriorating Petey struggles to tell Mark about Lumon’s misdeeds.",
+      "production_code": "103",
+      "runtime": 56,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/hMpY4wpHlwMf42aDM25bU9fau5f.jpg",
+      "vote_average": 8.1,
+      "vote_count": 82,
+      "crew": [
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "5dcc358b79a1c3001044d709",
+          "adult": false,
+          "gender": 2,
+          "id": 7399,
+          "known_for_department": "Acting",
+          "name": "Ben Stiller",
+          "original_name": "Ben Stiller",
+          "popularity": 5.6917,
+          "profile_path": "/scgpxhI05JpdNXXfmpK6z0rPOWN.jpg"
+        },
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "6217fde67fcab300624508d5",
+          "adult": false,
+          "gender": 2,
+          "id": 1796097,
+          "known_for_department": "Directing",
+          "name": "Matt Lake",
+          "original_name": "Matt Lake",
+          "popularity": 0.5849,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6217fd7acb8028001bac2c6f",
+          "adult": false,
+          "gender": 2,
+          "id": 37267,
+          "known_for_department": "Editing",
+          "name": "Geoffrey Richman",
+          "original_name": "Geoffrey Richman",
+          "popularity": 0.5369,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "6217fddf3a9937006cc8172f",
+          "adult": false,
+          "gender": 1,
+          "id": 2245313,
+          "known_for_department": "Directing",
+          "name": "Katie Carroll",
+          "original_name": "Katie Carroll",
+          "popularity": 0.752,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "6217fe9193388b001b365278",
+          "adult": false,
+          "gender": 0,
+          "id": 1372083,
+          "known_for_department": "Art",
+          "name": "Benji Cox",
+          "original_name": "Benji Cox",
+          "popularity": 0.2406,
+          "profile_path": null
+        },
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "6218792319ab59001c6dc286",
+          "adult": false,
+          "gender": 2,
+          "id": 220564,
+          "known_for_department": "Writing",
+          "name": "Andrew Colville",
+          "original_name": "Andrew Colville",
+          "popularity": 0.3329,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "62187b497b7b4d006c8228a4",
+          "adult": false,
+          "gender": 1,
+          "id": 1513824,
+          "known_for_department": "Editing",
+          "name": "Erica Freed Marker",
+          "original_name": "Erica Freed Marker",
+          "popularity": 0.2674,
+          "profile_path": null
+        },
+        {
+          "job": "Camera Operator",
+          "department": "Camera",
+          "credit_id": "62187bcbce5d82001b4193ab",
+          "adult": false,
+          "gender": 2,
+          "id": 1468585,
+          "known_for_department": "Camera",
+          "name": "Stanley Fernandez Jr.",
+          "original_name": "Stanley Fernandez Jr.",
+          "popularity": 1.0319,
+          "profile_path": null
+        },
+        {
+          "job": "Second Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "621863b5a88587001bee91b2",
+          "adult": false,
+          "gender": 2,
+          "id": 3335123,
+          "known_for_department": "Directing",
+          "name": "Max O'Brasky",
+          "original_name": "Max O'Brasky",
+          "popularity": 0.1088,
+          "profile_path": null
+        },
+        {
+          "job": "Production Sound Mixer",
+          "department": "Sound",
+          "credit_id": "62187c4c8d2f8d006a6e8ef6",
+          "adult": false,
+          "gender": 0,
+          "id": 2192971,
+          "known_for_department": "Sound",
+          "name": "Bryan Dembinski",
+          "original_name": "Bryan Dembinski",
+          "popularity": 0.2402,
+          "profile_path": null
+        },
+        {
+          "job": "Producer's Assistant",
+          "department": "Production",
+          "credit_id": "623ec88cc50ad20047edb48c",
+          "adult": false,
+          "gender": 1,
+          "id": 2843780,
+          "known_for_department": "Camera",
+          "name": "Erika Rydell",
+          "original_name": "Erika Rydell",
+          "popularity": 0.1336,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "622af9ea12c604004617e6fa",
+          "adult": false,
+          "gender": 0,
+          "id": 1416804,
+          "known_for_department": "Art",
+          "name": "Jeannette Kim",
+          "original_name": "Jeannette Kim",
+          "popularity": 0.4697,
+          "profile_path": null
+        },
+        {
+          "job": "Conceptual Illustrator",
+          "department": "Art",
+          "credit_id": "622afaaf9a3c490071f2170c",
+          "adult": false,
+          "gender": 0,
+          "id": 1790080,
+          "known_for_department": "Art",
+          "name": "Eric Fehlberg",
+          "original_name": "Eric Fehlberg",
+          "popularity": 0.4603,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "622af9c412c604006e016fc5",
+          "adult": false,
+          "gender": 1,
+          "id": 1411803,
+          "known_for_department": "Art",
+          "name": "Katya Blumenberg",
+          "original_name": "Katya Blumenberg",
+          "popularity": 0.5413,
+          "profile_path": null
+        },
+        {
+          "job": "Payroll Accountant",
+          "department": "Production",
+          "credit_id": "622afe2d498ef9006d16e211",
+          "adult": false,
+          "gender": 0,
+          "id": 2492050,
+          "known_for_department": "Production",
+          "name": "Courtney L. Newsome",
+          "original_name": "Courtney L. Newsome",
+          "popularity": 0.1892,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "674068b48337acae076dd51e",
+          "adult": false,
+          "gender": 1,
+          "id": 2209823,
+          "known_for_department": "Art",
+          "name": "Juliana Barreto Barreto",
+          "original_name": "Juliana Barreto Barreto",
+          "popularity": 0.2083,
+          "profile_path": null
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "Checkout Girl",
+          "credit_id": "62187a4a3a99370042e822c0",
+          "order": 503,
+          "adult": false,
+          "gender": 0,
+          "id": 2844283,
+          "known_for_department": "Acting",
+          "name": "Alexis Cofield",
+          "original_name": "Alexis Cofield",
+          "popularity": 0.2693,
+          "profile_path": null
+        },
+        {
+          "character": "Weather Channel Voiceover (voice)",
+          "credit_id": "62187a6a7b7b4d0042745ed7",
+          "order": 504,
+          "adult": false,
+          "gender": 0,
+          "id": 3442852,
+          "known_for_department": "Acting",
+          "name": "Alexandra Ferrara",
+          "original_name": "Alexandra Ferrara",
+          "popularity": 0.0736,
+          "profile_path": null
+        },
+        {
+          "character": "Steven",
+          "credit_id": "62187abb7dfda6001b6b48a6",
+          "order": 505,
+          "adult": false,
+          "gender": 2,
+          "id": 2076907,
+          "known_for_department": "Acting",
+          "name": "Michael Kayne",
+          "original_name": "Michael Kayne",
+          "popularity": 0.1538,
+          "profile_path": null
+        },
+        {
+          "character": "Myrtle Eagan",
+          "credit_id": "62187b030e597b001b9dd701",
+          "order": 506,
+          "adult": false,
+          "gender": 0,
+          "id": 2648908,
+          "known_for_department": "Acting",
+          "name": "Jillian Lindig",
+          "original_name": "Jillian Lindig",
+          "popularity": 0.6297,
+          "profile_path": null
+        },
+        {
+          "character": "Cop Voiceover (voice)",
+          "credit_id": "62187b14cb802800429c8fd3",
+          "order": 507,
+          "adult": false,
+          "gender": 2,
+          "id": 106187,
+          "known_for_department": "Acting",
+          "name": "Lou Martini Jr.",
+          "original_name": "Lou Martini Jr.",
+          "popularity": 1.0619,
+          "profile_path": "/85s5KR0BA6dhMJtOrvtKGY8Bz8E.jpg"
+        },
+        {
+          "character": "Natalie Kalen",
+          "credit_id": "621879b07dfda60044e22a3b",
+          "order": 515,
+          "adult": false,
+          "gender": 1,
+          "id": 3442851,
+          "known_for_department": "Acting",
+          "name": "Sydney Cole Alexander",
+          "original_name": "Sydney Cole Alexander",
+          "popularity": 0.3522,
+          "profile_path": "/biXz1aluHH2dod2v9gbY69AhTtx.jpg"
+        },
+        {
+          "character": "Peter 'Petey' Kilmer",
+          "credit_id": "621135a3f6fd1800426996ca",
+          "order": 517,
+          "adult": false,
+          "gender": 2,
+          "id": 75604,
+          "known_for_department": "Acting",
+          "name": "Yul Vazquez",
+          "original_name": "Yul Vazquez",
+          "popularity": 2.2854,
+          "profile_path": "/chAxqgeJVoRoQukw7zRYgtlo4KI.jpg"
+        },
+        {
+          "character": "Doug Graner",
+          "credit_id": "6217fc1bce5d82001b3fc435",
+          "order": 529,
+          "adult": false,
+          "gender": 2,
+          "id": 171652,
+          "known_for_department": "Acting",
+          "name": "Michael Cumpsty",
+          "original_name": "Michael Cumpsty",
+          "popularity": 1.5671,
+          "profile_path": "/gNcS8eLp9aXnXuGFAQZVwD8qkVb.jpg"
+        },
+        {
+          "character": "Jame Eagan",
+          "credit_id": "62187a0ecb9f4b006767b37d",
+          "order": 536,
+          "adult": false,
+          "gender": 2,
+          "id": 89666,
+          "known_for_department": "Acting",
+          "name": "Michael Siberry",
+          "original_name": "Michael Siberry",
+          "popularity": 1.064,
+          "profile_path": "/2ZS6V1fNO8Pt208XlNBUynkhebp.jpg"
+        },
+        {
+          "character": "Felicia",
+          "credit_id": "623e2598bdc34c00944e59ae",
+          "order": 537,
+          "adult": false,
+          "gender": 1,
+          "id": 1388847,
+          "known_for_department": "Acting",
+          "name": "Claudia Robinson",
+          "original_name": "Claudia Robinson",
+          "popularity": 0.7298,
+          "profile_path": null
+        },
+        {
+          "character": "Judd",
+          "credit_id": "621135da1d5386001ce92b00",
+          "order": 540,
+          "adult": false,
+          "gender": 2,
+          "id": 2002604,
+          "known_for_department": "Acting",
+          "name": "Mark Kenneth Smaltz",
+          "original_name": "Mark Kenneth Smaltz",
+          "popularity": 0.8303,
+          "profile_path": "/lJY3lZdpUBZSiv13gHisVSZv3UM.jpg"
+        },
+        {
+          "character": "Kier Eagan (voice)",
+          "credit_id": "67bb9914effeb96e9e0aba77",
+          "order": 566,
+          "adult": false,
+          "gender": 2,
+          "id": 1979603,
+          "known_for_department": "Acting",
+          "name": "Marc Geller",
+          "original_name": "Marc Geller",
+          "popularity": 0.8443,
+          "profile_path": "/rwvfPImLE3Q7H1nCnEjsWLDhSph.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "2022-03-03",
+      "episode_number": 4,
+      "episode_type": "standard",
+      "id": 3396431,
+      "name": "The You You Are",
+      "overview": "Irving finds an intriguing book at work. Helly aggressively pursues a meeting with her Outie. Mark attends a funeral with Ms. Selvig.",
+      "production_code": "104",
+      "runtime": 46,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/dzQJeDznS0I4spAqTImiLH9p252.jpg",
+      "vote_average": 8.3,
+      "vote_count": 82,
+      "crew": [
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6217fd7acb8028001bac2c6f",
+          "adult": false,
+          "gender": 2,
+          "id": 37267,
+          "known_for_department": "Editing",
+          "name": "Geoffrey Richman",
+          "original_name": "Geoffrey Richman",
+          "popularity": 0.5369,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "62187b497b7b4d006c8228a4",
+          "adult": false,
+          "gender": 1,
+          "id": 1513824,
+          "known_for_department": "Editing",
+          "name": "Erica Freed Marker",
+          "original_name": "Erica Freed Marker",
+          "popularity": 0.2674,
+          "profile_path": null
+        },
+        {
+          "job": "Camera Operator",
+          "department": "Camera",
+          "credit_id": "62187bcbce5d82001b4193ab",
+          "adult": false,
+          "gender": 2,
+          "id": 1468585,
+          "known_for_department": "Camera",
+          "name": "Stanley Fernandez Jr.",
+          "original_name": "Stanley Fernandez Jr.",
+          "popularity": 1.0319,
+          "profile_path": null
+        },
+        {
+          "job": "Production Sound Mixer",
+          "department": "Sound",
+          "credit_id": "62187c4c8d2f8d006a6e8ef6",
+          "adult": false,
+          "gender": 0,
+          "id": 2192971,
+          "known_for_department": "Sound",
+          "name": "Bryan Dembinski",
+          "original_name": "Bryan Dembinski",
+          "popularity": 0.2402,
+          "profile_path": null
+        },
+        {
+          "job": "Producer's Assistant",
+          "department": "Production",
+          "credit_id": "623ec88cc50ad20047edb48c",
+          "adult": false,
+          "gender": 1,
+          "id": 2843780,
+          "known_for_department": "Camera",
+          "name": "Erika Rydell",
+          "original_name": "Erika Rydell",
+          "popularity": 0.1336,
+          "profile_path": null
+        },
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "62226af49f1be7006b8e44f6",
+          "adult": false,
+          "gender": 1,
+          "id": 1426949,
+          "known_for_department": "Directing",
+          "name": "Aoife McArdle",
+          "original_name": "Aoife McArdle",
+          "popularity": 0.2491,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af8bd63aad2004592d4ed",
+          "adult": false,
+          "gender": 0,
+          "id": 2455533,
+          "known_for_department": "Directing",
+          "name": "Ellen Parnett",
+          "original_name": "Ellen Parnett",
+          "popularity": 0.2537,
+          "profile_path": null
+        },
+        {
+          "job": "Payroll Accountant",
+          "department": "Production",
+          "credit_id": "622afe959a3c490071f21f51",
+          "adult": false,
+          "gender": 1,
+          "id": 3460958,
+          "known_for_department": "Production",
+          "name": "Natasha Smith",
+          "original_name": "Natasha Smith",
+          "popularity": 0.2997,
+          "profile_path": null
+        },
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "622af4810f21c600459fdd13",
+          "adult": false,
+          "gender": 0,
+          "id": 1532025,
+          "known_for_department": "Writing",
+          "name": "Kari Drake",
+          "original_name": "Kari Drake",
+          "popularity": 0.2889,
+          "profile_path": null
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af9289a3c49001d1745da",
+          "adult": false,
+          "gender": 1,
+          "id": 1825451,
+          "known_for_department": "Directing",
+          "name": "Melinda Ziyadat",
+          "original_name": "Melinda Ziyadat",
+          "popularity": 0.4722,
+          "profile_path": null
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af913eda4b70044c3b802",
+          "adult": false,
+          "gender": 0,
+          "id": 3460952,
+          "known_for_department": "Directing",
+          "name": "Sahar Shmolevitz",
+          "original_name": "Sahar Shmolevitz",
+          "popularity": 0.0593,
+          "profile_path": null
+        },
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "622af6c7d236e6006dfc4ce0",
+          "adult": false,
+          "gender": 2,
+          "id": 1999030,
+          "known_for_department": "Camera",
+          "name": "Matt Mitchell",
+          "original_name": "Matt Mitchell",
+          "popularity": 0.3906,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af8c284591c006e7a50f9",
+          "adult": false,
+          "gender": 2,
+          "id": 2895790,
+          "known_for_department": "Directing",
+          "name": "Kit Bland",
+          "original_name": "Kit Bland",
+          "popularity": 0.4571,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "674068b48337acae076dd51e",
+          "adult": false,
+          "gender": 1,
+          "id": 2209823,
+          "known_for_department": "Art",
+          "name": "Juliana Barreto Barreto",
+          "original_name": "Juliana Barreto Barreto",
+          "popularity": 0.2083,
+          "profile_path": null
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "Bartender",
+          "credit_id": "62226ae2ede1b0001b81077b",
+          "order": 508,
+          "adult": false,
+          "gender": 0,
+          "id": 1816404,
+          "known_for_department": "Acting",
+          "name": "James Augustus Lee",
+          "original_name": "James Augustus Lee",
+          "popularity": 0.6191,
+          "profile_path": "/jCJZ3Vq4GbBn4oPznZ2sFDvdq2i.jpg"
+        },
+        {
+          "character": "Nina Kilmer",
+          "credit_id": "622af5189a358d001c9c7f47",
+          "order": 509,
+          "adult": false,
+          "gender": 1,
+          "id": 43277,
+          "known_for_department": "Acting",
+          "name": "Joanne Kelly",
+          "original_name": "Joanne Kelly",
+          "popularity": 1.6343,
+          "profile_path": "/x2ilxmnqFwkS9SrgsG3gY6klHq4.jpg"
+        },
+        {
+          "character": "June Kilmer",
+          "credit_id": "62226acb1d1bf400455cae73",
+          "order": 513,
+          "adult": false,
+          "gender": 1,
+          "id": 3452594,
+          "known_for_department": "Acting",
+          "name": "Cassidy Layton",
+          "original_name": "Cassidy Layton",
+          "popularity": 0.147,
+          "profile_path": "/4GTGAK1KXGRO6MWQboUZEn1ftoZ.jpg"
+        },
+        {
+          "character": "Peter 'Petey' Kilmer",
+          "credit_id": "621135a3f6fd1800426996ca",
+          "order": 517,
+          "adult": false,
+          "gender": 2,
+          "id": 75604,
+          "known_for_department": "Acting",
+          "name": "Yul Vazquez",
+          "original_name": "Yul Vazquez",
+          "popularity": 2.2854,
+          "profile_path": "/chAxqgeJVoRoQukw7zRYgtlo4KI.jpg"
+        },
+        {
+          "character": "Doug Graner",
+          "credit_id": "6217fc1bce5d82001b3fc435",
+          "order": 529,
+          "adult": false,
+          "gender": 2,
+          "id": 171652,
+          "known_for_department": "Acting",
+          "name": "Michael Cumpsty",
+          "original_name": "Michael Cumpsty",
+          "popularity": 1.5671,
+          "profile_path": "/gNcS8eLp9aXnXuGFAQZVwD8qkVb.jpg"
+        },
+        {
+          "character": "Elizabeth",
+          "credit_id": "622af5c1d6819b006d2fd7de",
+          "order": 533,
+          "adult": false,
+          "gender": 1,
+          "id": 2866221,
+          "known_for_department": "Acting",
+          "name": "Rachel Addington",
+          "original_name": "Rachel Addington",
+          "popularity": 0.1033,
+          "profile_path": null
+        },
+        {
+          "character": "Felicia",
+          "credit_id": "623e2598bdc34c00944e59ae",
+          "order": 537,
+          "adult": false,
+          "gender": 1,
+          "id": 1388847,
+          "known_for_department": "Acting",
+          "name": "Claudia Robinson",
+          "original_name": "Claudia Robinson",
+          "popularity": 0.7298,
+          "profile_path": null
+        }
+      ]
+    },
+    {
+      "air_date": "2022-03-10",
+      "episode_number": 5,
+      "episode_type": "standard",
+      "id": 3396432,
+      "name": "The Grim Barbarity of Optics and Design",
+      "overview": "Irving and Dylan confront Burt about his lies. Mark and Helly discover a strange new department.",
+      "production_code": "105",
+      "runtime": 43,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/oy4BZotFbNX5YoPkWuWF3kcdMVw.jpg",
+      "vote_average": 8.1,
+      "vote_count": 78,
+      "crew": [
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6217fd7acb8028001bac2c6f",
+          "adult": false,
+          "gender": 2,
+          "id": 37267,
+          "known_for_department": "Editing",
+          "name": "Geoffrey Richman",
+          "original_name": "Geoffrey Richman",
+          "popularity": 0.5369,
+          "profile_path": null
+        },
+        {
+          "job": "Camera Operator",
+          "department": "Camera",
+          "credit_id": "62187bcbce5d82001b4193ab",
+          "adult": false,
+          "gender": 2,
+          "id": 1468585,
+          "known_for_department": "Camera",
+          "name": "Stanley Fernandez Jr.",
+          "original_name": "Stanley Fernandez Jr.",
+          "popularity": 1.0319,
+          "profile_path": null
+        },
+        {
+          "job": "Second Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "621863b5a88587001bee91b2",
+          "adult": false,
+          "gender": 2,
+          "id": 3335123,
+          "known_for_department": "Directing",
+          "name": "Max O'Brasky",
+          "original_name": "Max O'Brasky",
+          "popularity": 0.1088,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6218622754f6eb004390f2e8",
+          "adult": false,
+          "gender": 0,
+          "id": 959055,
+          "known_for_department": "Editing",
+          "name": "Gershon Hinkson",
+          "original_name": "Gershon Hinkson",
+          "popularity": 0.6248,
+          "profile_path": null
+        },
+        {
+          "job": "Production Sound Mixer",
+          "department": "Sound",
+          "credit_id": "62187c4c8d2f8d006a6e8ef6",
+          "adult": false,
+          "gender": 0,
+          "id": 2192971,
+          "known_for_department": "Sound",
+          "name": "Bryan Dembinski",
+          "original_name": "Bryan Dembinski",
+          "popularity": 0.2402,
+          "profile_path": null
+        },
+        {
+          "job": "Additional Photography",
+          "department": "Camera",
+          "credit_id": "623ec5990f3655005fed4441",
+          "adult": false,
+          "gender": 2,
+          "id": 1999030,
+          "known_for_department": "Camera",
+          "name": "Matt Mitchell",
+          "original_name": "Matt Mitchell",
+          "popularity": 0.3906,
+          "profile_path": null
+        },
+        {
+          "job": "Producer's Assistant",
+          "department": "Production",
+          "credit_id": "623ec8c30f3655004a050c28",
+          "adult": false,
+          "gender": 1,
+          "id": 3480397,
+          "known_for_department": "Production",
+          "name": "Josephine Sorena",
+          "original_name": "Josephine Sorena",
+          "popularity": 0.0363,
+          "profile_path": null
+        },
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "62226af49f1be7006b8e44f6",
+          "adult": false,
+          "gender": 1,
+          "id": 1426949,
+          "known_for_department": "Directing",
+          "name": "Aoife McArdle",
+          "original_name": "Aoife McArdle",
+          "popularity": 0.2491,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af8bd63aad2004592d4ed",
+          "adult": false,
+          "gender": 0,
+          "id": 2455533,
+          "known_for_department": "Directing",
+          "name": "Ellen Parnett",
+          "original_name": "Ellen Parnett",
+          "popularity": 0.2537,
+          "profile_path": null
+        },
+        {
+          "job": "Payroll Accountant",
+          "department": "Production",
+          "credit_id": "622afe959a3c490071f21f51",
+          "adult": false,
+          "gender": 1,
+          "id": 3460958,
+          "known_for_department": "Production",
+          "name": "Natasha Smith",
+          "original_name": "Natasha Smith",
+          "popularity": 0.2997,
+          "profile_path": null
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af9289a3c49001d1745da",
+          "adult": false,
+          "gender": 1,
+          "id": 1825451,
+          "known_for_department": "Directing",
+          "name": "Melinda Ziyadat",
+          "original_name": "Melinda Ziyadat",
+          "popularity": 0.4722,
+          "profile_path": null
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af913eda4b70044c3b802",
+          "adult": false,
+          "gender": 0,
+          "id": 3460952,
+          "known_for_department": "Directing",
+          "name": "Sahar Shmolevitz",
+          "original_name": "Sahar Shmolevitz",
+          "popularity": 0.0593,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af8c284591c006e7a50f9",
+          "adult": false,
+          "gender": 2,
+          "id": 2895790,
+          "known_for_department": "Directing",
+          "name": "Kit Bland",
+          "original_name": "Kit Bland",
+          "popularity": 0.4571,
+          "profile_path": null
+        },
+        {
+          "job": "Assistant Art Director",
+          "department": "Art",
+          "credit_id": "674068b48337acae076dd51e",
+          "adult": false,
+          "gender": 1,
+          "id": 2209823,
+          "known_for_department": "Art",
+          "name": "Juliana Barreto Barreto",
+          "original_name": "Juliana Barreto Barreto",
+          "popularity": 0.2083,
+          "profile_path": null
+        },
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "67b461cdf8cf4734519fbb3c",
+          "adult": false,
+          "gender": 1,
+          "id": 3442438,
+          "known_for_department": "Writing",
+          "name": "Anna Ouyang Moench",
+          "original_name": "Anna Ouyang Moench",
+          "popularity": 0.0951,
+          "profile_path": null
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "Florence",
+          "credit_id": "621135d03e2ec80069ed9291",
+          "order": 510,
+          "adult": false,
+          "gender": 1,
+          "id": 1127717,
+          "known_for_department": "Acting",
+          "name": "Anthoula Katsimatides",
+          "original_name": "Anthoula Katsimatides",
+          "popularity": 0.6837,
+          "profile_path": "/2pCQoHgzo45ToYrhYZz17wfGJt7.jpg"
+        },
+        {
+          "character": "Goat Wrangler",
+          "credit_id": "623ec34fd100b60047fcb8bb",
+          "order": 511,
+          "adult": false,
+          "gender": 2,
+          "id": 3062741,
+          "known_for_department": "Acting",
+          "name": "Brian Rock",
+          "original_name": "Brian Rock",
+          "popularity": 0.5096,
+          "profile_path": null
+        },
+        {
+          "character": "Alexa",
+          "credit_id": "6211364e89b561001b7c27aa",
+          "order": 512,
+          "adult": false,
+          "gender": 1,
+          "id": 292214,
+          "known_for_department": "Acting",
+          "name": "Nikki M. James",
+          "original_name": "Nikki M. James",
+          "popularity": 1.4923,
+          "profile_path": "/1UrvslAV9FOF82Hh9A96kgfVaT1.jpg"
+        },
+        {
+          "character": "Doug Graner",
+          "credit_id": "6217fc1bce5d82001b3fc435",
+          "order": 529,
+          "adult": false,
+          "gender": 2,
+          "id": 171652,
+          "known_for_department": "Acting",
+          "name": "Michael Cumpsty",
+          "original_name": "Michael Cumpsty",
+          "popularity": 1.5671,
+          "profile_path": "/gNcS8eLp9aXnXuGFAQZVwD8qkVb.jpg"
+        },
+        {
+          "character": "Elizabeth",
+          "credit_id": "622af5c1d6819b006d2fd7de",
+          "order": 533,
+          "adult": false,
+          "gender": 1,
+          "id": 2866221,
+          "known_for_department": "Acting",
+          "name": "Rachel Addington",
+          "original_name": "Rachel Addington",
+          "popularity": 0.1033,
+          "profile_path": null
+        },
+        {
+          "character": "Gabriela 'Gabby' Arteta",
+          "credit_id": "62508c202f1be010a3b47bcc",
+          "order": 534,
+          "adult": false,
+          "gender": 0,
+          "id": 3337853,
+          "known_for_department": "Acting",
+          "name": "Nora Dale",
+          "original_name": "Nora Dale",
+          "popularity": 0.4174,
+          "profile_path": null
+        },
+        {
+          "character": "Felicia",
+          "credit_id": "623e2598bdc34c00944e59ae",
+          "order": 537,
+          "adult": false,
+          "gender": 1,
+          "id": 1388847,
+          "known_for_department": "Acting",
+          "name": "Claudia Robinson",
+          "original_name": "Claudia Robinson",
+          "popularity": 0.7298,
+          "profile_path": null
+        },
+        {
+          "character": "Judd",
+          "credit_id": "621135da1d5386001ce92b00",
+          "order": 540,
+          "adult": false,
+          "gender": 2,
+          "id": 2002604,
+          "known_for_department": "Acting",
+          "name": "Mark Kenneth Smaltz",
+          "original_name": "Mark Kenneth Smaltz",
+          "popularity": 0.8303,
+          "profile_path": "/lJY3lZdpUBZSiv13gHisVSZv3UM.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "2022-03-17",
+      "episode_number": 6,
+      "episode_type": "standard",
+      "id": 3396433,
+      "name": "Hide and Seek",
+      "overview": "The team angers Cobel by forming an alliance.",
+      "production_code": "106",
+      "runtime": 40,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/3fQp0pUtgDkqqyEbXY8KKCZPMU7.jpg",
+      "vote_average": 8.2,
+      "vote_count": 75,
+      "crew": [
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "6234a73453866e007e27a411",
+          "adult": false,
+          "gender": 1,
+          "id": 1656216,
+          "known_for_department": "Writing",
+          "name": "Amanda Overton",
+          "original_name": "Amanda Overton",
+          "popularity": 0.1675,
+          "profile_path": null
+        },
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6217fd7acb8028001bac2c6f",
+          "adult": false,
+          "gender": 2,
+          "id": 37267,
+          "known_for_department": "Editing",
+          "name": "Geoffrey Richman",
+          "original_name": "Geoffrey Richman",
+          "popularity": 0.5369,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "62187b497b7b4d006c8228a4",
+          "adult": false,
+          "gender": 1,
+          "id": 1513824,
+          "known_for_department": "Editing",
+          "name": "Erica Freed Marker",
+          "original_name": "Erica Freed Marker",
+          "popularity": 0.2674,
+          "profile_path": null
+        },
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "62226af49f1be7006b8e44f6",
+          "adult": false,
+          "gender": 1,
+          "id": 1426949,
+          "known_for_department": "Directing",
+          "name": "Aoife McArdle",
+          "original_name": "Aoife McArdle",
+          "popularity": 0.2491,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af8bd63aad2004592d4ed",
+          "adult": false,
+          "gender": 0,
+          "id": 2455533,
+          "known_for_department": "Directing",
+          "name": "Ellen Parnett",
+          "original_name": "Ellen Parnett",
+          "popularity": 0.2537,
+          "profile_path": null
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af9289a3c49001d1745da",
+          "adult": false,
+          "gender": 1,
+          "id": 1825451,
+          "known_for_department": "Directing",
+          "name": "Melinda Ziyadat",
+          "original_name": "Melinda Ziyadat",
+          "popularity": 0.4722,
+          "profile_path": null
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af913eda4b70044c3b802",
+          "adult": false,
+          "gender": 0,
+          "id": 3460952,
+          "known_for_department": "Directing",
+          "name": "Sahar Shmolevitz",
+          "original_name": "Sahar Shmolevitz",
+          "popularity": 0.0593,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "622af8c284591c006e7a50f9",
+          "adult": false,
+          "gender": 2,
+          "id": 2895790,
+          "known_for_department": "Directing",
+          "name": "Kit Bland",
+          "original_name": "Kit Bland",
+          "popularity": 0.4571,
+          "profile_path": null
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "Alexa",
+          "credit_id": "6211364e89b561001b7c27aa",
+          "order": 512,
+          "adult": false,
+          "gender": 1,
+          "id": 292214,
+          "known_for_department": "Acting",
+          "name": "Nikki M. James",
+          "original_name": "Nikki M. James",
+          "popularity": 1.4923,
+          "profile_path": "/1UrvslAV9FOF82Hh9A96kgfVaT1.jpg"
+        },
+        {
+          "character": "June Kilmer",
+          "credit_id": "62226acb1d1bf400455cae73",
+          "order": 513,
+          "adult": false,
+          "gender": 1,
+          "id": 3452594,
+          "known_for_department": "Acting",
+          "name": "Cassidy Layton",
+          "original_name": "Cassidy Layton",
+          "popularity": 0.147,
+          "profile_path": "/4GTGAK1KXGRO6MWQboUZEn1ftoZ.jpg"
+        },
+        {
+          "character": "Lead Singer",
+          "credit_id": "627219647cffda7316c28424",
+          "order": 514,
+          "adult": false,
+          "gender": 2,
+          "id": 3491012,
+          "known_for_department": "Acting",
+          "name": "Michael Caiazzo",
+          "original_name": "Michael Caiazzo",
+          "popularity": 0.053,
+          "profile_path": null
+        },
+        {
+          "character": "Bass",
+          "credit_id": "627219707cffda731816a50b",
+          "order": 516,
+          "adult": false,
+          "gender": 1,
+          "id": 1451986,
+          "known_for_department": "Sound",
+          "name": "Margaret Chardiet",
+          "original_name": "Margaret Chardiet",
+          "popularity": 0.0505,
+          "profile_path": null
+        },
+        {
+          "character": "Angelo Arteta",
+          "credit_id": "6234a6f5fea0d70079df314b",
+          "order": 521,
+          "adult": false,
+          "gender": 2,
+          "id": 1204086,
+          "known_for_department": "Acting",
+          "name": "Ethan Flower",
+          "original_name": "Ethan Flower",
+          "popularity": 0.3929,
+          "profile_path": "/sDAMzhge9Dv8zVpVW0wlE9XyCnH.jpg"
+        },
+        {
+          "character": "Asal Regabhi",
+          "credit_id": "623e255490cf510088e03164",
+          "order": 522,
+          "adult": false,
+          "gender": 1,
+          "id": 1782455,
+          "known_for_department": "Acting",
+          "name": "Karen Aldridge",
+          "original_name": "Karen Aldridge",
+          "popularity": 0.5812,
+          "profile_path": "/9hBfSIawa72L0MPt81ZBzlIYeug.jpg"
+        },
+        {
+          "character": "Guitarist",
+          "credit_id": "62721991162bc30050fb3cdd",
+          "order": 523,
+          "adult": false,
+          "gender": 2,
+          "id": 3491031,
+          "known_for_department": "Acting",
+          "name": "Tye Miller",
+          "original_name": "Tye Miller",
+          "popularity": 0.08,
+          "profile_path": null
+        },
+        {
+          "character": "Dylan's Son",
+          "credit_id": "62721a4c5800c40065ef1ca4",
+          "order": 524,
+          "adult": false,
+          "gender": 2,
+          "id": 3491027,
+          "known_for_department": "Acting",
+          "name": "Blaze James Gorman",
+          "original_name": "Blaze James Gorman",
+          "popularity": 0.0895,
+          "profile_path": null
+        },
+        {
+          "character": "Guy at Venue",
+          "credit_id": "62c07b8128723c004c812c76",
+          "order": 525,
+          "adult": false,
+          "gender": 2,
+          "id": 1639079,
+          "known_for_department": "Acting",
+          "name": "Jonathan Iglesias",
+          "original_name": "Jonathan Iglesias",
+          "popularity": 0.2648,
+          "profile_path": null
+        },
+        {
+          "character": "Waiter",
+          "credit_id": "6272199b72d8553a911bfdae",
+          "order": 527,
+          "adult": false,
+          "gender": 2,
+          "id": 3147477,
+          "known_for_department": "Acting",
+          "name": "Griffin Stanton-Ameisen",
+          "original_name": "Griffin Stanton-Ameisen",
+          "popularity": 0.1341,
+          "profile_path": null
+        },
+        {
+          "character": "Doug Graner",
+          "credit_id": "6217fc1bce5d82001b3fc435",
+          "order": 529,
+          "adult": false,
+          "gender": 2,
+          "id": 171652,
+          "known_for_department": "Acting",
+          "name": "Michael Cumpsty",
+          "original_name": "Michael Cumpsty",
+          "popularity": 1.5671,
+          "profile_path": "/gNcS8eLp9aXnXuGFAQZVwD8qkVb.jpg"
+        },
+        {
+          "character": "Drummer",
+          "credit_id": "627219b37cffda731816a568",
+          "order": 530,
+          "adult": false,
+          "gender": 2,
+          "id": 3491036,
+          "known_for_department": "Acting",
+          "name": "Charles Henry Wood",
+          "original_name": "Charles Henry Wood",
+          "popularity": 0.0965,
+          "profile_path": null
+        },
+        {
+          "character": "Elizabeth",
+          "credit_id": "622af5c1d6819b006d2fd7de",
+          "order": 533,
+          "adult": false,
+          "gender": 1,
+          "id": 2866221,
+          "known_for_department": "Acting",
+          "name": "Rachel Addington",
+          "original_name": "Rachel Addington",
+          "popularity": 0.1033,
+          "profile_path": null
+        },
+        {
+          "character": "Gabriela 'Gabby' Arteta",
+          "credit_id": "62508c202f1be010a3b47bcc",
+          "order": 534,
+          "adult": false,
+          "gender": 0,
+          "id": 3337853,
+          "known_for_department": "Acting",
+          "name": "Nora Dale",
+          "original_name": "Nora Dale",
+          "popularity": 0.4174,
+          "profile_path": null
+        },
+        {
+          "character": "Felicia",
+          "credit_id": "623e2598bdc34c00944e59ae",
+          "order": 537,
+          "adult": false,
+          "gender": 1,
+          "id": 1388847,
+          "known_for_department": "Acting",
+          "name": "Claudia Robinson",
+          "original_name": "Claudia Robinson",
+          "popularity": 0.7298,
+          "profile_path": null
+        }
+      ]
+    },
+    {
+      "air_date": "2022-03-24",
+      "episode_number": 7,
+      "episode_type": "standard",
+      "id": 3396434,
+      "name": "Defiant Jazz",
+      "overview": "Mark and the team encounter new security measures from Cobel.",
+      "production_code": "107",
+      "runtime": 49,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/gHoKlbC2esqq3SXm0ZCcl3bzpFZ.jpg",
+      "vote_average": 8.7,
+      "vote_count": 81,
+      "crew": [
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "5dcc358b79a1c3001044d709",
+          "adult": false,
+          "gender": 2,
+          "id": 7399,
+          "known_for_department": "Acting",
+          "name": "Ben Stiller",
+          "original_name": "Ben Stiller",
+          "popularity": 5.6917,
+          "profile_path": "/scgpxhI05JpdNXXfmpK6z0rPOWN.jpg"
+        },
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        },
+        {
+          "job": "Second Assistant Director",
+          "department": "Directing",
+          "credit_id": "6217fde67fcab300624508d5",
+          "adult": false,
+          "gender": 2,
+          "id": 1796097,
+          "known_for_department": "Directing",
+          "name": "Matt Lake",
+          "original_name": "Matt Lake",
+          "popularity": 0.5849,
+          "profile_path": null
+        },
+        {
+          "job": "Editor",
+          "department": "Editing",
+          "credit_id": "6217fd7acb8028001bac2c6f",
+          "adult": false,
+          "gender": 2,
+          "id": 37267,
+          "known_for_department": "Editing",
+          "name": "Geoffrey Richman",
+          "original_name": "Geoffrey Richman",
+          "popularity": 0.5369,
+          "profile_path": null
+        },
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "62561ef5d9554b01950862ad",
+          "adult": false,
+          "gender": 0,
+          "id": 1852634,
+          "known_for_department": "Writing",
+          "name": "Helen Leigh",
+          "original_name": "Helen Leigh",
+          "popularity": 0.2946,
+          "profile_path": null
+        },
+        {
+          "job": "First Assistant Director",
+          "department": "Directing",
+          "credit_id": "625622309a8a8a02af74f9e0",
+          "adult": false,
+          "gender": 2,
+          "id": 774666,
+          "known_for_department": "Directing",
+          "name": "Marco Londoner",
+          "original_name": "Marco Londoner",
+          "popularity": 0.3127,
+          "profile_path": null
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "Alexa",
+          "credit_id": "6211364e89b561001b7c27aa",
+          "order": 512,
+          "adult": false,
+          "gender": 1,
+          "id": 292214,
+          "known_for_department": "Acting",
+          "name": "Nikki M. James",
+          "original_name": "Nikki M. James",
+          "popularity": 1.4923,
+          "profile_path": "/1UrvslAV9FOF82Hh9A96kgfVaT1.jpg"
+        },
+        {
+          "character": "Natalie Kalen",
+          "credit_id": "621879b07dfda60044e22a3b",
+          "order": 515,
+          "adult": false,
+          "gender": 1,
+          "id": 3442851,
+          "known_for_department": "Acting",
+          "name": "Sydney Cole Alexander",
+          "original_name": "Sydney Cole Alexander",
+          "popularity": 0.3522,
+          "profile_path": "/biXz1aluHH2dod2v9gbY69AhTtx.jpg"
+        },
+        {
+          "character": "Asal Regabhi",
+          "credit_id": "623e255490cf510088e03164",
+          "order": 522,
+          "adult": false,
+          "gender": 1,
+          "id": 1782455,
+          "known_for_department": "Acting",
+          "name": "Karen Aldridge",
+          "original_name": "Karen Aldridge",
+          "popularity": 0.5812,
+          "profile_path": "/9hBfSIawa72L0MPt81ZBzlIYeug.jpg"
+        },
+        {
+          "character": "Doug Graner",
+          "credit_id": "6217fc1bce5d82001b3fc435",
+          "order": 529,
+          "adult": false,
+          "gender": 2,
+          "id": 171652,
+          "known_for_department": "Acting",
+          "name": "Michael Cumpsty",
+          "original_name": "Michael Cumpsty",
+          "popularity": 1.5671,
+          "profile_path": "/gNcS8eLp9aXnXuGFAQZVwD8qkVb.jpg"
+        },
+        {
+          "character": "Elizabeth",
+          "credit_id": "622af5c1d6819b006d2fd7de",
+          "order": 533,
+          "adult": false,
+          "gender": 1,
+          "id": 2866221,
+          "known_for_department": "Acting",
+          "name": "Rachel Addington",
+          "original_name": "Rachel Addington",
+          "popularity": 0.1033,
+          "profile_path": null
+        },
+        {
+          "character": "Felicia",
+          "credit_id": "623e2598bdc34c00944e59ae",
+          "order": 537,
+          "adult": false,
+          "gender": 1,
+          "id": 1388847,
+          "known_for_department": "Acting",
+          "name": "Claudia Robinson",
+          "original_name": "Claudia Robinson",
+          "popularity": 0.7298,
+          "profile_path": null
+        },
+        {
+          "character": "Judd",
+          "credit_id": "621135da1d5386001ce92b00",
+          "order": 540,
+          "adult": false,
+          "gender": 2,
+          "id": 2002604,
+          "known_for_department": "Acting",
+          "name": "Mark Kenneth Smaltz",
+          "original_name": "Mark Kenneth Smaltz",
+          "popularity": 0.8303,
+          "profile_path": "/lJY3lZdpUBZSiv13gHisVSZv3UM.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "2022-03-31",
+      "episode_number": 8,
+      "episode_type": "standard",
+      "id": 3396435,
+      "name": "What's for Dinner?",
+      "overview": "The team prepares a plan. Mark attends Devon and Ricken’s party.",
+      "production_code": "108",
+      "runtime": 46,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/hmfoVewhL4AxkU6ffUyn9OVsFxD.jpg",
+      "vote_average": 8.8,
+      "vote_count": 78,
+      "crew": [
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "5dcc358b79a1c3001044d709",
+          "adult": false,
+          "gender": 2,
+          "id": 7399,
+          "known_for_department": "Acting",
+          "name": "Ben Stiller",
+          "original_name": "Ben Stiller",
+          "popularity": 5.6917,
+          "profile_path": "/scgpxhI05JpdNXXfmpK6z0rPOWN.jpg"
+        },
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        },
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "624750efc4ad590062b78875",
+          "adult": false,
+          "gender": 2,
+          "id": 1211962,
+          "known_for_department": "Writing",
+          "name": "Chris Black",
+          "original_name": "Chris Black",
+          "popularity": 1.0642,
+          "profile_path": "/l7cfUXkaJxsNmfwJcrUAw3RluYG.jpg"
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "Natalie Kalen",
+          "credit_id": "621879b07dfda60044e22a3b",
+          "order": 515,
+          "adult": false,
+          "gender": 1,
+          "id": 3442851,
+          "known_for_department": "Acting",
+          "name": "Sydney Cole Alexander",
+          "original_name": "Sydney Cole Alexander",
+          "popularity": 0.3522,
+          "profile_path": "/biXz1aluHH2dod2v9gbY69AhTtx.jpg"
+        },
+        {
+          "character": "Danise",
+          "credit_id": "621135aea39d0b004240878a",
+          "order": 518,
+          "adult": false,
+          "gender": 1,
+          "id": 2520396,
+          "known_for_department": "Acting",
+          "name": "Annie McNamara",
+          "original_name": "Annie McNamara",
+          "popularity": 0.6736,
+          "profile_path": null
+        },
+        {
+          "character": "Patton",
+          "credit_id": "621135ba96670e001be02ead",
+          "order": 519,
+          "adult": false,
+          "gender": 2,
+          "id": 3151703,
+          "known_for_department": "Acting",
+          "name": "Donald Webber Jr.",
+          "original_name": "Donald Webber Jr.",
+          "popularity": 0.1083,
+          "profile_path": "/ayDvwq0Li3Lk3l1PkREKz02i1nU.jpg"
+        },
+        {
+          "character": "Rebeck",
+          "credit_id": "621135c520e6a50042ba4285",
+          "order": 520,
+          "adult": false,
+          "gender": 1,
+          "id": 143715,
+          "known_for_department": "Acting",
+          "name": "Grace Rex",
+          "original_name": "Grace Rex",
+          "popularity": 0.7989,
+          "profile_path": "/g6BiwPLVnSdlpAin52eLHHcMQ37.jpg"
+        },
+        {
+          "character": "Woman in Old Woman Mask",
+          "credit_id": "62c07c420bb0760dcc4c70fb",
+          "order": 526,
+          "adult": false,
+          "gender": 1,
+          "id": 3609146,
+          "known_for_department": "Acting",
+          "name": "Olivia Alboher",
+          "original_name": "Olivia Alboher",
+          "popularity": 0.1783,
+          "profile_path": null
+        },
+        {
+          "character": "Woman in Bride Mask",
+          "credit_id": "62c07c501056110ed1ecf686",
+          "order": 528,
+          "adult": false,
+          "gender": 1,
+          "id": 137434,
+          "known_for_department": "Acting",
+          "name": "Samantha Farrow",
+          "original_name": "Samantha Farrow",
+          "popularity": 0.249,
+          "profile_path": "/nhxUAjPX26Ki3lfJVBQLGykfwzO.jpg"
+        },
+        {
+          "character": "Woman in Jester Mask",
+          "credit_id": "62c07c6d63d713026c2ef133",
+          "order": 531,
+          "adult": false,
+          "gender": 1,
+          "id": 3609148,
+          "known_for_department": "Acting",
+          "name": "Sarah Gold",
+          "original_name": "Sarah Gold",
+          "popularity": 0.1921,
+          "profile_path": null
+        },
+        {
+          "character": "Choreographer",
+          "credit_id": "62c07c83325a5100c3a4ae32",
+          "order": 532,
+          "adult": false,
+          "gender": 1,
+          "id": 3609149,
+          "known_for_department": "Acting",
+          "name": "Tara Rodriguez",
+          "original_name": "Tara Rodriguez",
+          "popularity": 0.0603,
+          "profile_path": null
+        },
+        {
+          "character": "Man in Sheep's Head Mask",
+          "credit_id": "62c07c92c2bcc6004c90095e",
+          "order": 535,
+          "adult": false,
+          "gender": 2,
+          "id": 3609150,
+          "known_for_department": "Acting",
+          "name": "Weston Krukow",
+          "original_name": "Weston Krukow",
+          "popularity": 0.1268,
+          "profile_path": null
+        },
+        {
+          "character": "Jame Eagan",
+          "credit_id": "62187a0ecb9f4b006767b37d",
+          "order": 536,
+          "adult": false,
+          "gender": 2,
+          "id": 89666,
+          "known_for_department": "Acting",
+          "name": "Michael Siberry",
+          "original_name": "Michael Siberry",
+          "popularity": 1.064,
+          "profile_path": "/2ZS6V1fNO8Pt208XlNBUynkhebp.jpg"
+        },
+        {
+          "character": "Kier Eagan (voice) (uncredited)",
+          "credit_id": "67bcc8b523fe117ee6a47f31",
+          "order": 567,
+          "adult": false,
+          "gender": 2,
+          "id": 7399,
+          "known_for_department": "Acting",
+          "name": "Ben Stiller",
+          "original_name": "Ben Stiller",
+          "popularity": 5.6917,
+          "profile_path": "/scgpxhI05JpdNXXfmpK6z0rPOWN.jpg"
+        }
+      ]
+    },
+    {
+      "air_date": "2022-04-07",
+      "episode_number": 9,
+      "episode_type": "finale",
+      "id": 3396436,
+      "name": "The We We Are",
+      "overview": "The team discovers troubling revelations.",
+      "production_code": "109",
+      "runtime": 40,
+      "season_number": 1,
+      "show_id": 95396,
+      "still_path": "/dzx8D2B0ELncXuCNwtPCags43Q.jpg",
+      "vote_average": 9.3,
+      "vote_count": 97,
+      "crew": [
+        {
+          "job": "Director",
+          "department": "Directing",
+          "credit_id": "5dcc358b79a1c3001044d709",
+          "adult": false,
+          "gender": 2,
+          "id": 7399,
+          "known_for_department": "Acting",
+          "name": "Ben Stiller",
+          "original_name": "Ben Stiller",
+          "popularity": 5.6917,
+          "profile_path": "/scgpxhI05JpdNXXfmpK6z0rPOWN.jpg"
+        },
+        {
+          "job": "Writer",
+          "department": "Writing",
+          "credit_id": "6217f112ce5d82006925087f",
+          "adult": false,
+          "gender": 2,
+          "id": 3442409,
+          "known_for_department": "Writing",
+          "name": "Dan Erickson",
+          "original_name": "Dan Erickson",
+          "popularity": 0.4318,
+          "profile_path": "/qzQ30V43kbVoMjJXRw6ydkicXEP.jpg"
+        },
+        {
+          "job": "Director of Photography",
+          "department": "Camera",
+          "credit_id": "6217fd5b7fcab30042c96ed6",
+          "adult": false,
+          "gender": 1,
+          "id": 1550276,
+          "known_for_department": "Camera",
+          "name": "Jessica Lee Gagné",
+          "original_name": "Jessica Lee Gagné",
+          "popularity": 0.1607,
+          "profile_path": "/aMuGTRfcis7HiBz3fp3JSv30ToX.jpg"
+        }
+      ],
+      "guest_stars": [
+        {
+          "character": "Natalie Kalen",
+          "credit_id": "621879b07dfda60044e22a3b",
+          "order": 515,
+          "adult": false,
+          "gender": 1,
+          "id": 3442851,
+          "known_for_department": "Acting",
+          "name": "Sydney Cole Alexander",
+          "original_name": "Sydney Cole Alexander",
+          "popularity": 0.3522,
+          "profile_path": "/biXz1aluHH2dod2v9gbY69AhTtx.jpg"
+        },
+        {
+          "character": "Danise",
+          "credit_id": "621135aea39d0b004240878a",
+          "order": 518,
+          "adult": false,
+          "gender": 1,
+          "id": 2520396,
+          "known_for_department": "Acting",
+          "name": "Annie McNamara",
+          "original_name": "Annie McNamara",
+          "popularity": 0.6736,
+          "profile_path": null
+        },
+        {
+          "character": "Patton",
+          "credit_id": "621135ba96670e001be02ead",
+          "order": 519,
+          "adult": false,
+          "gender": 2,
+          "id": 3151703,
+          "known_for_department": "Acting",
+          "name": "Donald Webber Jr.",
+          "original_name": "Donald Webber Jr.",
+          "popularity": 0.1083,
+          "profile_path": "/ayDvwq0Li3Lk3l1PkREKz02i1nU.jpg"
+        },
+        {
+          "character": "Rebeck",
+          "credit_id": "621135c520e6a50042ba4285",
+          "order": 520,
+          "adult": false,
+          "gender": 1,
+          "id": 143715,
+          "known_for_department": "Acting",
+          "name": "Grace Rex",
+          "original_name": "Grace Rex",
+          "popularity": 0.7989,
+          "profile_path": "/g6BiwPLVnSdlpAin52eLHHcMQ37.jpg"
+        },
+        {
+          "character": "Angelo Arteta",
+          "credit_id": "6234a6f5fea0d70079df314b",
+          "order": 521,
+          "adult": false,
+          "gender": 2,
+          "id": 1204086,
+          "known_for_department": "Acting",
+          "name": "Ethan Flower",
+          "original_name": "Ethan Flower",
+          "popularity": 0.3929,
+          "profile_path": "/sDAMzhge9Dv8zVpVW0wlE9XyCnH.jpg"
+        },
+        {
+          "character": "Gabriela 'Gabby' Arteta",
+          "credit_id": "62508c202f1be010a3b47bcc",
+          "order": 534,
+          "adult": false,
+          "gender": 0,
+          "id": 3337853,
+          "known_for_department": "Acting",
+          "name": "Nora Dale",
+          "original_name": "Nora Dale",
+          "popularity": 0.4174,
+          "profile_path": null
+        },
+        {
+          "character": "Jame Eagan",
+          "credit_id": "62187a0ecb9f4b006767b37d",
+          "order": 536,
+          "adult": false,
+          "gender": 2,
+          "id": 89666,
+          "known_for_department": "Acting",
+          "name": "Michael Siberry",
+          "original_name": "Michael Siberry",
+          "popularity": 1.064,
+          "profile_path": "/2ZS6V1fNO8Pt208XlNBUynkhebp.jpg"
+        },
+        {
+          "character": "Cecil",
+          "credit_id": "62721b05e19de900654f8838",
+          "order": 538,
+          "adult": false,
+          "gender": 0,
+          "id": 1353559,
+          "known_for_department": "Acting",
+          "name": "Arthur Brooks",
+          "original_name": "Arthur Brooks",
+          "popularity": 0.4048,
+          "profile_path": null
+        },
+        {
+          "character": "Balf",
+          "credit_id": "62c07db763d713026bc6d6ce",
+          "order": 539,
+          "adult": false,
+          "gender": 2,
+          "id": 2185534,
+          "known_for_department": "Acting",
+          "name": "Rajat Suresh",
+          "original_name": "Rajat Suresh",
+          "popularity": 0.3444,
+          "profile_path": null
+        },
+        {
+          "character": "Event Coordinator",
+          "credit_id": "62721b28a313b8009eea4144",
+          "order": 541,
+          "adult": false,
+          "gender": 1,
+          "id": 26046,
+          "known_for_department": "Acting",
+          "name": "Amy Stiller",
+          "original_name": "Amy Stiller",
+          "popularity": 1.4526,
+          "profile_path": "/hBOWh6dNPr1Mc5UdKJD2fq0eQx4.jpg"
+        }
+      ]
+    }
+  ],
+  "name": "Season 1",
+  "overview": "At Lumon Industries, employees undergo \"severance,\" a procedure dividing their work and personal memories. Mark, a grieving team leader, begins to uncover the dark secrets of the company, forcing him and his coworkers to confront questions of identity, free will, and corporate control.",
+  "id": 135726,
+  "poster_path": "/lFf6LLrQjYldcZItzOkGmMMigP7.jpg",
+  "season_number": 1,
+  "vote_average": 8.4,
+  "watch/providers": {
+    "results": {
+      "AE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=AE",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 2
+          }
+        ]
+      },
+      "AG": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=AG",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 11
+          }
+        ]
+      },
+      "AR": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=AR",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "AT": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=AT",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 141
+          }
+        ]
+      },
+      "AU": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=AU",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 85
+          }
+        ]
+      },
+      "AZ": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=AZ",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "BE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BE",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 9
+          }
+        ]
+      },
+      "BG": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BG",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "BH": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BH",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 48
+          }
+        ]
+      },
+      "BM": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BM",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 26
+          }
+        ]
+      },
+      "BO": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BO",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "BR": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BR",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 9
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 112
+          }
+        ]
+      },
+      "BS": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BS",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 24
+          }
+        ]
+      },
+      "BY": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BY",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 2
+          }
+        ]
+      },
+      "BZ": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=BZ",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 4
+          }
+        ]
+      },
+      "CA": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CA",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 164
+          }
+        ]
+      },
+      "CH": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CH",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 17
+          }
+        ]
+      },
+      "CL": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CL",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 48
+          }
+        ]
+      },
+      "CO": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CO",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 48
+          }
+        ]
+      },
+      "CR": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CR",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "CV": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CV",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 10
+          }
+        ]
+      },
+      "CY": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CY",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 4
+          }
+        ]
+      },
+      "CZ": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=CZ",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/eBXzkFEupZjKaIKY7zBUaSdCY8I.jpg",
+            "provider_id": 381,
+            "provider_name": "Canal+",
+            "display_priority": 27
+          }
+        ]
+      },
+      "DE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=DE",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 240
+          }
+        ]
+      },
+      "DK": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=DK",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 10
+          }
+        ]
+      },
+      "DO": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=DO",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 30
+          }
+        ]
+      },
+      "EC": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=EC",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 7
+          }
+        ]
+      },
+      "EE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=EE",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 7
+          }
+        ]
+      },
+      "EG": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=EG",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "ES": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=ES",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 2
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 110
+          }
+        ]
+      },
+      "FI": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=FI",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 11
+          }
+        ]
+      },
+      "FJ": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=FJ",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 11
+          }
+        ]
+      },
+      "FR": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=FR",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/eBXzkFEupZjKaIKY7zBUaSdCY8I.jpg",
+            "provider_id": 381,
+            "provider_name": "Canal+",
+            "display_priority": 6
+          }
+        ]
+      },
+      "GB": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=GB",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 157
+          }
+        ]
+      },
+      "GH": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=GH",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 13
+          }
+        ]
+      },
+      "GR": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=GR",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "GT": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=GT",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "HK": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=HK",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 16
+          }
+        ]
+      },
+      "HN": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=HN",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "HU": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=HU",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 7
+          }
+        ]
+      },
+      "ID": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=ID",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 12
+          }
+        ]
+      },
+      "IE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=IE",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "IL": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=IL",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 24
+          }
+        ]
+      },
+      "IN": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=IN",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 2
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 99
+          }
+        ]
+      },
+      "IT": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=IT",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 115
+          }
+        ]
+      },
+      "JO": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=JO",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 49
+          }
+        ]
+      },
+      "JP": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=JP",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 63
+          }
+        ]
+      },
+      "KR": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=KR",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "LB": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=LB",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 27
+          }
+        ]
+      },
+      "LT": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=LT",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 7
+          }
+        ]
+      },
+      "LU": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=LU",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "LV": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=LV",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 7
+          }
+        ]
+      },
+      "MD": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=MD",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 24
+          }
+        ]
+      },
+      "MT": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=MT",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 24
+          }
+        ]
+      },
+      "MU": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=MU",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 12
+          }
+        ]
+      },
+      "MX": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=MX",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 108
+          }
+        ]
+      },
+      "MY": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=MY",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 11
+          }
+        ]
+      },
+      "MZ": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=MZ",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 13
+          }
+        ]
+      },
+      "NI": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=NI",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "NL": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=NL",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 10
+          }
+        ]
+      },
+      "NO": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=NO",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 6
+          }
+        ]
+      },
+      "NZ": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=NZ",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 42
+          }
+        ]
+      },
+      "OM": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=OM",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 48
+          }
+        ]
+      },
+      "PA": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=PA",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 24
+          }
+        ]
+      },
+      "PE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=PE",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 6
+          }
+        ]
+      },
+      "PH": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=PH",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 11
+          }
+        ]
+      },
+      "PL": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=PL",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          }
+        ]
+      },
+      "PT": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=PT",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 11
+          }
+        ]
+      },
+      "PY": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=PY",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 4
+          }
+        ]
+      },
+      "QA": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=QA",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 48
+          }
+        ]
+      },
+      "SA": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=SA",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 2
+          }
+        ]
+      },
+      "SE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=SE",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "SG": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=SG",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 12
+          }
+        ]
+      },
+      "SI": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=SI",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 23
+          }
+        ]
+      },
+      "SK": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=SK",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/eBXzkFEupZjKaIKY7zBUaSdCY8I.jpg",
+            "provider_id": 381,
+            "provider_name": "Canal+",
+            "display_priority": 36
+          }
+        ]
+      },
+      "SV": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=SV",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 30
+          }
+        ]
+      },
+      "TH": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=TH",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 10
+          }
+        ]
+      },
+      "TT": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=TT",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 11
+          }
+        ]
+      },
+      "TW": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=TW",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 15
+          }
+        ]
+      },
+      "UA": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=UA",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 1
+          }
+        ]
+      },
+      "UG": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=UG",
+        "free": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 13
+          }
+        ],
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 13
+          }
+        ]
+      },
+      "US": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=US",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/yFrZVSC4UnDpeIzX2svcRPgV5P5.jpg",
+            "provider_id": 2243,
+            "provider_name": "Apple TV Plus Amazon Channel",
+            "display_priority": 275
+          }
+        ]
+      },
+      "VE": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=VE",
+        "free": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ],
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 5
+          }
+        ]
+      },
+      "ZA": {
+        "link": "https://www.themoviedb.org/tv/95396-severance/season/1/watch?locale=ZA",
+        "flatrate": [
+          {
+            "logo_path": "/2E03IAZsX4ZaUqM7tXlctEPMGWS.jpg",
+            "provider_id": 350,
+            "provider_name": "Apple TV+",
+            "display_priority": 9
+          }
+        ]
+      }
+    }
+  }
+}
