@@ -9,7 +9,7 @@ public interface ITmDb
 {
     Task<List<TmDbItem>> Search(string query, string type = "tv", int limit = 8);
     Task<TmDbItem> GetDetail(int id, string type);
-    Task<TmDbItemImageList> GetImages(int id, string type);
+    Task<TmDbImages> GetImages(int id, string type);
     Task<string> GetImageBase64(string imagePath, string size = "w300");
     Task<string> GetImageUrl(string imagePath, string size = "w300");
 }
@@ -62,13 +62,13 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         return item;
     }
 
-    public async Task<TmDbItemImageList> GetImages(int id, string type)
+    public async Task<TmDbImages> GetImages(int id, string type)
     {
-        if (cache.TryGetValue($"TmDbImages-{type}-{id}", out TmDbItemImageList? item) && item is not null)
+        if (cache.TryGetValue($"TmDbImages-{type}-{id}", out TmDbImages? item) && item is not null)
             return item;
 
         var url = $"{BaseApiPath}{type.ToLower()}/{id}/images";
-        item = await httpClient.GetFromJsonAsync<TmDbItemImageList>(url, JsonOpts);
+        item = await httpClient.GetFromJsonAsync<TmDbImages>(url, JsonOpts);
         if (item == null) throw new NullReferenceException("TmDb Item is null");
 
         cache.Set($"TmDbImages-{type}-{id}", item, TimeSpan.FromMinutes(60));

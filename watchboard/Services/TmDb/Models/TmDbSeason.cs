@@ -3,7 +3,17 @@ using System.Text.Json.Serialization;
 namespace WatchBoard.Services.TmDb.Models;
 
 [Serializable]
-public class TmDbItemSeasonEpisode
+public class TmDbSeason
+{
+    [JsonPropertyName("_id")]
+    public int Id { get; set; }
+
+    [JsonPropertyName("episodes")]
+    public List<TmDbEpisode> Episodes { get; set; } = [];
+}
+
+[Serializable]
+public class TmDbEpisode
 {
     [JsonPropertyName("id")]
     public int Id { get; set; }

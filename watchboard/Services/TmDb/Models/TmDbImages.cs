@@ -3,7 +3,20 @@ using System.Text.Json.Serialization;
 namespace WatchBoard.Services.TmDb.Models;
 
 [Serializable]
-public class TmDbItemImageInfo
+public class TmDbImages
+{
+    [JsonPropertyName("backdrops")]
+    public TmDbImage[] Backdrops { get; set; } = [];
+
+    [JsonPropertyName("logos")]
+    public TmDbImage[] Logos { get; set; } = [];
+
+    [JsonPropertyName("posters")]
+    public TmDbImage[] Posters { get; set; } = [];
+}
+
+[Serializable]
+public class TmDbImage
 {
     [JsonPropertyName("aspect_ratio")]
     public double AspectRatio { get; set; }
@@ -25,4 +38,10 @@ public class TmDbItemImageInfo
 
     [JsonPropertyName("width")]
     public int Width { get; set; }
+
+    [JsonIgnore]
+    public bool Selected { get; set; }
+    
+    [JsonIgnore]
+    public byte[]? Data { get; set; }
 }
