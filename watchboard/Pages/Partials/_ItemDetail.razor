@@ -1,5 +1,5 @@
 @using WatchBoard.Database.Entities
-<div class="modal-dialog modal-dialog-centered">
+<div class="modal-dialog modal-lg modal-dialog-centered">
     <form class="modal-content" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-swap="outerHTML">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
@@ -12,6 +12,11 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
                         Details
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="episodes-tab" data-bs-toggle="tab" data-bs-target="#episodes-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="episodes-tab-pane" aria-selected="false">
+                        Seasons
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -33,7 +38,6 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="details-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="details-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
-
                         @if (ItemModel.Type == ItemType.Tv)
                         {
                             <p><i class="bi bi-collection-play"></i> TV Show <br/>@ItemModel.ReleaseDates()</p>
@@ -72,7 +76,8 @@
                             {
                                 <p class="text-body-secondary">
                                     <i class="bi bi-info-circle"></i>
-                                    S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber) premieres on @ItemModel.SeriesNextEpisodeDate
+                                    S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber) premieres
+                                    on @ItemModel.SeriesNextEpisodeDate
                                 </p>
                             }
                         }
@@ -92,6 +97,37 @@
                                 </svg>
                             </a>
                         </p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="episodes-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="episodes-tab-@(ItemModel.Id)" tabindex="0">
+                    <div class="pt-3 px-2">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Episodes</th>
+                                <th scope="col">Air Date</th>
+                            </tr>
+                            </thead>
+                            @foreach (var season in ItemModel.GetSeasons().OrderByDescending(x => x.SeasonNumber).Take(12))
+                            {
+                                <tr>
+                                    <td>
+                                        @season.SeasonNumber
+                                    </td>
+                                    <td>
+                                        @season.Name
+                                    </td>
+                                    <td>
+                                        @season.EpisodeCount
+                                    </td>
+                                    <td>
+                                        @season.AirDate
+                                    </td>
+                                </tr>
+                            }
+                        </table>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="provider-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="provider-tab-@(ItemModel.Id)" tabindex="0">
@@ -154,7 +190,7 @@
                         <div class="mt-3 fw-lighter" style="font-size: 0.8em;">
                             Image data supplied by <a href="https://developer.themoviedb.org">TMDB</a>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="tab-pane fade" id="settings-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="settings-tab-@(ItemModel.Id)" tabindex="0">

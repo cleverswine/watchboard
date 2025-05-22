@@ -6,13 +6,6 @@ namespace WatchBoard.Services;
 
 public static class Mapping
 {
-    public static string HumanizeDateString(this string dateTime)
-    {
-        var now = DateOnly.FromDateTime(DateTime.UtcNow);
-        var then = DateOnly.Parse(dateTime);
-        return now.CompareTo(then) == 0 ? "today!" : then.Humanize();
-    }
-
     public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbImages imageList)
     {
         var selectedProvider = item.GetProviders().FirstOrDefault(x => x.Selected);
@@ -40,6 +33,7 @@ public static class Mapping
         item.Notes = tmDbItem.GetNotes();
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(updatedProviders);
+        item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons());
     }
 
     public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbImages imageList)
@@ -73,8 +67,52 @@ public static class Mapping
         };
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
-
+        item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons());
         return item;
+    }
+
+    
+    private static string GetNotes(this TmDbItem tmDbItem)
+    {
+        if (tmDbItem.NextEpisodeToAir == null)
+        {
+            if (tmDbItem.LastEpisodeToAir == null) return "";
+            var then = DateOnly.Parse(tmDbItem.LastEpisodeToAir.AirDate);
+            return $"S{tmDbItem.LastEpisodeToAir.SeasonNumber} finale -> {HumanizeWithTodayOption(then)}";
+        }
+        else
+        {
+            var then = DateOnly.Parse(tmDbItem.NextEpisodeToAir.AirDate);
+            return
+                $"S{tmDbItem.NextEpisodeToAir.SeasonNumber} E{tmDbItem.NextEpisodeToAir.EpisodeNumber}/{EpisodeCount(tmDbItem.NextEpisodeToAir.SeasonNumber)} -> {HumanizeWithTodayOption(then)}";
+        }
+
+        string HumanizeWithTodayOption(DateOnly d)
+        {
+            var result = d.Humanize();
+            return result == "now" ? "today!" : result;
+        }
+
+        string EpisodeCount(int seasonNumber)
+        {
+            var season = tmDbItem.Seasons.FirstOrDefault(x => x.SeasonNumber == seasonNumber);
+            return season?.EpisodeCount.ToString() ?? "?";
+        }
+    }
+    
+    private static List<ItemSeason> MapTmDbToItemSeasons(this TmDbItemSeason[] tmDbItemSeasons)
+    {
+        return tmDbItemSeasons.Select(x => new ItemSeason
+        {
+            Id = x.Id,
+            Name = x.Name,
+            SeasonNumber = x.SeasonNumber,
+            EpisodeCount = x.EpisodeCount,
+            AirDate = x.AirDate,
+            Overview = x.Overview,
+            PosterPath = x.PosterPath,
+            VoteAverage = x.VoteAverage
+        }).ToList();
     }
 
     private static List<ItemProvider> MapTmDbToItemProviders(this TmDbWatchProviders watchProviders)
@@ -88,7 +126,7 @@ public static class Mapping
         {
             Id = -2, Name = "Television", DisplayPriority = -2
         });
-        
+
         itemProviders.Insert(0, new ItemProvider
         {
             Id = -1, Name = "Home Server", DisplayPriority = -1

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using WatchBoard.Services.TmDb.Models;
 
 namespace WatchBoard.Database.Entities;
 
@@ -39,6 +40,8 @@ public class Item
 
     public int NumberOfSeasons { get; set; }
 
+    public string? SeasonsJson { get; set; }
+
     [MaxLength(80)]
     public string? OriginalLanguage { get; set; }
 
@@ -77,6 +80,17 @@ public class Item
 
     public string TmdbUrl => $"https://www.themoviedb.org/{Type.ToString().ToLower()}/{TmdbId}";
 
+    public List<ItemSeason> GetSeasons()
+    {
+        return SeasonsJson == null ? [] 
+            : JsonSerializer.Deserialize<List<ItemSeason>>(SeasonsJson) ?? [];
+    }
+    
+    public void SetSeasons(List<ItemSeason> seasons)
+    {
+        SeasonsJson = JsonSerializer.Serialize(seasons);
+    }
+    
     public List<ItemImage> GetBackdropImages()
     {
         return Images == null

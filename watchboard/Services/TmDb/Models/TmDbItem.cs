@@ -70,34 +70,6 @@ public class TmDbItem
 
     public string? ItemName => Title ?? Name;
     public string? ItemReleaseDate => ReleaseDate ?? FirstAirDate;
-    
-    public string GetNotes()
-    {
-        if (NextEpisodeToAir == null)
-        {
-            if (LastEpisodeToAir == null) return "";
-            var then = DateOnly.Parse(LastEpisodeToAir.AirDate);
-            return $"S{LastEpisodeToAir.SeasonNumber} finale -> {HumanizeWithTodayOption(then)}";
-        }
-        else
-        {
-            var then = DateOnly.Parse(NextEpisodeToAir.AirDate);
-            return
-                $"S{NextEpisodeToAir.SeasonNumber} E{NextEpisodeToAir.EpisodeNumber}/{EpisodeCount(NextEpisodeToAir.SeasonNumber)} -> {HumanizeWithTodayOption(then)}";
-        }
-
-        string HumanizeWithTodayOption(DateOnly d)
-        {
-            var result = d.Humanize();
-            return result == "now" ? "today!" : result;
-        }
-
-        string EpisodeCount(int seasonNumber)
-        {
-            var season = Seasons.FirstOrDefault(x => x.SeasonNumber == seasonNumber);
-            return season?.EpisodeCount.ToString() ?? "?";
-        }
-    }
 }
 
 [Serializable]
