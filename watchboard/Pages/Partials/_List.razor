@@ -1,13 +1,11 @@
 @using WatchBoard.Database.Entities
 <h4> @ListModel.Name </h4>
 
-<form class="sortable d-md-flex flex-wrap gap-4" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
+<form class="row sortable" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
+
     @foreach (var i in ListModel.Items)
     {
-        <div>
-            <input type='hidden' name='item' value='@i.Id'/>
-            <_Item ItemModel="i"></_Item>
-        </div>
+        <_Item ItemModel="i"></_Item>
     }
 </form>
 

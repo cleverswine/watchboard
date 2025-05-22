@@ -13,7 +13,7 @@ public static class Mapping
         return now.CompareTo(then) == 0 ? "today!" : then.Humanize();
     }
 
-    public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbItemImageList imageList)
+    public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbImages imageList)
     {
         var selectedProvider = item.GetProviders().FirstOrDefault(x => x.Selected);
         var updatedProviders = tmDbItem.Providers?.MapTmDbToItemProviders() ?? [];
@@ -37,11 +37,12 @@ public static class Mapping
         item.SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber;
         item.OriginalLanguage = tmDbItem.OriginalLanguage?.ToUpper() ?? "";
         item.OriginCountry = string.Join(", ", tmDbItem.OriginCountry);
+        item.Notes = tmDbItem.GetNotes();
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(updatedProviders);
     }
 
-    public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbItemImageList imageList)
+    public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbImages imageList)
     {
         var item = new Item
         {
@@ -67,7 +68,8 @@ public static class Mapping
             SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber,
             SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber,
             OriginalLanguage = tmDbItem.OriginalLanguage?.ToUpper() ?? "",
-            OriginCountry = string.Join(", ", tmDbItem.OriginCountry)
+            OriginCountry = string.Join(", ", tmDbItem.OriginCountry),
+            Notes = tmDbItem.GetNotes()
         };
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
@@ -95,7 +97,7 @@ public static class Mapping
         return itemProviders;
     }
 
-    private static List<ItemImage> MapTmDbToImageList(this TmDbItemImageList imageList)
+    private static List<ItemImage> MapTmDbToImageList(this TmDbImages imageList)
     {
         var images = imageList.Backdrops.Select(x => new ItemImage
         {

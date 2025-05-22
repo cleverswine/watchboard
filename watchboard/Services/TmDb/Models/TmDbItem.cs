@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Humanizer;
 
 namespace WatchBoard.Services.TmDb.Models;
 
@@ -32,6 +33,12 @@ public class TmDbItem
 
     [JsonPropertyName("next_episode_to_air")]
     public TmDbItemEpisode? NextEpisodeToAir { get; set; }
+    
+    [JsonPropertyName("last_episode_to_air")]
+    public TmDbItemEpisode? LastEpisodeToAir { get; set; }
+
+    [JsonPropertyName("seasons")]
+    public TmDbItemSeason[] Seasons { get; set; } = [];
 
     // Common
     [JsonPropertyName("media_type")]
@@ -63,6 +70,34 @@ public class TmDbItem
 
     public string? ItemName => Title ?? Name;
     public string? ItemReleaseDate => ReleaseDate ?? FirstAirDate;
+    
+    public string GetNotes()
+    {
+        if (NextEpisodeToAir == null)
+        {
+            if (LastEpisodeToAir == null) return "";
+            var then = DateOnly.Parse(LastEpisodeToAir.AirDate);
+            return $"S{LastEpisodeToAir.SeasonNumber} finale -> {HumanizeWithTodayOption(then)}";
+        }
+        else
+        {
+            var then = DateOnly.Parse(NextEpisodeToAir.AirDate);
+            return
+                $"S{NextEpisodeToAir.SeasonNumber} E{NextEpisodeToAir.EpisodeNumber}/{EpisodeCount(NextEpisodeToAir.SeasonNumber)} -> {HumanizeWithTodayOption(then)}";
+        }
+
+        string HumanizeWithTodayOption(DateOnly d)
+        {
+            var result = d.Humanize();
+            return result == "now" ? "today!" : result;
+        }
+
+        string EpisodeCount(int seasonNumber)
+        {
+            var season = Seasons.FirstOrDefault(x => x.SeasonNumber == seasonNumber);
+            return season?.EpisodeCount.ToString() ?? "?";
+        }
+    }
 }
 
 [Serializable]
@@ -149,4 +184,31 @@ public class TmDbWatchProvidersResultsFlatRate
     
     [JsonIgnore]
     public bool Selected { get; set; }
+}
+
+public class TmDbItemSeason
+{
+    [JsonPropertyName("air_date")]
+    public string AirDate { get; set; } = string.Empty;
+
+    [JsonPropertyName("episode_count")]
+    public int EpisodeCount { get; set; }
+
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("overview")]
+    public string Overview { get; set; } = string.Empty;
+
+    [JsonPropertyName("poster_path")]
+    public string PosterPath { get; set; } = string.Empty;
+
+    [JsonPropertyName("season_number")]
+    public int SeasonNumber { get; set; }
+
+    [JsonPropertyName("vote_average")]
+    public double VoteAverage { get; set; }
 }

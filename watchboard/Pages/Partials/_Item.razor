@@ -1,65 +1,49 @@
 @using WatchBoard.Database.Entities
-@using WatchBoard.Services
 
-<div hx-indicator="#indicator-@(ItemModel.Id)" class="card text-bg-dark mb-md-0 mb-sm-4" id="card-@(ItemModel.Id)" style="width: 302px;">
-
-    <a href="#" hx-get="/app/items/@(ItemModel.Id)" hx-target="#modals-here" hx-trigger="click" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#modals-here" class="stretched-link">
-        <img src="@(ItemModel.BackdropBase64)" width="300" height="169" class="card-img" alt="@ItemModel.Name">
-    </a>
-
-    <div class="card-img-overlay p-0">
-
-        <div class="position-relative w-100 h-100">
-
+<input type='hidden' name='item' value='@ItemModel.Id'/>
+<div hx-indicator="#indicator-@(ItemModel.Id)" id="card-@(ItemModel.Id)" 
+     class="col-sm-12 col-md-4 col-xl-3">
+    <div class="card mb-3">
+        <div style="position: relative;">
+            <a href="#" hx-get="/app/items/@(ItemModel.Id)" hx-target="#modals-here" hx-trigger="click" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#modals-here" class="stretched-link">
+                <img src="@(ItemModel.BackdropBase64)" class="card-img img-fluid" alt="@ItemModel.Name">
+            </a>
             <div class="htmx-indicator position-absolute top-0 start-0 ms-3 mt-3" id="indicator-@(ItemModel.Id)">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-
-            <div class="position-absolute bottom-0 w-100 bg-body-secondary bg-opacity-75 pt-2 px-2">
-                @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
-                {
-                    @if (ItemModel.SeriesNextEpisodeNumber == 1)
-                    {
-                        <h6 class="card-subtitle mb-2 text-body-secondary shadow-lg">
-                            Season @(ItemModel.SeriesNextEpisodeSeason) starts @ItemModel.SeriesNextEpisodeDate?.HumanizeDateString()
-                        </h6>
-                    }
-                    else
-                    {
-                        <h6 class="card-subtitle mb-2 text-body-secondary shadow-lg">
-                            S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber)&nbsp;&nbsp;<i class="bi bi-arrow-right"></i>&nbsp;@ItemModel.SeriesNextEpisodeDate?.HumanizeDateString()
-                        </h6>
-                    }
-                }
-                <h6 class="card-title shadow-lg">
-                    <div class="d-flex justify-content-between align-content-end">
-                        <div class="text-truncate pe-3">
+            <div class="position-absolute bottom-0 start-0 bg-body-secondary bg-opacity-75 w-100 px-2 py-1">
+                <div class="d-flex justify-content-between align-items-end">
+                    <div>
+                        <small class="text-body-secondary">
+                            <i class="bi bi-info-circle me-1"></i> @ItemModel.Notes
+                            <br/>
+                        </small>
+                        <span class="fw-bold shadow-lg">
                             @ItemModel.Name
-                        </div>
-                        <div>
-                            @{
-                                var s = ProviderSvg(SelectedProvider?.Name ?? "");
-                            }
-                            @if (s.StartsWith("bi"))
-                            {
-                                <i class="@(s)" style="font-size: 1.1em;"></i>
-                            }
-                            @if (SelectedProvider != null && !s.StartsWith("bi"))
-                            {
-                                <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="@s"></path>
-                                </svg>
-                            }
-                        </div>
-                    </div>
-                </h6>
-            </div>
+                        </span>
 
+                    </div>
+                    <div>
+                        @{
+                            var s = ProviderSvg(SelectedProvider?.Name ?? "");
+                        }
+                        @if (s.StartsWith("bi"))
+                        {
+                            <i class="@(s)" style="font-size: 1.1em;"></i>
+                        }
+                        @if (SelectedProvider != null && !s.StartsWith("bi"))
+                        {
+                            <svg class="mb-1" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="@s"></path>
+                            </svg>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
 
 @code
