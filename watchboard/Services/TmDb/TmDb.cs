@@ -10,6 +10,7 @@ public interface ITmDb
     Task<List<TmDbItem>> Search(string query, string type = "tv", int limit = 8);
     Task<TmDbItem> GetDetail(int id, string type);
     Task<TmDbImages> GetImages(int id, string type);
+    Task<TmDbSeason> GetSeason(int id, int seasonNumber);
     Task<string> GetImageBase64(string imagePath, string size = "w300");
     Task<string> GetImageUrl(string imagePath, string size = "w300");
 }
@@ -17,7 +18,6 @@ public interface ITmDb
 public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
 {
     private static readonly JsonSerializerOptions JsonOpts = new() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
-    private static readonly string[] ItemMediaTypes = ["movie", "tv"];
     private static readonly string BaseApiPath = "https://api.themoviedb.org/3/";
 
     public async Task<List<TmDbItem>> Search(string query, string type = "tv", int limit = 8)
@@ -75,6 +75,19 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         return item;
     }
 
+    public async Task<TmDbSeason> GetSeason(int id, int seasonNumber)
+    {
+        if (cache.TryGetValue($"TmDbSeason-{id}-{seasonNumber}", out TmDbSeason? item) && item is not null)
+            return item;
+
+        var url = $"{BaseApiPath}tv/{id}/season/{seasonNumber}?append_to_response=watch%2Fproviders&language=en-US";
+        item = await httpClient.GetFromJsonAsync<TmDbSeason>(url, JsonOpts);
+        if (item == null) throw new NullReferenceException("TmDb Item is null");
+
+        cache.Set($"TmDbSeason-{id}-{seasonNumber}", item, TimeSpan.FromMinutes(60));
+        return item;
+    }
+    
     public async Task<string> GetImageUrl(string imagePath, string size = "w300")
     {
         ArgumentNullException.ThrowIfNull(imagePath);

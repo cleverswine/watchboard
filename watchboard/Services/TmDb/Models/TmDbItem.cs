@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using Humanizer;
 
 namespace WatchBoard.Services.TmDb.Models;
 
@@ -38,7 +37,7 @@ public class TmDbItem
     public TmDbItemEpisode? LastEpisodeToAir { get; set; }
 
     [JsonPropertyName("seasons")]
-    public TmDbItemSeason[] Seasons { get; set; } = [];
+    public TmDbSeason[] Seasons { get; set; } = [];
 
     // Common
     [JsonPropertyName("media_type")]
@@ -156,31 +155,4 @@ public class TmDbWatchProvidersResultsFlatRate
     
     [JsonIgnore]
     public bool Selected { get; set; }
-}
-
-public class TmDbItemSeason
-{
-    [JsonPropertyName("air_date")]
-    public string AirDate { get; set; } = string.Empty;
-
-    [JsonPropertyName("episode_count")]
-    public int EpisodeCount { get; set; }
-
-    [JsonPropertyName("id")]
-    public int Id { get; set; }
-
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = string.Empty;
-
-    [JsonPropertyName("overview")]
-    public string Overview { get; set; } = string.Empty;
-
-    [JsonPropertyName("poster_path")]
-    public string PosterPath { get; set; } = string.Empty;
-
-    [JsonPropertyName("season_number")]
-    public int SeasonNumber { get; set; }
-
-    [JsonPropertyName("vote_average")]
-    public double VoteAverage { get; set; }
 }

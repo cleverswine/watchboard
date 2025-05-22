@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WatchBoard.Database;
-using WatchBoard.Services.Database;
 using WatchBoard.Services.TmDb;
+using WatchBoard.Services.TmDb.Models;
 
 namespace WatchBoard.Services.Worker;
 
@@ -35,7 +35,14 @@ public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundSe
 
                     var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
                     var images = await tmDb.GetImages(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-                    dbItem.UpdateFromTmDb(tmDbItem, images);
+                    var latestSeasons = tmDbItem.Seasons.OrderByDescending(x => x.SeasonNumber).Take(3);
+                    var tmDbItemSeasons = new List<TmDbSeason>();
+                    foreach (var item in latestSeasons)
+                    {
+                        var tmDbItemSeason = await tmDb.GetSeason(tmDbItem.Id, item.SeasonNumber);
+                        tmDbItemSeasons.AddRange(tmDbItemSeason);
+                    }
+                    dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons);
                     dbItem.LastUpdated = DateTimeOffset.UtcNow;
                     await db.SaveChangesAsync(stoppingToken);
                 }

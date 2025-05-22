@@ -5,8 +5,26 @@ namespace WatchBoard.Services.TmDb.Models;
 [Serializable]
 public class TmDbSeason
 {
-    [JsonPropertyName("_id")]
-    public int Id { get; set; }
+    [JsonPropertyName("air_date")]
+    public string AirDate { get; set; } = string.Empty;
+
+    [JsonPropertyName("episode_count")]
+    public int EpisodeCount { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("overview")]
+    public string Overview { get; set; } = string.Empty;
+
+    [JsonPropertyName("poster_path")]
+    public string PosterPath { get; set; } = string.Empty;
+
+    [JsonPropertyName("vote_average")]
+    public double VoteAverage { get; set; }
+    
+    [JsonPropertyName("season_number")]
+    public int SeasonNumber { get; set; }
 
     [JsonPropertyName("episodes")]
     public List<TmDbEpisode> Episodes { get; set; } = [];
@@ -40,7 +58,7 @@ public class TmDbEpisode
     public string ProductionCode { get; set; } = string.Empty;
 
     [JsonPropertyName("runtime")]
-    public int Runtime { get; set; }
+    public int? Runtime { get; set; }
 
     [JsonPropertyName("season_number")]
     public int SeasonNumber { get; set; }

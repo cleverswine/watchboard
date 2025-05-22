@@ -14,11 +14,14 @@
                         Details
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="episodes-tab" data-bs-toggle="tab" data-bs-target="#episodes-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="episodes-tab-pane" aria-selected="false">
-                        Seasons
-                    </button>
-                </li>
+                @if (ItemModel.Type == ItemType.Tv)
+                {
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="episodes-tab" data-bs-toggle="tab" data-bs-target="#episodes-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="episodes-tab-pane" aria-selected="false">
+                            Seasons
+                        </button>
+                    </li>
+                }
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="provider-tab" data-bs-toggle="tab" data-bs-target="#provider-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
                         Watch Options
@@ -99,37 +102,47 @@
                         </p>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="episodes-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="episodes-tab-@(ItemModel.Id)" tabindex="0">
-                    <div class="pt-3 px-2">
-                        <table class="table table-sm table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Episodes</th>
-                                <th scope="col">Air Date</th>
-                            </tr>
-                            </thead>
-                            @foreach (var season in ItemModel.GetSeasons().OrderByDescending(x => x.SeasonNumber).Take(12))
-                            {
+                @if (ItemModel.Type == ItemType.Tv)
+                {
+                    <div class="tab-pane fade" id="episodes-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="episodes-tab-@(ItemModel.Id)" tabindex="0">
+                        <div class="pt-3 px-2">
+                            <table class="table table-sm table-striped">
+                                <thead>
                                 <tr>
-                                    <td>
-                                        @season.SeasonNumber
-                                    </td>
-                                    <td>
-                                        @season.Name
-                                    </td>
-                                    <td>
-                                        @season.EpisodeCount
-                                    </td>
-                                    <td>
-                                        @season.AirDate
-                                    </td>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Air Date</th>
                                 </tr>
-                            }
-                        </table>
+                                </thead>
+                                @foreach (var season in ItemModel.GetSeasons().OrderByDescending(x => x.SeasonNumber).Take(12))
+                                {
+                                    @if (season.Episodes.Count <= 0)
+                                    {
+                                        continue;
+                                    }
+                                    @foreach (var e in season.Episodes.OrderByDescending(x => x.EpisodeNumber).Take(12))
+                                    {
+                                        <tr>
+                                            <td nowrap>
+                                                @e.SeasonNumber : @e.EpisodeNumber
+                                            </td>
+                                            <td>
+                                                @e.Name
+                                            </td>
+                                            <td>
+                                                @e.EpisodeType
+                                            </td>
+                                            <td>
+                                                @e.AirDate
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
                     </div>
-                </div>
+                }
                 <div class="tab-pane fade" id="provider-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="provider-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
                         @foreach (var providerOption in ItemModel.GetProviders())

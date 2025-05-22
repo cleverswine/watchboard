@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WatchBoard.Database;
 using WatchBoard.Database.Entities;
 using WatchBoard.Services.TmDb;
+using WatchBoard.Services.TmDb.Models;
 
 namespace WatchBoard.Services;
 
@@ -122,7 +123,15 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
         var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
         var images = await tmDb.GetImages(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-        dbItem.UpdateFromTmDb(tmDbItem, images);
+        var latestSeasons = tmDbItem.Seasons.OrderByDescending(x => x.SeasonNumber).Take(3);
+        var tmDbItemSeasons = new List<TmDbSeason>();
+        foreach (var item in latestSeasons)
+        {
+            var tmDbItemSeason = await tmDb.GetSeason(dbItem.TmdbId, item.SeasonNumber);
+            tmDbItemSeasons.AddRange(tmDbItemSeason);
+        }
+        
+        dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons.ToList());
         await db.SaveChangesAsync();
         return dbItem;
     }
@@ -196,7 +205,14 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
         var tmDbItem = await tmDb.GetDetail(tmDbId, type);
         var images = await tmDb.GetImages(tmDbId, type);
-        var dbItem = tmDbItem.MapTmDbToItem(listId, images);
+        var latestSeasons = tmDbItem.Seasons.OrderByDescending(x => x.SeasonNumber).Take(3);
+        var tmDbItemSeasons = new List<TmDbSeason>();
+        foreach (var item in latestSeasons)
+        {
+            var tmDbItemSeason = await tmDb.GetSeason(tmDbId, item.SeasonNumber);
+            tmDbItemSeasons.AddRange(tmDbItemSeason);
+        }
+        var dbItem = tmDbItem.MapTmDbToItem(listId, images, tmDbItemSeasons);
         dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
         dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
         dbItem.Order = order;

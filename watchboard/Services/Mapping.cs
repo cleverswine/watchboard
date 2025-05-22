@@ -6,7 +6,7 @@ namespace WatchBoard.Services;
 
 public static class Mapping
 {
-    public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbImages imageList)
+    public static void UpdateFromTmDb(this Item item, TmDbItem tmDbItem, TmDbImages imageList, List<TmDbSeason> seasons)
     {
         var selectedProvider = item.GetProviders().FirstOrDefault(x => x.Selected);
         var updatedProviders = tmDbItem.Providers?.MapTmDbToItemProviders() ?? [];
@@ -33,10 +33,10 @@ public static class Mapping
         item.Notes = tmDbItem.GetNotes();
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(updatedProviders);
-        item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons());
+        item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons(seasons));
     }
 
-    public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbImages imageList)
+    public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbImages imageList, List<TmDbSeason> seasons)
     {
         var item = new Item
         {
@@ -67,11 +67,10 @@ public static class Mapping
         };
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
-        item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons());
+        item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons(seasons));
         return item;
     }
 
-    
     private static string GetNotes(this TmDbItem tmDbItem)
     {
         if (tmDbItem.NextEpisodeToAir == null)
@@ -99,19 +98,35 @@ public static class Mapping
             return season?.EpisodeCount.ToString() ?? "?";
         }
     }
-    
-    private static List<ItemSeason> MapTmDbToItemSeasons(this TmDbItemSeason[] tmDbItemSeasons)
+
+    private static List<ItemSeason> MapTmDbToItemSeasons(this TmDbSeason[] tmDbItemSeasons, List<TmDbSeason> seasons)
     {
         return tmDbItemSeasons.Select(x => new ItemSeason
         {
-            Id = x.Id,
             Name = x.Name,
             SeasonNumber = x.SeasonNumber,
             EpisodeCount = x.EpisodeCount,
             AirDate = x.AirDate,
             Overview = x.Overview,
             PosterPath = x.PosterPath,
-            VoteAverage = x.VoteAverage
+            VoteAverage = x.VoteAverage,
+            Episodes = seasons.FirstOrDefault(y => y.SeasonNumber == x.SeasonNumber)?.Episodes
+                .OrderByDescending(y => y.EpisodeNumber)
+                .Take(30)
+                .Select(y => new ItemEpisode
+                {
+                    SeasonNumber =  x.SeasonNumber,   
+                    EpisodeNumber = y.EpisodeNumber,
+                    Name = y.Name,
+                    Overview = y.Overview,
+                    AirDate = y.AirDate,
+                    StillPath = y.StillPath,
+                    VoteAverage = y.VoteAverage,
+                    VoteCount = y.VoteCount,
+                    ProductionCode = y.ProductionCode,
+                    Runtime = y.Runtime,
+                    EpisodeType = y.EpisodeType,
+                }).ToList() ?? []
         }).ToList();
     }
 
