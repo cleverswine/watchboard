@@ -1,8 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using WatchBoard.Database;
-using WatchBoard.Services.TmDb;
-using WatchBoard.Services.TmDb.Models;
-
 namespace WatchBoard.Services.Worker;
 
 // TODO - make configurable
@@ -15,7 +10,7 @@ public class WorkerConfig
 public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundService
 {
     private readonly WorkerConfig _workerConfig = new();
-    
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
@@ -23,28 +18,16 @@ public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundSe
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = serviceScopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var tmDb = scope.ServiceProvider.GetRequiredService<ITmDb>();
+            var repository = scope.ServiceProvider.GetRequiredService<IRepository>();
 
             try
             {
-                var dbItems = await db.Items.ToListAsync(stoppingToken);
+                var dbItems = await repository.GetItems();
                 foreach (var dbItem in dbItems)
                 {
-                    if (dbItem.LastUpdated != null && dbItem.LastUpdated > DateTimeOffset.UtcNow.AddMinutes(-_workerConfig.MinItemUpdateFrequencyMinutes)) continue;
-
-                    var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-                    var images = await tmDb.GetImages(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-                    var latestSeasons = tmDbItem.Seasons.OrderByDescending(x => x.SeasonNumber).Take(3);
-                    var tmDbItemSeasons = new List<TmDbSeason>();
-                    foreach (var item in latestSeasons)
-                    {
-                        var tmDbItemSeason = await tmDb.GetSeason(tmDbItem.Id, item.SeasonNumber);
-                        tmDbItemSeasons.AddRange(tmDbItemSeason);
-                    }
-                    dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons);
-                    dbItem.LastUpdated = DateTimeOffset.UtcNow;
-                    await db.SaveChangesAsync(stoppingToken);
+                    if (dbItem.LastUpdated != null &&
+                        dbItem.LastUpdated > DateTimeOffset.UtcNow.AddMinutes(-_workerConfig.MinItemUpdateFrequencyMinutes)) continue;
+                    await repository.RefreshItem(dbItem.Id);
                 }
             }
             catch (Exception ex)

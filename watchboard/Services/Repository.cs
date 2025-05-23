@@ -14,6 +14,7 @@ public interface IRepository
     Task<List?> GetList(Guid id);
     Task SortList(Guid id, string?[] itemIdsStr);
 
+    Task<List<Item>> GetItems();
     Task<Item?> GetItem(Guid id);
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
@@ -54,6 +55,12 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
+    public Task<List<Item>> GetItems()
+    {
+        return db.Items
+            .AsNoTracking().ToListAsync();
+    }
+
     public async Task<Item?> GetItem(Guid id)
     {
         return await db.Items
@@ -70,9 +77,30 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
                          .FirstOrDefault(x => x.Id == boardId)?
                          .Lists.FirstOrDefault()?.Id ?? throw new KeyNotFoundException());
 
-        return await AddItem(listId, tmDbId, type);
+        var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
+        var dbItem = new Item
+        {
+            TmdbId = tmDbId,
+            Type = type == "tv"
+                ? ItemType.Tv
+                : ItemType.Movie,
+            ListId = listId,
+            Order = order
+        };
+        await UpdateItemFromTmDb(dbItem);
+        db.Items.Add(dbItem);
+        await db.SaveChangesAsync();
+        return dbItem;
     }
 
+    public async Task<Item> RefreshItem(Guid itemId)
+    {
+        var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
+        await UpdateItemFromTmDb(dbItem);
+        await db.SaveChangesAsync();
+        return dbItem;
+    }
+    
     public async Task MoveItemToOtherBoard(Guid itemId, Guid boardId)
     {
         var item = await db.Items.FindAsync(itemId);
@@ -116,24 +144,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
         var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
         return await tmDb.GetImageUrl(img.UrlPath);
-    }
-
-    public async Task<Item> RefreshItem(Guid itemId)
-    {
-        var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-        var images = await tmDb.GetImages(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
-        var latestSeasons = tmDbItem.Seasons.OrderByDescending(x => x.SeasonNumber).Take(3);
-        var tmDbItemSeasons = new List<TmDbSeason>();
-        foreach (var item in latestSeasons)
-        {
-            var tmDbItemSeason = await tmDb.GetSeason(dbItem.TmdbId, item.SeasonNumber);
-            tmDbItemSeasons.AddRange(tmDbItemSeason);
-        }
-        
-        dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons.ToList());
-        await db.SaveChangesAsync();
-        return dbItem;
     }
 
     public async Task DeleteItem(Guid id)
@@ -200,24 +210,24 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         return items;
     }
 
-    private async Task<Item> AddItem(Guid listId, int tmDbId, string type)
+    private async Task UpdateItemFromTmDb(Item dbItem)
     {
-        var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
-        var tmDbItem = await tmDb.GetDetail(tmDbId, type);
-        var images = await tmDb.GetImages(tmDbId, type);
-        var latestSeasons = tmDbItem.Seasons.OrderByDescending(x => x.SeasonNumber).Take(3);
+        var tmDbItem = await tmDb.GetDetail(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
+        var images = await tmDb.GetImages(dbItem.TmdbId, dbItem.Type.ToString().ToLower());
+
+        var latestSeasons = tmDbItem.Seasons
+            .OrderByDescending(x => x.SeasonNumber)
+            .Take(3);
         var tmDbItemSeasons = new List<TmDbSeason>();
         foreach (var item in latestSeasons)
         {
-            var tmDbItemSeason = await tmDb.GetSeason(tmDbId, item.SeasonNumber);
+            var tmDbItemSeason = await tmDb.GetSeason(dbItem.TmdbId, item.SeasonNumber);
             tmDbItemSeasons.AddRange(tmDbItemSeason);
         }
-        var dbItem = tmDbItem.MapTmDbToItem(listId, images, tmDbItemSeasons);
-        dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
-        dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
-        dbItem.Order = order;
-        db.Items.Add(dbItem);
-        await db.SaveChangesAsync();
-        return dbItem;
+
+        dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons.ToList());
+
+        if (string.IsNullOrWhiteSpace(dbItem.BackdropBase64)) dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
+        if (string.IsNullOrWhiteSpace(dbItem.PosterBase64)) dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w92");
     }
 }

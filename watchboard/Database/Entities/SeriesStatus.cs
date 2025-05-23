@@ -4,5 +4,6 @@ public enum SeriesStatus
 {
     InProgress,
     Returning,
-    Ended
+    Ended,
+    Canceled
 }

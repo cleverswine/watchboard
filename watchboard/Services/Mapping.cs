@@ -16,7 +16,10 @@ public static class Mapping
             if (updatedSelectedProvider != null) updatedSelectedProvider.Selected = true;
         }
 
-        item.Name = tmDbItem.Name ?? item.Name;
+        item.Name = tmDbItem.ItemName ?? item.Name;
+        item.Type = tmDbItem.MediaType == "tv"
+            ? ItemType.Tv
+            : ItemType.Movie;
         item.Overview = tmDbItem.Overview;
         item.TagLine = tmDbItem.TagLine;
         item.ReleaseDate = tmDbItem.ItemReleaseDate;
@@ -31,62 +34,49 @@ public static class Mapping
         item.OriginalLanguage = tmDbItem.OriginalLanguage?.ToUpper() ?? "";
         item.OriginCountry = string.Join(", ", tmDbItem.OriginCountry);
         item.Notes = tmDbItem.GetNotes();
+        item.LastUpdated = DateTimeOffset.UtcNow;
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(updatedProviders);
         item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons(seasons));
+        if (string.IsNullOrWhiteSpace(item.BackdropUrl))
+            item.BackdropUrl = imageList.Backdrops.FirstOrDefault()?.FilePath ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(item.PosterUrl))
+            item.PosterUrl = imageList.Posters.FirstOrDefault()?.FilePath ?? string.Empty;
     }
 
-    public static Item MapTmDbToItem(this TmDbItem tmDbItem, Guid listId, TmDbImages imageList, List<TmDbSeason> seasons)
+    private static string Year(this string date)
     {
-        var item = new Item
-        {
-            Name = tmDbItem.ItemName ?? "UNKNOWN",
-            Type = tmDbItem.MediaType == "tv"
-                ? ItemType.Tv
-                : ItemType.Movie,
-            Overview = tmDbItem.Overview,
-            TagLine = tmDbItem.TagLine,
-            ReleaseDate = tmDbItem.ItemReleaseDate,
-            EndDate = tmDbItem.LastAirDate,
-            NumberOfSeasons = tmDbItem.NumberOfSeasons,
-            Order = 0,
-            BackdropUrl = imageList.Backdrops.FirstOrDefault()?.FilePath ?? string.Empty,
-            BackdropBase64 = null,
-            PosterUrl = imageList.Posters.FirstOrDefault()?.FilePath ?? string.Empty,
-            PosterBase64 = null,
-            ImdbId = tmDbItem.ExternalIds.ImdbId,
-            TmdbId = tmDbItem.Id,
-            ListId = listId,
-            SeriesStatus = tmDbItem.MapTmDbToSeriesStatus(),
-            SeriesNextEpisodeDate = tmDbItem.NextEpisodeToAir?.AirDate,
-            SeriesNextEpisodeNumber = tmDbItem.NextEpisodeToAir?.EpisodeNumber,
-            SeriesNextEpisodeSeason = tmDbItem.NextEpisodeToAir?.SeasonNumber,
-            OriginalLanguage = tmDbItem.OriginalLanguage?.ToUpper() ?? "",
-            OriginCountry = string.Join(", ", tmDbItem.OriginCountry),
-            Notes = tmDbItem.GetNotes()
-        };
-        item.SetImages(imageList.MapTmDbToImageList());
-        item.SetProviders(tmDbItem.Providers?.MapTmDbToItemProviders() ?? []);
-        item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons(seasons));
-        return item;
+        if (string.IsNullOrWhiteSpace(date)) return "";
+        var year = DateTime.Parse(date).Year.ToString();
+        return year;
     }
-
+    
     private static string GetNotes(this TmDbItem tmDbItem)
     {
+        if (tmDbItem.MediaType != "tv")
+        {
+            var note = tmDbItem.ReleaseDate?.Year() ?? "";
+            if (tmDbItem.OriginalLanguage != null && !tmDbItem.OriginalLanguage.Equals("en", StringComparison.OrdinalIgnoreCase)) 
+                note += $" ({tmDbItem.OriginalLanguage.ToUpper()})";
+            return $"{note}";
+        }
+
         if (tmDbItem.NextEpisodeToAir == null)
         {
             if (tmDbItem.LastEpisodeToAir == null) return "";
-            var then = DateOnly.Parse(tmDbItem.LastEpisodeToAir.AirDate);
-            return $"S{tmDbItem.LastEpisodeToAir.SeasonNumber} finale -> {HumanizeWithTodayOption(then)}";
+            var then = DateTime.Parse(tmDbItem.LastEpisodeToAir.AirDate);
+            return DateTime.Now.Subtract(then).TotalDays <= 90
+                ? $"S{tmDbItem.LastEpisodeToAir.SeasonNumber} finale -> {HumanizeWithTodayOption(then)}"
+                : $"{tmDbItem.FirstAirDate?.Year()} - {tmDbItem.LastAirDate?.Year()} ({tmDbItem.NumberOfSeasons} seasons)";
         }
         else
         {
-            var then = DateOnly.Parse(tmDbItem.NextEpisodeToAir.AirDate);
+            var then = DateTime.Parse(tmDbItem.NextEpisodeToAir.AirDate);
             return
                 $"S{tmDbItem.NextEpisodeToAir.SeasonNumber} E{tmDbItem.NextEpisodeToAir.EpisodeNumber}/{EpisodeCount(tmDbItem.NextEpisodeToAir.SeasonNumber)} -> {HumanizeWithTodayOption(then)}";
         }
 
-        string HumanizeWithTodayOption(DateOnly d)
+        string HumanizeWithTodayOption(DateTime d)
         {
             var result = d.Humanize();
             return result == "now" ? "today!" : result;
@@ -115,7 +105,7 @@ public static class Mapping
                 .Take(30)
                 .Select(y => new ItemEpisode
                 {
-                    SeasonNumber =  x.SeasonNumber,   
+                    SeasonNumber = x.SeasonNumber,
                     EpisodeNumber = y.EpisodeNumber,
                     Name = y.Name,
                     Overview = y.Overview,
@@ -189,6 +179,7 @@ public static class Mapping
     {
         if (tmDbItem.MediaType != "tv") return null;
         if (tmDbItem.Status == null) return null;
+        if (tmDbItem.Status.Equals("Canceled", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Canceled;
         if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Ended;
         if (tmDbItem.Status.Equals("Returning Series", StringComparison.OrdinalIgnoreCase))
             return tmDbItem.NextEpisodeToAir == null ? SeriesStatus.Returning : SeriesStatus.InProgress;

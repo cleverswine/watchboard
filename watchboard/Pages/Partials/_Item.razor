@@ -17,13 +17,20 @@
                 <div class="d-flex justify-content-between align-items-end">
                     <div>
                         <small class="text-body-secondary">
-                            <i class="bi bi-info-circle me-1"></i> @ItemModel.Notes
+                            @if (ItemModel.Type == ItemType.Tv)
+                            {
+                                <i class="bi bi-info-circle me-1"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-film me-2"></i>
+                            }
+                            @ItemModel.Notes
                             <br/>
                         </small>
                         <span class="fw-bold shadow-lg">
                             @ItemModel.Name
                         </span>
-
                     </div>
                     <div>
                         @{

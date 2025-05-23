@@ -9,6 +9,7 @@ public class TmDbItem
     public int Id { get; set; }
 
     // Movie
+    [JsonPropertyName("title")]
     public string? Title { get; set; }
 
     [JsonPropertyName("release_date")]
