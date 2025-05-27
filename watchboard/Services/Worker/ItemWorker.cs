@@ -3,7 +3,7 @@ namespace WatchBoard.Services.Worker;
 // TODO - make configurable
 public class WorkerConfig
 {
-    public int WorkerIntervalMinutes { get; set; } = 180; // 3 hours
+    public int WorkerIntervalMinutes { get; set; } = 360; // 6 hours
     public int MinItemUpdateFrequencyMinutes { get; set; } = 60; // 1 hour
 }
 

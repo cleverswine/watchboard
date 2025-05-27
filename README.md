@@ -64,8 +64,8 @@ There is a [helper script](./lib/copy-dist-libs.sh) to make it easier to copy th
 
 ## Screenshots
 
-![screenshot5.png](screenshot5.png)
+![screenshot6.png](screenshot6.png)
 
-![screenshot3.png](screenshot3.png)
+![screenshot7.png](screenshot7.png)
 
-![screenshot4.png](screenshot4.png)
+![screenshot8.png](screenshot8.png)
