@@ -227,8 +227,9 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
         dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons.ToList());
 
-        if (string.IsNullOrWhiteSpace(dbItem.BackdropBase64)) dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
-        //if (string.IsNullOrWhiteSpace(dbItem.PosterBase64)) 
+        if (string.IsNullOrWhiteSpace(dbItem.BackdropBase64)) 
+            dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
+        if (string.IsNullOrWhiteSpace(dbItem.PosterBase64)) 
             dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
     }
 }

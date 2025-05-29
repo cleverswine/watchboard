@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WatchBoard.Pages.Partials;
 using WatchBoard.Services;
+using WatchBoard.Services.Helpers;
 
 namespace WatchBoard.Routes;
 
@@ -10,9 +11,11 @@ public static class Lists
     public static RouteGroupBuilder MapLists(this RouteGroupBuilder app)
     {
         // GET LIST
-        app.MapGet("/lists/{listId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid listId) => new RazorComponentResult<_List>(new
+        app.MapGet("/lists/{listId:guid}", async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid listId) =>
+        new RazorComponentResult<_List>(new
         {
-            ListModel = await repo.GetList(listId)
+            ListModel = await repo.GetList(listId),
+            ViewMode = context.GetViewMode()
         }));
 
         // SORT LIST

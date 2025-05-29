@@ -1,5 +1,6 @@
 @using WatchBoard.Database.Entities
 
+<input type="hidden" name="item" value="@ItemModel.Id"/>
 <div hx-indicator="#indicator-@(ItemModel.Id)">
     <div class="card mb-3">
         <div style="position: relative;">

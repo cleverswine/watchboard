@@ -15,6 +15,8 @@ public static class Items
         app.MapPost("/items/{tmDbId:int}",
             async (HttpContext context, HttpResponse response, [FromServices] IRepository repo, [FromRoute] int tmDbId, [FromQuery] string type) =>
             {
+                var b = context.GetBoardId();
+
                 await repo.AddItemToBoard(context.GetBoardId(), tmDbId, type);
                 response.Headers.Append("HX-Trigger", "newItem");
                 return Results.Ok();
@@ -27,7 +29,7 @@ public static class Items
             return Results.Ok();
         });
 
-        // EDIT ITEM
+        // VIEW ITEM
         app.MapGet("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) =>
         {
             var item = await repo.GetItem(itemId);
@@ -47,22 +49,24 @@ public static class Items
         });
 
         // UPDATE ITEM
-        app.MapPut("/items/{itemId:guid}",
-            async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
-            {
-                var form = await context.Request.ReadFormAsync();
-                var selectedProvider = form["selectedProvider"];
-                var selectedImage = form["selectedImage"];
-                if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
-                    await repo.SetItemProvider(itemId, selectedProviderId);
-                if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
-                    await repo.SetItemBackdrop(itemId, selectedImageId);
-
-                return new RazorComponentResult<_Item>(new
-                {
-                    ItemModel = await repo.GetItem(itemId)
-                });
-            });
+        // app.MapPut("/items/{itemId:guid}",
+        //     async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
+        //     {
+        //         var boardId = context.GetBoardId();
+        //         
+        //         var form = await context.Request.ReadFormAsync();
+        //         var selectedProvider = form["selectedProvider"];
+        //         var selectedImage = form["selectedImage"];
+        //         if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
+        //             await repo.SetItemProvider(itemId, selectedProviderId);
+        //         if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
+        //             await repo.SetItemBackdrop(itemId, selectedImageId);
+        //
+        //         return new RazorComponentResult<_Item>(new
+        //         {
+        //             ItemModel = await repo.GetItem(itemId)
+        //         });
+        //     });
 
         // GET TMDB BACKDROP IMAGE TAG
         app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}",
@@ -76,11 +80,20 @@ public static class Items
 
         // UPDATE ITEM FROM TMDB
         app.MapPut("/items/{itemId:guid}/refresh",
-            async ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_Item>(new
+            async Task<RazorComponentResult> (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
             {
-                ItemModel = await repo.RefreshItem(itemId)
-            }));
-        
+                var v = context.GetViewMode();
+                if (v == "posters")
+                    return new RazorComponentResult<_ItemPoster>(new
+                    {
+                        ItemModel = await repo.RefreshItem(itemId)
+                    });
+                return new RazorComponentResult<_Item>(new
+                {
+                    ItemModel = await repo.RefreshItem(itemId)
+                });
+            });
+
         return app;
     }
 }

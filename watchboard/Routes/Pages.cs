@@ -18,6 +18,7 @@ public static class Pages
             var selectedBoard = await repo.GetBoard(bid);
 
             context.SetBoardId(selectedBoard?.Id);
+            context.SetViewMode(v);
 
             return new RazorComponentResult<Home>(new
             {
