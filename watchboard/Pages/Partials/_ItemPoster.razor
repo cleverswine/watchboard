@@ -1,0 +1,32 @@
+@using WatchBoard.Database.Entities
+
+<div hx-indicator="#indicator-@(ItemModel.Id)">
+    <div class="card mb-3">
+        <div style="position: relative;">
+            <a href="#" hx-get="/app/items/@(ItemModel.Id)" hx-target="#modals-here" hx-trigger="click" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#modals-here" class="stretched-link">
+                <img src="@(ItemModel.PosterBase64)" class="card-img img-fluid" alt="@ItemModel.Name">
+            </a>
+            <div class="htmx-indicator position-absolute top-0 start-0 ms-3 mt-3" id="indicator-@(ItemModel.Id)">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code
+{
+    [Parameter]
+    public Item ItemModel { get; set; } = new();
+
+    private List<ItemImage> Images { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        Images = ItemModel.GetBackdropImages()
+            .Where(x => x.Type == ItemImageType.Backdrop)
+            .Take(10)
+            .ToList();
+        base.OnInitialized();
+    }
+}

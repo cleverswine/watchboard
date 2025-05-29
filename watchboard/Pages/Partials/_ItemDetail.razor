@@ -43,20 +43,27 @@
                     <div class="pt-3 px-2">
                         @if (ItemModel.Type == ItemType.Tv)
                         {
-                            <p><i class="bi bi-collection-play"></i> TV Show <br/>@ItemModel.ReleaseDates()</p>
-                            <p>Status: @ItemModel.SeriesStatus.ToString()</p>
+                            <p>
+                                <i class="bi bi-collection-play"></i> TV Show <br/>
+                                @ItemModel.ReleaseDates() <br/>
+                                Status: @ItemModel.SeriesStatus
+                            </p>
+                            @if (ItemModel.Notes != ItemModel.ReleaseDates())
+                            {
+                                <p>
+                                    @ItemModel.Notes
+                                </p>
+                            }
                         }
                         else
                         {
                             <p><i class="bi bi-camera-reels"></i> Movie <br/>@ItemModel.ReleaseDates()</p>
                         }
 
-                        @if (!string.IsNullOrWhiteSpace(ItemModel.TagLine))
-                        {
-                            <p>
-                                @ItemModel.TagLine
-                            </p>
-                        }
+                        <p>
+                            Watching on: @(SelectedProvider?.Name ?? "?")
+                        </p>
+
                         @if (!string.IsNullOrWhiteSpace(ItemModel.Overview))
                         {
                             <p>
@@ -122,6 +129,7 @@
                                     {
                                         continue;
                                     }
+
                                     @foreach (var e in season.Episodes.OrderByDescending(x => x.EpisodeNumber).Take(10))
                                     {
                                         <tr>
@@ -250,4 +258,5 @@
     [Parameter]
     public List<Board> Boards { get; set; } = [];
 
+    private ItemProvider? SelectedProvider => ItemModel.GetProviders().FirstOrDefault(x => x.Selected);
 }

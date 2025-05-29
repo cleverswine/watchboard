@@ -12,20 +12,18 @@ public static class Pages
     public static WebApplication MapPages(this WebApplication app)
     {
         // HOME PAGE
-        app.MapGet("/", async (HttpContext context, [FromServices] IRepository repo, [FromQuery] Guid? boardId) =>
+        app.MapGet("/", async (HttpContext context, [FromServices] IRepository repo, [FromQuery] string? v, [FromQuery] Guid? boardId) =>
         {
             var bid = boardId ?? context.GetBoardId();
             var selectedBoard = await repo.GetBoard(bid);
 
             context.SetBoardId(selectedBoard?.Id);
 
-            if (boardId != null)
-                return Results.Redirect("/");
-
             return new RazorComponentResult<Home>(new
             {
                 selectedBoard?.Lists,
-                Boards = await repo.GetBoards()
+                Boards = await repo.GetBoards(),
+                ViewMode = v
             });
         });
 

@@ -4,10 +4,20 @@
 <form class="row sortable" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
     @foreach (var i in ListModel.Items)
     {
-        <div class="col-sm-12 col-md-4 col-xl-3" id="card-@(i.Id)" >
-            <input type='hidden' name='item' value='@i.Id'/>
-            <_Item ItemModel="i"></_Item>
-        </div>
+        @if (ViewMode != "posters")
+        {
+            <div class="col-sm-12 col-md-4 col-xl-3" id="card-@(i.Id)">
+                <input type='hidden' name='item' value='@i.Id'/>
+                <_Item ItemModel="i"></_Item>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-6 col-md-2 col-xl-2" id="card-@(i.Id)">
+                <input type='hidden' name='item' value='@i.Id'/>
+                <_ItemPoster ItemModel="i"></_ItemPoster>
+            </div>
+        }
     }
 </form>
 
@@ -15,5 +25,8 @@
 
     [Parameter]
     public List ListModel { get; set; } = new() {Items = []};
+
+    [Parameter]
+    public string ViewMode { get; set; } = "Backdrops";
 
 }
