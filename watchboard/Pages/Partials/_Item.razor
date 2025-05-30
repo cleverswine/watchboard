@@ -1,7 +1,7 @@
 @using WatchBoard.Database.Entities
 
-<input type="hidden" name="item" value="@ItemModel.Id"/>
-<div hx-indicator="#indicator-@(ItemModel.Id)">
+<div hx-indicator="#indicator-@(ItemModel.Id)" class="col-sm-12 col-md-4 col-xl-3" id="card-@(ItemModel.Id)">
+    <input type="hidden" name="item" value="@ItemModel.Id"/>
     <div class="card mb-3">
         <div style="position: relative;">
             <a href="#" hx-get="/app/items/@(ItemModel.Id)" hx-target="#modals-here" hx-trigger="click" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#modals-here" class="stretched-link">

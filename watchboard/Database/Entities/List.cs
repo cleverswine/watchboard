@@ -10,7 +10,7 @@ public class List
     [Required]
     public string Name { get; set; } = string.Empty;
 
-    public int Order { get; set; } = 0;
+    public int Order { get; set; }
 
     public List<Item> Items { get; set; } = [];
     public Guid BoardId { get; set; }

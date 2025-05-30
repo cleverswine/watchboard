@@ -18,6 +18,7 @@
                         <i class="bi bi-search"></i> Search
                     </button>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="/?boardId=@(SelectedBoard.Id)&v=posters">
                         <i class="bi bi-grid-3x3-gap"></i>
@@ -29,19 +30,26 @@
                     </a>
                 </li>
                 
-                <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="btn-group">
+                    <button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-workspace"></i>
                     </button>
-                    <ul class="dropdown-menu">
-                        @foreach (var b in Boards.Where(x => x.Id != SelectedBoard.Id))
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        @foreach (var b in Boards.OrderBy(x => x.Order))
                         {
                             <li>
-                                <a class="dropdown-item" href="/?boardId=@(b.Id)&v=@(ViewMode)">@b.Name</a>
+                                @if (b.Id == SelectedBoard.Id)
+                                {
+                                    <a class="dropdown-item disabled" href="/?boardId=@(b.Id)&v=@(ViewMode)">@b.Name</a>
+                                }
+                                else
+                                {
+                                    <a class="dropdown-item" href="/?boardId=@(b.Id)&v=@(ViewMode)">@b.Name</a>
+                                }
                             </li>
                         }
                     </ul>
-                </li>
+                </div>
             </ul>
         </div>
     </div>

@@ -49,24 +49,28 @@ public static class Items
         });
 
         // UPDATE ITEM
-        // app.MapPut("/items/{itemId:guid}",
-        //     async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
-        //     {
-        //         var boardId = context.GetBoardId();
-        //         
-        //         var form = await context.Request.ReadFormAsync();
-        //         var selectedProvider = form["selectedProvider"];
-        //         var selectedImage = form["selectedImage"];
-        //         if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
-        //             await repo.SetItemProvider(itemId, selectedProviderId);
-        //         if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
-        //             await repo.SetItemBackdrop(itemId, selectedImageId);
-        //
-        //         return new RazorComponentResult<_Item>(new
-        //         {
-        //             ItemModel = await repo.GetItem(itemId)
-        //         });
-        //     });
+        app.MapPut("/items/{itemId:guid}",
+            async Task<RazorComponentResult> (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
+            {
+                var form = await context.Request.ReadFormAsync();
+                var selectedProvider = form["selectedProvider"];
+                var selectedImage = form["selectedImage"];
+                if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
+                    await repo.SetItemProvider(itemId, selectedProviderId);
+                if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
+                    await repo.SetItemBackdrop(itemId, selectedImageId);
+
+                var v = context.GetViewMode();
+                if (v == "posters")
+                    return new RazorComponentResult<_ItemPoster>(new
+                    {
+                        ItemModel = await repo.GetItem(itemId)
+                    });
+                return new RazorComponentResult<_Item>(new
+                {
+                    ItemModel = await repo.GetItem(itemId)
+                });
+            });
 
         // GET TMDB BACKDROP IMAGE TAG
         app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}",

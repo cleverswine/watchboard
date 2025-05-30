@@ -1,14 +1,12 @@
 @using WatchBoard.Database.Entities
 <h4> @ListModel.Name </h4>
 
-<form class="row sortable" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
+<form class="row sortable me-5" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
     @foreach (var i in ListModel.Items)
     {
         @if (ViewMode != "posters")
         {
-            <div class="col-sm-12 col-md-4 col-xl-3" id="card-@(i.Id)">
-                <_Item ItemModel="i"></_Item>
-            </div>
+            <_Item ItemModel="i"></_Item>
         }
         else
         {

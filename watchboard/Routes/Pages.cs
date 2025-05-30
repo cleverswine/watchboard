@@ -16,15 +16,16 @@ public static class Pages
         {
             var bid = boardId ?? context.GetBoardId();
             var selectedBoard = await repo.GetBoard(bid);
-
             context.SetBoardId(selectedBoard?.Id);
-            context.SetViewMode(v);
+            
+            var viewMode = v ?? context.GetViewMode();
+            context.SetViewMode(viewMode);
 
             return new RazorComponentResult<Home>(new
             {
                 selectedBoard?.Lists,
                 Boards = await repo.GetBoards(),
-                ViewMode = v
+                ViewMode = viewMode
             });
         });
 

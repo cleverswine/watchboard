@@ -42,6 +42,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<List<Board>> GetBoards()
     {
         return await db.Boards
+            .OrderBy(x => x.Order)
             .Include(x => x.Lists.OrderBy(l => l.Order))
             .AsNoTracking()
             .ToListAsync();
