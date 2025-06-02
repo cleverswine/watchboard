@@ -70,7 +70,10 @@ public class Item
     [MaxLength(255)]
     public int TmdbId { get; set; }
 
+    // ImagesJson
     public string? Images { get; set; }
+
+    public string? CreditsJson { get; set; }
 
     public DateTimeOffset? LastUpdated { get; set; } = DateTimeOffset.UtcNow;
 
@@ -124,6 +127,13 @@ public class Item
         ProvidersJson = JsonSerializer.Serialize(providers);
     }
 
+    public ItemCredits GetCredits() => CreditsJson == null ? new ItemCredits() : JsonSerializer.Deserialize<ItemCredits>(CreditsJson) ?? throw new JsonException("Could not deserialize CreditsJson");
+
+    public void SetCredits(ItemCredits credits)
+    {
+        CreditsJson = JsonSerializer.Serialize(credits);
+    }
+    
     public string ReleaseDates()
     {
         if (ReleaseDate == null) return "";

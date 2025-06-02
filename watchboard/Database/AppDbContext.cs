@@ -18,6 +18,18 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             Boards.Add(new Board
             {
                 Name = "My Stuff",
+                Order = 0,
+                Lists =
+                [
+                    new List {Name = "Future", Order = 0, Items = []},
+                    new List {Name = "Queue", Order = 1, Items = []},
+                    new List {Name = "Watching", Order = 2, Items = []}
+                ]
+            });
+            Boards.Add(new Board
+            {
+                Name = "My Movies",
+                Order = 1,
                 Lists =
                 [
                     new List {Name = "Future", Order = 0, Items = []},
@@ -28,22 +40,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             Boards.Add(new Board
             {
                 Name = "Family",
-                Lists =
-                [
-                    new List {Name = "Future", Order = 0, Items = []},
-                    new List {Name = "Queue", Order = 1, Items = []},
-                    new List {Name = "Watching", Order = 2, Items = []}
-                ]
-            });
-            await SaveChangesAsync();
-        }
-
-        if (Boards.FirstOrDefault(x => x.Name == "Movies") == null)
-        {
-            Boards.Add(new Board
-            {
-                Name = "Movies",
-                Order = 1,
+                Order = 2,
                 Lists =
                 [
                     new List {Name = "Future", Order = 0, Items = []},
@@ -62,12 +59,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     new List {Name = "Watching", Order = 2, Items = []}
                 ]
             });
+            await SaveChangesAsync();
+        }
 
-            var b0 = Boards.FirstOrDefault(x => x.Name == "My Stuff");
-            if (b0 != null) b0.Order = 0;
-            var b2 = Boards.FirstOrDefault(x => x.Name == "Family");
-            if (b2 != null) b2.Order = 2;
-            
+        var b = await Boards.FirstOrDefaultAsync(x => x.Name == "Movies");
+        if (b != null)
+        {
+            b.Name = "My Movies";
             await SaveChangesAsync();
         }
     }

@@ -38,10 +38,11 @@ public static class Mapping
         item.SetImages(imageList.MapTmDbToImageList());
         item.SetProviders(updatedProviders);
         item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons(seasons));
+        item.SetCredits(tmDbItem.Credits.MapTmDbCreditsToItemCredits());
         if (string.IsNullOrWhiteSpace(item.BackdropUrl))
             item.BackdropUrl = tmDbItem.BackdropPath ?? imageList.Backdrops.FirstOrDefault()?.FilePath ?? string.Empty;
         //if (string.IsNullOrWhiteSpace(item.PosterUrl))
-            item.PosterUrl = tmDbItem.PosterPath ?? imageList.Posters.FirstOrDefault()?.FilePath ?? string.Empty;
+        item.PosterUrl = tmDbItem.PosterPath ?? imageList.Posters.FirstOrDefault()?.FilePath ?? string.Empty;
     }
 
     private static string Year(this string date)
@@ -50,13 +51,13 @@ public static class Mapping
         var year = DateTime.Parse(date).Year.ToString();
         return year;
     }
-    
+
     private static string GetNotes(this TmDbItem tmDbItem)
     {
         if (tmDbItem.MediaType != "tv")
         {
             var note = tmDbItem.ReleaseDate?.Year() ?? "";
-            if (tmDbItem.OriginalLanguage != null && !tmDbItem.OriginalLanguage.Equals("en", StringComparison.OrdinalIgnoreCase)) 
+            if (tmDbItem.OriginalLanguage != null && !tmDbItem.OriginalLanguage.Equals("en", StringComparison.OrdinalIgnoreCase))
                 note += $" ({tmDbItem.OriginalLanguage.ToUpper()})";
             return $"{note}";
         }
@@ -87,6 +88,27 @@ public static class Mapping
             var season = tmDbItem.Seasons.FirstOrDefault(x => x.SeasonNumber == seasonNumber);
             return season?.EpisodeCount.ToString() ?? "?";
         }
+    }
+
+    private static ItemCredits MapTmDbCreditsToItemCredits(this TmDbCredits tmDbCredits)
+    {
+        return new ItemCredits
+        {
+            Cast = tmDbCredits.Cast.Select(x => new ItemCreditCastMember
+            {
+                Name = x.Name,
+                ProfilePath = x.ProfilePath,
+                Character = x.Character,
+                Order = x.Order
+            }).ToList(),
+            Crew = tmDbCredits.Crew.Select(x => new ItemCreditCrewMember
+            {
+                Name = x.Name,
+                ProfilePath = x.ProfilePath,
+                Department = x.Department,
+                Job = x.Job
+            }).ToList()
+        };
     }
 
     private static List<ItemSeason> MapTmDbToItemSeasons(this TmDbSeason[] tmDbItemSeasons, List<TmDbSeason> seasons)

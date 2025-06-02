@@ -68,6 +68,9 @@ public class TmDbItem
     [JsonPropertyName("original_language")]
     public string? OriginalLanguage { get; set; }
 
+    [JsonPropertyName("credits")]
+    public TmDbCredits Credits { get; set; } = new();
+    
     public string? ItemName => Title ?? Name;
     public string? ItemReleaseDate => ReleaseDate ?? FirstAirDate;
 }

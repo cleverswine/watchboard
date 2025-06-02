@@ -53,7 +53,7 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         if (cache.TryGetValue($"TmDbDetail-{type}-{id}", out TmDbItem? item) && item is not null)
             return item;
 
-        var url = $"{BaseApiPath}{type.ToLower()}/{id}?append_to_response=latest%2Cexternal_ids%2Cwatch%2Fproviders&language=en-US";
+        var url = $"{BaseApiPath}{type.ToLower()}/{id}?append_to_response=latest%2Cexternal_ids%2Ccredits%2Cwatch%2Fproviders&language=en-US";
         item = await httpClient.GetFromJsonAsync<TmDbItem>(url, JsonOpts);
         if (item == null) throw new NullReferenceException("TmDb Item is null");
         item.MediaType = type;

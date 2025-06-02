@@ -3,7 +3,19 @@
     <form class="modal-content" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-swap="outerHTML">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
-                @ItemModel.Name
+                @if (ItemModel.Type == ItemType.Tv)
+                {
+                    <span>
+                        <i class="bi bi-collection-play"></i> @ItemModel.Name
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        <i class="bi bi-film"></i> @ItemModel.Name <span class="text-muted fs-6 fw-bold">(@(ItemModel.ReleaseDates()))</span>
+                    </span>
+                }
+
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -18,7 +30,7 @@
                 {
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="episodes-tab" data-bs-toggle="tab" data-bs-target="#episodes-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="episodes-tab-pane" aria-selected="false">
-                            Episodes
+                            Latest Episodes
                         </button>
                     </li>
                 }
@@ -38,43 +50,20 @@
                     </button>
                 </li>
             </ul>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content pt-2 px-2" id="myTabContent">
                 <div class="tab-pane fade show active" id="details-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="details-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
+
                         @if (ItemModel.Type == ItemType.Tv)
                         {
                             <p>
-                                <i class="bi bi-collection-play"></i> TV Show <br/>
-                                @ItemModel.ReleaseDates() <br/>
+                                @ItemModel.ReleaseDates()
+                                <br/>
                                 Status: @ItemModel.SeriesStatus
-                            </p>
-                            @if (ItemModel.Notes != ItemModel.ReleaseDates())
-                            {
-                                <p>
-                                    @ItemModel.Notes
-                                </p>
-                            }
-                        }
-                        else
-                        {
-                            <p><i class="bi bi-camera-reels"></i> Movie <br/>@ItemModel.ReleaseDates()</p>
-                        }
-
-                        <p>
-                            Watching on: @(SelectedProvider?.Name ?? "?")
-                        </p>
-
-                        @if (!string.IsNullOrWhiteSpace(ItemModel.Overview))
-                        {
-                            <p>
-                                @ItemModel.Overview
+                                <br/>
                             </p>
                         }
-                        <p>
-                            Language: @ItemModel.OriginalLanguage
-                            <br/>
-                            Country: @ItemModel.OriginCountry
-                        </p>
+
                         @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
                         {
                             @if (ItemModel.SeriesNextEpisodeNumber == 1)
@@ -92,22 +81,41 @@
                                 </p>
                             }
                         }
+
+                        <p class="fw-bold text-uppercase">Overview</p>
+                        @if (ItemModel.OriginalLanguage != "EN")
+                        {
+                            <p class="text-muted small">
+                                Language: @ItemModel.OriginalLanguage / Country: @ItemModel.OriginCountry
+                            </p>
+                        }
                         <p>
-                            <a class="icon-link me-2" href="@(ItemModel.TmdbUrl)">
-                                TMDB
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
-                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
-                                </svg>
-                            </a>
-                            <a class="icon-link" href="@(ItemModel.ImdbUrl)">
-                                IMDB
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
-                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
-                                </svg>
-                            </a>
+                            @ItemModel.Overview
                         </p>
+
+                        <p class="fw-bold text-uppercase">Top Cast</p>
+                        <div class="row mb-4">
+                            @foreach (var c in ItemModel.GetCredits().Cast.OrderBy(x => x.Order).Take(6))
+                            {
+                                <div class="col-6 border-bottom border-secondary-subtle">
+                                    <i class="bi bi-person"></i> @c.Name</div>
+                                <div class="col-6 border-bottom border-secondary-subtle text-end">@c.Character</div>
+                            }
+                        </div>
+
+                        <p class="fw-bold text-uppercase">Crew</p>
+                        <div class="row mb-4">
+                            @foreach (var c in ItemModel.GetCredits().Crew
+                                              .Where(x => x.Job != null &&
+                                                          (x.Job.Equals("Director", StringComparison.OrdinalIgnoreCase)
+                                                           || x.Job.Equals("Writer", StringComparison.OrdinalIgnoreCase)
+                                                           || (ItemModel.Type == ItemType.Tv && x.Job.Equals("Producer", StringComparison.OrdinalIgnoreCase)))).Take(6))
+                            {
+                                <div class="col-6 border-bottom border-secondary-subtle">
+                                    <i class="bi bi-camera-video"></i> @c.Name</div>
+                                <div class="col-6 border-bottom border-secondary-subtle text-end">@c.Job</div>
+                            }
+                        </div>
                     </div>
                 </div>
                 @if (ItemModel.Type == ItemType.Tv)
@@ -228,7 +236,7 @@
                         @foreach (var b in Boards)
                         {
                             <button hx-put="/app/items/@(ItemModel.Id)/move/@(b.Id)" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" type="button" class="btn btn-link link-light link-underline link-underline-opacity-0">
-                                Move <i class="bi bi-arrow-right me-2"></i> <strong>@(b.Name)</strong> 
+                                Move <i class="bi bi-arrow-right me-2"></i> <strong>@(b.Name)</strong>
                             </button>
                             <br/>
                         }
@@ -241,11 +249,14 @@
             <button type="button" class="btn btn-danger" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-delete="/app/items/@(ItemModel.Id)" data-bs-dismiss="modal">
                 Remove
             </button>
+            <a class="btn btn-link" href="@(ItemModel.ImdbUrl)">
+                IMDB <i class="ms-1 bi bi-arrow-up-right-square"></i>
+            </a>
             <div>
-            <button type="submit" id="itemDetailSubmitBtn" class="btn btn-primary me-2" data-bs-dismiss="modal" disabled>
-                Save Changes
-            </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="itemDetailSubmitBtn" class="btn btn-primary me-2" data-bs-dismiss="modal" disabled>
+                    Save Changes
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </form>
