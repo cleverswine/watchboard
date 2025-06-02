@@ -39,9 +39,9 @@ public static class Mapping
         item.SetProviders(updatedProviders);
         item.SetSeasons(tmDbItem.Seasons.MapTmDbToItemSeasons(seasons));
         if (string.IsNullOrWhiteSpace(item.BackdropUrl))
-            item.BackdropUrl = imageList.Backdrops.FirstOrDefault()?.FilePath ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(item.PosterUrl))
-            item.PosterUrl = imageList.Posters.FirstOrDefault()?.FilePath ?? string.Empty;
+            item.BackdropUrl = tmDbItem.BackdropPath ?? imageList.Backdrops.FirstOrDefault()?.FilePath ?? string.Empty;
+        //if (string.IsNullOrWhiteSpace(item.PosterUrl))
+            item.PosterUrl = tmDbItem.PosterPath ?? imageList.Posters.FirstOrDefault()?.FilePath ?? string.Empty;
     }
 
     private static string Year(this string date)

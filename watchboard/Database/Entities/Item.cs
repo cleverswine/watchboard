@@ -98,6 +98,14 @@ public class Item
             : JsonSerializer.Deserialize<List<ItemImage>>(Images)?
                 .Where(x => x.Type == ItemImageType.Backdrop).ToList() ?? [];
     }
+    
+    public List<ItemImage> GetPosterImages()
+    {
+        return Images == null
+            ? []
+            : JsonSerializer.Deserialize<List<ItemImage>>(Images)?
+                .Where(x => x.Type == ItemImageType.Poster).ToList() ?? [];
+    }
 
     public void SetImages(List<ItemImage> images)
     {
