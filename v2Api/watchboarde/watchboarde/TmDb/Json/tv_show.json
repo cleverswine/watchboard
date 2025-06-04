@@ -1,0 +1,749 @@
+{
+  "original_url": "https://api.themoviedb.org/3/tv/4551?append_to_response=credits%2Cexternal_ids%2Cimages%2Cwatch%2Fproviders%2Clatest&language=en-US",
+  "adult": false,
+  "backdrop_path": "/p7a2f9gewbzG2Hp3iUiqNRyeVYi.jpg",
+  "created_by": [
+    {
+      "id": 1221229,
+      "credit_id": "52577001760ee36aaa46c7be",
+      "name": "Ken Warwick",
+      "original_name": "Ken Warwick",
+      "gender": 2,
+      "profile_path": "/fRzX8GIQOOjcViA3vt8SaBeN96f.jpg"
+    }
+  ],
+  "episode_run_time": [
+    85
+  ],
+  "first_air_date": "2006-06-21",
+  "genres": [
+    {
+      "id": 10764,
+      "name": "Reality"
+    }
+  ],
+  "homepage": "http://www.nbc.com/americas-got-talent/",
+  "id": 4551,
+  "in_production": true,
+  "languages": [
+    "en"
+  ],
+  "last_air_date": "2025-05-27",
+  "last_episode_to_air": {
+    "id": 5960686,
+    "name": "Auditions 1",
+    "overview": "Season 20 kicks off with a magician who recruits home viewers to participate, a danger act with a superhuman ability and Golden Buzzers that captivate the judges. Simon, Mel B, Sofia, Howie and Terry invite cameras behind the scenes.",
+    "vote_average": 0,
+    "vote_count": 0,
+    "air_date": "2025-05-27",
+    "episode_number": 1,
+    "episode_type": "standard",
+    "production_code": "",
+    "runtime": 85,
+    "season_number": 20,
+    "show_id": 4551,
+    "still_path": "/vPM1eWIkAjGWMzPYMNbVtLzLXOt.jpg"
+  },
+  "name": "America's Got Talent",
+  "next_episode_to_air": {
+    "id": 6262767,
+    "name": "Auditions 2",
+    "overview": "The world's most talented amateur performers -- singers, dancers, magicians, comedians and more -- appear before celebrity judges and compete to win a life-changing prize, as well as millions of viewers' hearts.",
+    "vote_average": 0,
+    "vote_count": 0,
+    "air_date": "2025-06-03",
+    "episode_number": 2,
+    "episode_type": "standard",
+    "production_code": "",
+    "runtime": null,
+    "season_number": 20,
+    "show_id": 4551,
+    "still_path": null
+  },
+  "networks": [
+    {
+      "id": 6,
+      "logo_path": "/cm111bsDVlYaC1foL0itvEI4yLG.png",
+      "name": "NBC",
+      "origin_country": "US"
+    }
+  ],
+  "number_of_episodes": 471,
+  "number_of_seasons": 20,
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_name": "America's Got Talent",
+  "overview": "A weekly talent competition where an array of performers – from singers and dancers, to comedians and novelty acts – vie for a $1 million cash prize.",
+  "popularity": 105.8259,
+  "poster_path": "/nd5FjRlEdC05GUK4svGj7TpyR2b.jpg",
+  "production_companies": [
+    {
+      "id": 67127,
+      "logo_path": null,
+      "name": "Syco Television",
+      "origin_country": ""
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "seasons": [
+    {
+      "air_date": "2015-06-24",
+      "episode_count": 5,
+      "id": 13761,
+      "name": "Specials",
+      "overview": "",
+      "poster_path": null,
+      "season_number": 0,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2006-06-21",
+      "episode_count": 16,
+      "id": 13762,
+      "name": "Season 1",
+      "overview": "",
+      "poster_path": "/kRatrkV5daUC3UM5UXLGqQOz7dN.jpg",
+      "season_number": 1,
+      "vote_average": 2.8
+    },
+    {
+      "air_date": "2007-06-05",
+      "episode_count": 12,
+      "id": 13763,
+      "name": "Season 2",
+      "overview": "",
+      "poster_path": "/gwMUArCpzoTPBGeaKKvORN9U95H.jpg",
+      "season_number": 2,
+      "vote_average": 3.5
+    },
+    {
+      "air_date": "2008-06-17",
+      "episode_count": 20,
+      "id": 13764,
+      "name": "Season 3",
+      "overview": "",
+      "poster_path": "/jVNwBUKFzaRCkhCCkxYSjwSsKn3.jpg",
+      "season_number": 3,
+      "vote_average": 4
+    },
+    {
+      "air_date": "2009-06-23",
+      "episode_count": 26,
+      "id": 13765,
+      "name": "Season 4",
+      "overview": "",
+      "poster_path": "/jZo7WYJ4M7ouYJox08p5ZXowqjm.jpg",
+      "season_number": 4,
+      "vote_average": 4.5
+    },
+    {
+      "air_date": "2010-06-01",
+      "episode_count": 32,
+      "id": 13766,
+      "name": "Season 5",
+      "overview": "",
+      "poster_path": "/4hd69morQx34rdYylYOZsUXnkI6.jpg",
+      "season_number": 5,
+      "vote_average": 5
+    },
+    {
+      "air_date": "2011-05-31",
+      "episode_count": 32,
+      "id": 13767,
+      "name": "Season 6",
+      "overview": "",
+      "poster_path": "/yq80J95CcWrLLXFvYTA9DCznW0R.jpg",
+      "season_number": 6,
+      "vote_average": 5.1
+    },
+    {
+      "air_date": "2012-05-14",
+      "episode_count": 32,
+      "id": 13768,
+      "name": "Season 7",
+      "overview": "",
+      "poster_path": "/k0YegUyNkqczQYTioeoHkaE2nX1.jpg",
+      "season_number": 7,
+      "vote_average": 5.2
+    },
+    {
+      "air_date": "2013-06-04",
+      "episode_count": 27,
+      "id": 13769,
+      "name": "Season 8",
+      "overview": "In season 8, Sharon Osbourne leaves the show with Melanie Brown replacing her, and Heidi Klum becomes the new fourth judge.",
+      "poster_path": "/zAdOLar5V5SZ68JMMUbrlWNl9GV.jpg",
+      "season_number": 8,
+      "vote_average": 5.7
+    },
+    {
+      "air_date": "2014-05-27",
+      "episode_count": 25,
+      "id": 61276,
+      "name": "Season 9",
+      "overview": "",
+      "poster_path": "/yKXwWCHlPaB9tgr0GIKHLuQmr0o.jpg",
+      "season_number": 9,
+      "vote_average": 5.2
+    },
+    {
+      "air_date": "2015-05-26",
+      "episode_count": 26,
+      "id": 67127,
+      "name": "Season 10",
+      "overview": "In season 10. Howard Stern, Heidi Klum, Mel B and Howie Mandel return as judges, and Nick Cannon returns as host.",
+      "poster_path": "/4U0FIfeUHnNiKTfwOFyvPvYz04i.jpg",
+      "season_number": 10,
+      "vote_average": 5.2
+    },
+    {
+      "air_date": "2016-05-31",
+      "episode_count": 23,
+      "id": 77408,
+      "name": "Season 11",
+      "overview": "In season 11, Simon Cowell joins the judges panel alongside Heidi Klum, Mel B and Howie Mandel. Nick Cannon is back as host, and the series returns to Los Angeles this summer, with live shows broadcast from the famed Dolby Theatre.",
+      "poster_path": "/c65ynGEyMrUbiKVN6zdquYLTUpp.jpg",
+      "season_number": 11,
+      "vote_average": 6.7
+    },
+    {
+      "air_date": "2017-05-30",
+      "episode_count": 24,
+      "id": 88689,
+      "name": "Season 12",
+      "overview": "On the heels of the most viewed season in five years, the 12th is back with creator and judge Simon Cowell, Mel B, Heidi Klum and Howie Mandel. Supermodel, entrepreneur and CEO Tyra Banks joins the team as host, and the series returns to Los Angeles with live shows from the famed Dolby Theatre.",
+      "poster_path": "/so8bxKkBbTh9jAYAOrvKD4tYjOw.jpg",
+      "season_number": 12,
+      "vote_average": 7
+    },
+    {
+      "air_date": "2018-05-29",
+      "episode_count": 31,
+      "id": 104012,
+      "name": "Season 13",
+      "overview": "After a record-breaking Season 12, Creator and Judge Simon Cowell returns alongside Mel B, Heidi Klum and Howie Mandel. Supermodel, entrepreneur and business CEO Tyra Banks joined the team last summer as host and melded effortlessly with the judges, bringing her unmistakable personal flair and verve to the show.",
+      "poster_path": "/asNdHCBD7NqaKnIAs9q2RddIOB4.jpg",
+      "season_number": 13,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2019-05-28",
+      "episode_count": 30,
+      "id": 119939,
+      "name": "Season 14",
+      "overview": "Creator and Executive Producer Simon Cowell returns to the judges' panel along with Howie Mandel. Also joining the panel this year are two fresh faces - award-winning actress, author and producer Gabrielle Union and Emmy Award-winning choreographer, actress, singer and dancer Julianne Hough. Terry Crews joins as host.",
+      "poster_path": "/melTR5RuVa1mFHAYWixDklNelT8.jpg",
+      "season_number": 14,
+      "vote_average": 6.6
+    },
+    {
+      "air_date": "2020-05-26",
+      "episode_count": 25,
+      "id": 144150,
+      "name": "Season 15",
+      "overview": "Creator and Executive Producer Simon Cowell is back at the star-studded judges' table with fan-favorite comedian Howie Mandel. Acclaimed actress and international superstar Sofia Vergara joins as a new judge this season alongside returning judge and global fashion icon Heidi Klum.  The dynamic Terry Crews returns as host.",
+      "poster_path": "/pmL3KI6ROdc9fkjHabqWlBnSUGf.jpg",
+      "season_number": 15,
+      "vote_average": 5.9
+    },
+    {
+      "air_date": "2021-06-01",
+      "episode_count": 20,
+      "id": 193850,
+      "name": "Season 16",
+      "overview": "",
+      "poster_path": "/gsX0bEwZED36LIrw9nIbcaVvUxt.jpg",
+      "season_number": 16,
+      "vote_average": 8.1
+    },
+    {
+      "air_date": "2022-05-31",
+      "episode_count": 22,
+      "id": 285991,
+      "name": "Season 17",
+      "overview": "",
+      "poster_path": "/6MKbJL8DYzgNgWmKgwHAaXolwXo.jpg",
+      "season_number": 17,
+      "vote_average": 8.5
+    },
+    {
+      "air_date": "2023-05-30",
+      "episode_count": 24,
+      "id": 332047,
+      "name": "Season 18",
+      "overview": "",
+      "poster_path": "/xyd4aV6LZ8dcj1etoMLroUxzFDf.jpg",
+      "season_number": 18,
+      "vote_average": 6.5
+    },
+    {
+      "air_date": "2024-05-28",
+      "episode_count": 21,
+      "id": 384327,
+      "name": "Season 19",
+      "overview": "",
+      "poster_path": "/vLzzBtQzqfuYupsxDQXiGte0BBl.jpg",
+      "season_number": 19,
+      "vote_average": 6.5
+    },
+    {
+      "air_date": "2025-05-27",
+      "episode_count": 3,
+      "id": 441044,
+      "name": "Season 20",
+      "overview": "",
+      "poster_path": "/nd5FjRlEdC05GUK4svGj7TpyR2b.jpg",
+      "season_number": 20,
+      "vote_average": 0
+    }
+  ],
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Returning Series",
+  "tagline": "Two minutes can change your life.",
+  "type": "Reality",
+  "vote_average": 5.7,
+  "vote_count": 258,
+  "credits": {
+    "cast": [
+      {
+        "adult": false,
+        "gender": 2,
+        "id": 165899,
+        "known_for_department": "Acting",
+        "name": "Simon Cowell",
+        "original_name": "Simon Cowell",
+        "popularity": 1.4127,
+        "profile_path": "/My1ntuj7FdrO1rnJW4FKGesRRp.jpg",
+        "character": "Self - Judge",
+        "credit_id": "57541ba4c3a368346e0004e9",
+        "order": 0
+      },
+      {
+        "adult": false,
+        "gender": 2,
+        "id": 77920,
+        "known_for_department": "Acting",
+        "name": "Howie Mandel",
+        "original_name": "Howie Mandel",
+        "popularity": 2.2951,
+        "profile_path": "/lX5HyGJ6X6aVPwirx5Tt9CJcMzA.jpg",
+        "character": "Self - Judge",
+        "credit_id": "55c6d6fd92514105c80013b6",
+        "order": 2
+      },
+      {
+        "adult": false,
+        "gender": 1,
+        "id": 63522,
+        "known_for_department": "Acting",
+        "name": "Sofía Vergara",
+        "original_name": "Sofía Vergara",
+        "popularity": 6.6751,
+        "profile_path": "/l79eVtn6bSOaiq7R0UGu60foMrK.jpg",
+        "character": "Self - Judge",
+        "credit_id": "5e5863caa6d93100185eec51",
+        "order": 3
+      },
+      {
+        "adult": false,
+        "gender": 1,
+        "id": 47984,
+        "known_for_department": "Acting",
+        "name": "Mel B",
+        "original_name": "Mel B",
+        "popularity": 2.08,
+        "profile_path": "/drg8C5ROTnNJWfjHLQAzlfht0E3.jpg",
+        "character": "Self - Judge",
+        "credit_id": "55c6d83ac3a36824900011af",
+        "order": 4
+      },
+      {
+        "adult": false,
+        "gender": 2,
+        "id": 53256,
+        "known_for_department": "Acting",
+        "name": "Terry Crews",
+        "original_name": "Terry Crews",
+        "popularity": 4.6213,
+        "profile_path": "/pxTY4SglLo5hFcMH00MxPeC5u55.jpg",
+        "character": "Self - Host",
+        "credit_id": "5c577534c3a3680b578821e0",
+        "order": 5
+      }
+    ],
+    "crew": []
+  },
+  "external_ids": {
+    "imdb_id": "tt0759364",
+    "freebase_mid": "/m/0cpz4k",
+    "freebase_id": "/en/americas_got_talent",
+    "tvdb_id": 79490,
+    "tvrage_id": 10408,
+    "wikidata_id": "Q467561",
+    "facebook_id": "agt",
+    "instagram_id": "agt",
+    "twitter_id": "agt"
+  },
+  "images": {
+    "backdrops": [],
+    "logos": [],
+    "posters": []
+  },
+  "watch/providers": {
+    "results": {
+      "AE": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=AE",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 15
+          }
+        ]
+      },
+      "AU": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=AU",
+        "ads": [
+          {
+            "logo_path": "/uU4gqmoX0koF8L5yJSlfaaFd9Tz.jpg",
+            "provider_id": 246,
+            "provider_name": "7plus",
+            "display_priority": 17
+          }
+        ]
+      },
+      "BH": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=BH",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 23
+          }
+        ]
+      },
+      "CA": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=CA",
+        "flatrate": [
+          {
+            "logo_path": "/aaGh2F4UhXLRvOifdjSHQMqWB0K.jpg",
+            "provider_id": 2171,
+            "provider_name": "Citytvplus Amazon Channel",
+            "display_priority": 153
+          },
+          {
+            "logo_path": "/b1hPXukoQT9pkYbbNESUjNgSL3e.jpg",
+            "provider_id": 1985,
+            "provider_name": "Citytvplus",
+            "display_priority": 166
+          }
+        ]
+      },
+      "DK": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=DK",
+        "flatrate": [
+          {
+            "logo_path": "/ddwrbKxlX8n7TasdvrauFijCmEm.jpg",
+            "provider_id": 383,
+            "provider_name": "TV 2",
+            "display_priority": 7
+          }
+        ]
+      },
+      "DZ": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=DZ",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 25
+          }
+        ]
+      },
+      "EG": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=EG",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 30
+          }
+        ]
+      },
+      "FI": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=FI",
+        "flatrate": [
+          {
+            "logo_path": "/bnoTnLzz2MAhK3Yc6P9KXe5drIz.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 35
+          }
+        ]
+      },
+      "IQ": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=IQ",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 24
+          }
+        ]
+      },
+      "JO": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=JO",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 23
+          }
+        ]
+      },
+      "KW": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=KW",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 24
+          }
+        ]
+      },
+      "LB": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=LB",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 24
+          }
+        ]
+      },
+      "LY": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=LY",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 25
+          }
+        ]
+      },
+      "MA": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=MA",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 24
+          }
+        ]
+      },
+      "NL": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=NL",
+        "flatrate": [
+          {
+            "logo_path": "/qN7uDYanT47WI0MmbwOr5HFFot.jpg",
+            "provider_id": 72,
+            "provider_name": "Videoland",
+            "display_priority": 6
+          }
+        ]
+      },
+      "NO": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=NO",
+        "ads": [
+          {
+            "logo_path": "/dB8G41Q6tSL5NBisrIeqByfepBc.jpg",
+            "provider_id": 300,
+            "provider_name": "Pluto TV",
+            "display_priority": 35
+          }
+        ],
+        "flatrate": [
+          {
+            "logo_path": "/bnoTnLzz2MAhK3Yc6P9KXe5drIz.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 4
+          }
+        ]
+      },
+      "NZ": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=NZ",
+        "flatrate": [
+          {
+            "logo_path": "/kZRT6tkMn7zzRy8PjPuB3g3TItL.jpg",
+            "provider_id": 395,
+            "provider_name": "TVNZ+",
+            "display_priority": 12
+          }
+        ]
+      },
+      "OM": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=OM",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 23
+          }
+        ]
+      },
+      "PS": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=PS",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 23
+          }
+        ]
+      },
+      "QA": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=QA",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 23
+          }
+        ]
+      },
+      "SA": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=SA",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 28
+          }
+        ]
+      },
+      "SE": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=SE",
+        "flatrate": [
+          {
+            "logo_path": "/bnoTnLzz2MAhK3Yc6P9KXe5drIz.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 6
+          }
+        ],
+        "ads": [
+          {
+            "logo_path": "/dB8G41Q6tSL5NBisrIeqByfepBc.jpg",
+            "provider_id": 300,
+            "provider_name": "Pluto TV",
+            "display_priority": 37
+          }
+        ]
+      },
+      "TN": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=TN",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 25
+          }
+        ]
+      },
+      "TR": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=TR",
+        "flatrate": [
+          {
+            "logo_path": "/gaDNJ1xISHBBq9LQXwwe8PPSRHD.jpg",
+            "provider_id": 1826,
+            "provider_name": "TOD TV",
+            "display_priority": 36
+          }
+        ]
+      },
+      "US": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=US",
+        "flatrate": [
+          {
+            "logo_path": "/9BgaNQRMDvVlji1JBZi6tcfxpKx.jpg",
+            "provider_id": 257,
+            "provider_name": "fuboTV",
+            "display_priority": 9
+          },
+          {
+            "logo_path": "/2aGrp1xw3qhwCYvNGAJZPdjfeeX.jpg",
+            "provider_id": 386,
+            "provider_name": "Peacock Premium",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/6hFf3sIdmXSAczy3i6tLSmy6gwK.jpg",
+            "provider_id": 79,
+            "provider_name": "NBC",
+            "display_priority": 52
+          },
+          {
+            "logo_path": "/A95qgiMz6ulV2SxeKcJ5Gc9pqGS.jpg",
+            "provider_id": 322,
+            "provider_name": "USA Network",
+            "display_priority": 99
+          },
+          {
+            "logo_path": "/drPlq5beqXtBaP7MNs8W616YRhm.jpg",
+            "provider_id": 387,
+            "provider_name": "Peacock Premium Plus",
+            "display_priority": 270
+          }
+        ],
+        "free": [
+          {
+            "logo_path": "/A95qgiMz6ulV2SxeKcJ5Gc9pqGS.jpg",
+            "provider_id": 322,
+            "provider_name": "USA Network",
+            "display_priority": 99
+          }
+        ]
+      },
+      "YE": {
+        "link": "https://www.themoviedb.org/tv/4551-america-s-got-talent/watch?locale=YE",
+        "flatrate": [
+          {
+            "logo_path": "/bFxDjHDXP02u1dLPZfTsTC1L6EA.jpg",
+            "provider_id": 1750,
+            "provider_name": "TOD",
+            "display_priority": 24
+          }
+        ]
+      }
+    }
+  }
+}

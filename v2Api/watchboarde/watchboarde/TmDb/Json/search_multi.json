@@ -1,0 +1,409 @@
+{
+  "original_url": "https://api.themoviedb.org/3/search/multi?query=sinner&include_adult=false&language=en-US&page=1",
+  "page": 1,
+  "results": [
+    {
+      "backdrop_path": "/1USfeTPz2QLBivvdY62HKi8gGFj.jpg",
+      "id": 423851,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "In a dystopian future where the world has devolved into a pre-industrial state, the Purists rule supreme. The Purists blame technology for all the world’s past ills, and have deemed it to be inherently sinful. A handful of Companions, human-like artificial intelligence, have managed to make it through the apocalypse. They survive the only way they can –by hiding in plain sight.",
+      "poster_path": "/bmyHDLqYrlZsng2BSWobrdJqqVM.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        18,
+        878
+      ],
+      "popularity": 0.5696,
+      "release_date": "2016-10-31",
+      "video": false,
+      "vote_average": 3,
+      "vote_count": 2
+    },
+    {
+      "backdrop_path": null,
+      "id": 15057,
+      "name": "Saints and Sinners",
+      "original_name": "Saints and Sinners",
+      "overview": "Saints and Sinners is an American drama series that aired on NBC during the 1962-63 television season. The program stars Nick Adams as newspaper reporter Nick Alexander. Saints and Sinners was created by Adrian Spies, who worked as a journalist before becoming a screenwriter.",
+      "poster_path": "/2L5lguYeCwghPRazdkU5Jd3ZKkg.jpg",
+      "media_type": "tv",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        18
+      ],
+      "popularity": 7.9623,
+      "first_air_date": "1962-09-17",
+      "vote_average": 6,
+      "vote_count": 1,
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "backdrop_path": "/nAxGnGHOsfzufThz20zgmRwKur3.jpg",
+      "id": 1233413,
+      "title": "Sinners",
+      "original_title": "Sinners",
+      "overview": "Trying to leave their troubled lives behind, twin brothers return to their hometown to start again, only to discover that an even greater evil is waiting to welcome them back.",
+      "poster_path": "/jYfMTSiFFK7ffbY2lay4zyvTkEk.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        27,
+        28,
+        53
+      ],
+      "popularity": 315.5569,
+      "release_date": "2025-04-16",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 1015
+    },
+    {
+      "backdrop_path": null,
+      "id": 420439,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "A Catholic priest, Father Anthony Romano (Nick Chinlund), intervenes with the police when his colleague attacks a drifter named Lil (Georgina Cates). When Anthony reluctantly provides her asylum in his rectory, the brash hustler soon discovers a secret he has hidden from his diocese and parish. Through this unlikely muse, Anthony finds a path to regain his honor and calling in a post-scandal world where priests are guilty until proven innocent.",
+      "poster_path": null,
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [],
+      "popularity": 0.954,
+      "release_date": "2007-03-26",
+      "video": false,
+      "vote_average": 4,
+      "vote_count": 4
+    },
+    {
+      "backdrop_path": null,
+      "id": 639917,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "A closeted high school senior must choose between being true to himself or pleasing his religious mother.",
+      "poster_path": "/gxaMBKUr0ENaEFGRHLtSYyeBUj.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [],
+      "popularity": 0.117,
+      "release_date": "2018-06-23",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "backdrop_path": null,
+      "id": 629309,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "",
+      "poster_path": "/zAyGElGPP5rIrdGmQzbKGehVInE.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "nl",
+      "genre_ids": [
+        18,
+        35,
+        10749
+      ],
+      "popularity": 0.7054,
+      "release_date": "2019-09-10",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "backdrop_path": null,
+      "id": 705586,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "When college junior Kelly gets frustrated with her spells not working, she acquires a book from a local occult shop and casts a spell to help improve her friends' lives. But when she conjures more than she bargains for and her friends begin dying, it's up to her and occult shop owner Morgan to put things right again.",
+      "poster_path": "/3Fj3ioSeXP4asX663AsQQAi6U2S.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        27
+      ],
+      "popularity": 0.1969,
+      "release_date": "2008-06-01",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "backdrop_path": null,
+      "id": 695868,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "Sinner is a story of two criminals, one rapist who rapes and kills a woman and one father who kills the rapist of his daughter. The film runs through the doubts and mental dilemma of both the characters.",
+      "poster_path": "/d7WaWIXzsjKJtnflNl3LibLQhZ7.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [],
+      "popularity": 0.0649,
+      "release_date": "2018-12-24",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "backdrop_path": "/e8PjuZtp0yyNexWUegM9MCqOAhx.jpg",
+      "id": 680897,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "Yotam, a thirteen year-old boy studying at an ultra-orthodox Jewish boarding school tries to battle the awakening of his sexual desires. Confused and guilt-ridden, he consults with his rabbi who abuses his position and Yotam's innocence. With no one to trust and nowhere to go, Yotam finds himself trapped by the enforced silence in his community.",
+      "poster_path": "/nHqIEQu34GOKSBCgvQglM84fAQ7.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "he",
+      "genre_ids": [],
+      "popularity": 0.2778,
+      "release_date": "2009-09-09",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 3
+    },
+    {
+      "backdrop_path": null,
+      "id": 1238278,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "After an unfortunate loss on set, a tv crew travel to Grove, Oklahoma to shoot their next episode of their haunted reality show. However when they arrive, they realize that the horror of the tv show may have actually entered their reality.",
+      "poster_path": "/ubULT97gNNKg3n2a6zpP0AknRM.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        27,
+        53,
+        28
+      ],
+      "popularity": 0.0828,
+      "release_date": "2023-10-30",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "backdrop_path": null,
+      "id": 1434425,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "First film in the Redemption trilogy.",
+      "poster_path": null,
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "it",
+      "genre_ids": [
+        18,
+        9648,
+        53
+      ],
+      "popularity": 0.1273,
+      "release_date": "2009-11-01",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "backdrop_path": null,
+      "id": 1478968,
+      "title": "Sinner",
+      "original_title": "Sinner",
+      "overview": "Two twins live in isolation, hiding a dark secret, until hunger reveals that danger was always on the other side of the mirror.",
+      "poster_path": "/Ao9yMn6D5roqDKRNqY75dEicrQ8.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        28,
+        27
+      ],
+      "popularity": 0.1279,
+      "release_date": "2027-11-05",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "backdrop_path": "/pvPvg8k7tfER4xPFJ4edPcx7ImC.jpg",
+      "id": 559562,
+      "title": "Psycho-Pass: Sinners of the System - Case.2 First Guardian",
+      "original_title": "PSYCHO-PASS サイコパス Sinners of the System Case.2「First Guardian」",
+      "overview": "2112; the summer before Akane Tsunemori was assigned to Division One of the Public Safety Bureau's Criminal Investigation Department. Teppei Sugo, an accomplished pilot of the Defense Army's 15th Integrated Task Force, joins the military operation in Okinawa. Three months later, an unmanned combat drone opens fire on the Ministry of Defense in Tokyo. Enforcer Tomomi Masaoka of CID Division One is dispatched to Sugo's military base to investigate the truth behind this case.",
+      "poster_path": "/3Xm1hgIcmKJGnaMetErNu5kA8qz.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "ja",
+      "genre_ids": [
+        16,
+        878,
+        80
+      ],
+      "popularity": 4.0875,
+      "release_date": "2019-02-15",
+      "video": false,
+      "vote_average": 6.8,
+      "vote_count": 65
+    },
+    {
+      "backdrop_path": "/pieDnLArEw43kZxYejn3XbrNZdg.jpg",
+      "id": 510242,
+      "title": "Psycho-Pass: Sinners of the System - Case.1 Crime and Punishment",
+      "original_title": "PSYCHO-PASS サイコパス Sinners of the System Case.1「罪と罰」",
+      "overview": "In the winter of 2117, a runaway vehicle crashes into the Public Safety Bureau Building. The driver is identified as Izumi Yasaka, a psychological counselor at the Sanctuary, a Latent Criminal Isolation Facility in Aomori Prefecture. But right before her interrogation, Inspector Mika Shimotsuki and Enforcer Nobuchika Ginoza are tasked with promptly escorting Yasaka back to Aomori. What awaits them there is a False Paradise.",
+      "poster_path": "/qnG8ZcmQoncPB58RZwy3wofxm5y.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "ja",
+      "genre_ids": [
+        16,
+        878,
+        80
+      ],
+      "popularity": 3.8566,
+      "release_date": "2019-01-25",
+      "video": false,
+      "vote_average": 6.7,
+      "vote_count": 83
+    },
+    {
+      "backdrop_path": "/uj3ycphwJOc1FQ5FyR1Gn2tydeq.jpg",
+      "id": 68788,
+      "name": "A Sinner's Lie",
+      "original_name": "罪人の嘘",
+      "overview": "Serious legal thriller starring Hideaki Ito which depicts the glory and the darkness of an infamous and highly paid lawyer.",
+      "poster_path": "/sMPeM6HF1K914LLc3WzLCubgWqA.jpg",
+      "media_type": "tv",
+      "adult": false,
+      "original_language": "ja",
+      "genre_ids": [
+        80,
+        18
+      ],
+      "popularity": 1.5899,
+      "first_air_date": "2014-08-31",
+      "vote_average": 8.333,
+      "vote_count": 3,
+      "origin_country": [
+        "JP"
+      ]
+    },
+    {
+      "backdrop_path": "/rLlFhnbTBJ4LReRhRHZgqFkgOZy.jpg",
+      "id": 75939,
+      "name": "The Sinner",
+      "original_name": "Грешник",
+      "overview": "When Vlad was five his mother was killed. And the only person whom Vlad blames for her death is his father . On the 20th anniversary of the tragedy the young man decides to gather all his relatives together to dot all the i's and cross all the t's. But at some point Vlad finds out many facts which totally change his life.",
+      "poster_path": "/6cwaJofjQD8GfA2JgnOW30d1c7Y.jpg",
+      "media_type": "tv",
+      "adult": false,
+      "original_language": "ru",
+      "genre_ids": [
+        18
+      ],
+      "popularity": 1.3003,
+      "first_air_date": "2014-09-09",
+      "vote_average": 10,
+      "vote_count": 2,
+      "origin_country": [
+        "RU"
+      ]
+    },
+    {
+      "backdrop_path": "/6wUtVufUDAaO1TCkbny6O4Bubr3.jpg",
+      "id": 203474,
+      "title": "Sinner: The Secret Diary of a Nymphomaniac",
+      "original_title": "Le Journal intime d'une nymphomane",
+      "overview": "Linda comes to the big city in search of fun and excitement.  What she finds is exploitation and abuse at the hands of a succession of sleazy guys.  Searching for love, she enters into a lesbian relationship with a beautiful countess, discovers drugs and swingers' parties and starts acting in porno movies.  She also begins to write a secret diary...",
+      "poster_path": "/2hSxkdZtDPlkn1Gy5cBYtqjzlnM.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "fr",
+      "genre_ids": [
+        18
+      ],
+      "popularity": 3.7794,
+      "release_date": "1973-06-21",
+      "video": false,
+      "vote_average": 5.2,
+      "vote_count": 39
+    },
+    {
+      "backdrop_path": "/lVWku9LX2qdJTtAbRzaCDhhWeTK.jpg",
+      "id": 39852,
+      "name": "The Sinner",
+      "original_name": "The Sinner",
+      "overview": "In a small New York town, a haunted detective hunts for answers about perplexing crimes while wrestling with his own demons.",
+      "poster_path": "/rmibFGdqOe0kKKhPls0jVOdZCWw.jpg",
+      "media_type": "tv",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        80,
+        18
+      ],
+      "popularity": 26.0822,
+      "first_air_date": "2017-08-02",
+      "vote_average": 7.5,
+      "vote_count": 1115,
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "backdrop_path": "/cpNySYC0fPaEGLgvK4XGalupzyg.jpg",
+      "id": 97825,
+      "name": "The Garden of Sinners",
+      "original_name": "空の境界",
+      "overview": "This is the 2013 TV edition of the film series.\n\nAfter lying in a coma for two years, Shiki Ryougi awakens with amnesia. Inexplicably, she finds that she has also obtained the “Mystic Eyes of Death Perception” in which she can see the invisible lines of mortality that hold every living and non-living thing together. In this modern occult-action thriller, Shiki must tackle supernatural incidents while searching for her purpose for living.",
+      "poster_path": "/fnDXXa40YaFcWQ4BhEoMMVgTDo6.jpg",
+      "media_type": "tv",
+      "adult": false,
+      "original_language": "ja",
+      "genre_ids": [
+        16,
+        80,
+        9648
+      ],
+      "popularity": 4.4842,
+      "first_air_date": "2013-07-06",
+      "vote_average": 7.4,
+      "vote_count": 9,
+      "origin_country": [
+        "JP"
+      ]
+    },
+    {
+      "backdrop_path": "/dsPiNuzzP3EiWTXkXxkclujzSxZ.jpg",
+      "id": 29187,
+      "title": "Convent of Sinners",
+      "original_title": "La monaca nel peccato",
+      "overview": "Convent of Sinners is the story of Susanna, a young girl who is raped by her own father and sent to a convent for her sins, where she falls in love with a priest. The other nuns, however, are jealous and angry, they want Susanna for themselves, and accuse her of being possessed by the Devil.",
+      "poster_path": "/1L0BEF5ymuJeAW05fSGMB849Fnq.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "it",
+      "genre_ids": [
+        18,
+        27
+      ],
+      "popularity": 0.926,
+      "release_date": "1986-08-09",
+      "video": false,
+      "vote_average": 5.1,
+      "vote_count": 26
+    }
+  ],
+  "total_pages": 13,
+  "total_results": 256
+}
