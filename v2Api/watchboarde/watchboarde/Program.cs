@@ -128,6 +128,26 @@ app.MapPut("/items/{itemId:Guid}/move",
 app.MapPut("/lists/{listId:Guid}/reorder",
     async (IRepository repository, Guid listId, [FromBody] Guid[] newOrder) => { await repository.ReorderItems(listId, newOrder); });
 
+app.MapGet("/search", async (ITmDbService tmDbService, [FromQuery] string q) =>
+{
+    var results = await tmDbService.Search(q);
+    var result = results.Results.Select(async x =>
+    {
+        var posterUrl = await tmDbService.GetImageUrl(x.PosterPath ?? "", "w185");
+        var backdropUrl = await tmDbService.GetImageUrl(x.BackdropPath ?? "", "w780");
+        return new
+        {
+            x.Id, x.OriginalLanguage,
+            Name = x.MediaType == "tv" ? x.Name : x.Title,
+            ReleaseDate = x.MediaType == "tv" ? x.FirstAirDate : x.ReleaseDate,
+            ItemType = x.MediaType == "tv" ? ItemType.TvShow : ItemType.Movie,
+            PosterUrl = posterUrl,
+            BackdropUrl = backdropUrl
+        };
+    });
+    return Results.Ok(await Task.WhenAll(result));
+});
+
 #endregion
 
 // app.UseExceptionHandler(exceptionHandlerApp 

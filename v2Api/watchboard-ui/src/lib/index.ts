@@ -1,8 +1,19 @@
 // place files you want to import through the `$lib` alias in this folder.
+
 export class OrderedItem {
 	id: string = '';
 	name: string = '';
 	order: number = 0;
+}
+
+export class SearchResultItem {
+	id: number = 0;
+	originalLanguage: string = '';
+	name: string = '';
+	releaseDate: string = '';
+	itemType: ItemType = ItemType.TvShow;
+	posterUrl: string = '';
+	backdropUrl: string = '';
 }
 
 export class Board extends OrderedItem {
