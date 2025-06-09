@@ -59,10 +59,10 @@
     
     <_Search></_Search>
 
-    <div>
+    <div class="pt-3">
         @foreach (var l in Lists)
         {
-            <div class="mb-4" hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
+            <div hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">
                 <_List ListModel="l" ViewMode="@ViewMode"></_List>
             </div>
         }

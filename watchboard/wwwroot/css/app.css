@@ -1,13 +1,13 @@
-h4 {
+.header-line {
     display: flex;
     flex-direction: row;
     gap: 12px;
     font-size: 1.1em;
-    margin: 1em 0 1em 0;
+    margin-bottom: 0.8em; 
 }
 
-h4:before,
-h4:after {
+.header-line:before,
+.header-line:after {
     content: "";
     flex: 1 1;
     border-bottom: 1px solid var(--bs-border-color) !important;

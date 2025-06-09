@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { Board, type Item } from '$lib';
+	import DetailModal from './DetailModal.svelte';
 
 	let { data } = $props();
 
 	let board: Board = $state(data.board);
 	let selectedItem: Item = $state(board.lists[0].items[0]);
+	let modalOpen: boolean = $state(false);
 
 	function selectItem(evt: MouseEvent) {
 		const target = evt.target as HTMLButtonElement;
@@ -12,6 +14,7 @@
 		const foundItem = foundList?.items.find((item: { id: string }) => item.id === target.value);
 		if (foundItem)
 			selectedItem = foundItem;
+		modalOpen = true;
 	}
 </script>
 
@@ -31,6 +34,7 @@
 								class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 					Launch demo modal
 				</button>
+
 			</div>
 		{:else}
 			<p class="mt-3 mb-4">Nothing here yet!</p>
@@ -38,21 +42,4 @@
 	</div>
 {/each}
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">{selectedItem?.name}</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				...
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
-		</div>
-	</div>
-</div>
+<DetailModal open={modalOpen} onClosed={null} selectedItem={selectedItem}></DetailModal>
