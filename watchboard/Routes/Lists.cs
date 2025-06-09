@@ -14,8 +14,7 @@ public static class Lists
         app.MapGet("/lists/{listId:guid}", async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid listId) =>
         new RazorComponentResult<_List>(new
         {
-            ListModel = await repo.GetList(listId),
-            ViewMode = context.GetViewMode()
+            ListModel = await repo.GetList(listId)
         }));
 
         // SORT LIST

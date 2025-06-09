@@ -4,14 +4,7 @@
 <form class="row sortable me-5" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
     @foreach (var i in ListModel.Items)
     {
-        @if (ViewMode != "posters")
-        {
-            <_Item ItemModel="i"></_Item>
-        }
-        else
-        {
-            <_ItemPoster ItemModel="i"></_ItemPoster>
-        }
+        <_ItemPoster ItemModel="i"></_ItemPoster>
     }
 </form>
 
@@ -19,8 +12,5 @@
 
     [Parameter]
     public List ListModel { get; set; } = new() {Items = []};
-
-    [Parameter]
-    public string ViewMode { get; set; } = "backdrops";
 
 }

@@ -1,22 +1,21 @@
 @using WatchBoard.Database.Entities
+
 <div class="modal-dialog modal-lg modal-dialog-centered">
-    <form class="modal-content" hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-swap="outerHTML">
+    <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
                 @if (ItemModel.Type == ItemType.Tv)
                 {
                     <span>
-                        <i class="bi bi-collection-play"></i> @ItemModel.Name
-                    </span>
+                    @ItemModel.Name
+                </span>
                 }
                 else
                 {
                     <span>
-                        <i class="bi bi-film"></i> @ItemModel.Name <span class="text-muted fs-6 fw-bold">(@(ItemModel.ReleaseDates()))</span>
-                    </span>
-                }
-
-            </h1>
+                    @ItemModel.Name <span class="text-muted fs-6 fw-bold">(@(ItemModel.ReleaseDates()))</span>
+                </span>
+                } </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -24,6 +23,11 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
                         Details
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="credits-tab" data-bs-toggle="tab" data-bs-target="#credits-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+                        Credits
                     </button>
                 </li>
                 @if (ItemModel.Type == ItemType.Tv)
@@ -34,55 +38,42 @@
                         </button>
                     </li>
                 }
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="provider-tab" data-bs-toggle="tab" data-bs-target="#provider-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-                        Watch Options
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="images-tab" data-bs-toggle="tab" data-bs-target="#images-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
-                        Images
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-@(ItemModel.Id)" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
-                        Other
-                    </button>
-                </li>
             </ul>
             <div class="tab-content pt-2 px-2" id="myTabContent">
                 <div class="tab-pane fade show active" id="details-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="details-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
-
                         @if (ItemModel.Type == ItemType.Tv)
                         {
-                            <p>
+                            <p class="mb-4">
                                 @ItemModel.ReleaseDates()
                                 <br/>
                                 Status: @ItemModel.SeriesStatus
                                 <br/>
                             </p>
+                            @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
+                            {
+                                @if (ItemModel.SeriesNextEpisodeNumber == 1)
+                                {
+                                    <p>
+                                        Season @(ItemModel.SeriesNextEpisodeSeason) starts @ItemModel.SeriesNextEpisodeDate
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="text-body-secondary">
+                                        <i class="bi bi-info-circle"></i>
+                                        S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber) premieres
+                                        on @ItemModel.SeriesNextEpisodeDate
+                                    </p>
+                                }
+                            }
+                            <p class="mt-4 fw-bold text-uppercase">Overview</p>
                         }
-
-                        @if (ItemModel.SeriesStatus == SeriesStatus.InProgress)
+                        else
                         {
-                            @if (ItemModel.SeriesNextEpisodeNumber == 1)
-                            {
-                                <p>
-                                    Season @(ItemModel.SeriesNextEpisodeSeason) starts @ItemModel.SeriesNextEpisodeDate
-                                </p>
-                            }
-                            else
-                            {
-                                <p class="text-body-secondary">
-                                    <i class="bi bi-info-circle"></i>
-                                    S@(ItemModel.SeriesNextEpisodeSeason) E@(ItemModel.SeriesNextEpisodeNumber) premieres
-                                    on @ItemModel.SeriesNextEpisodeDate
-                                </p>
-                            }
+                            <p class="fw-bold text-uppercase">Overview</p>
                         }
-
-                        <p class="fw-bold text-uppercase">Overview</p>
+                        
                         @if (ItemModel.OriginalLanguage != "EN")
                         {
                             <p class="text-muted small">
@@ -93,28 +84,64 @@
                             @ItemModel.Overview
                         </p>
 
-                        <p class="fw-bold text-uppercase">Top Cast</p>
-                        <div class="row mb-4">
-                            @foreach (var c in ItemModel.GetCredits().Cast.OrderBy(x => x.Order).Take(6))
-                            {
-                                <div class="col-6 border-bottom border-secondary-subtle">
-                                    <i class="bi bi-person"></i> @c.Name</div>
-                                <div class="col-6 border-bottom border-secondary-subtle text-end">@c.Character</div>
-                            }
-                        </div>
+                        <form hx-put="/app/items/@(ItemModel.Id)" hx-target="#card-@(ItemModel.Id)" hx-swap="outerHTML" hx-trigger="change">
+                            <p class="mt-4">
+                                <span class="fw-bold text-uppercase">Watch Options </span>
+                                <span class="fw-lighter text-center" style="font-size: 0.8em;"><br/>Watch provider data supplied by <a href="https://www.justwatch.com/">JustWatch</a></span>
+                            </p>
+                            <div class="row mx-2">
+                                @foreach (var providerOption in ItemModel.GetProviders())
+                                {
+                                    <div class="col-4 form-check text-truncate pe-2">
+                                        @if (providerOption.Selected)
+                                        {
+                                            <input class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" value="@(providerOption.Id)" checked>
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" value="@(providerOption.Id)">
+                                        }
+                                        <label class="form-check-label" for="selectedProviderId-@(providerOption.Id)">
+                                            @providerOption.Name.Replace(" Channel", "")
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </form>
 
-                        <p class="fw-bold text-uppercase">Crew</p>
-                        <div class="row mb-4">
-                            @foreach (var c in ItemModel.GetCredits().Crew
-                                              .Where(x => x.Job != null &&
-                                                          (x.Job.Equals("Director", StringComparison.OrdinalIgnoreCase)
-                                                           || x.Job.Equals("Writer", StringComparison.OrdinalIgnoreCase)
-                                                           || (ItemModel.Type == ItemType.Tv && x.Job.Equals("Producer", StringComparison.OrdinalIgnoreCase)))).Take(6))
-                            {
-                                <div class="col-6 border-bottom border-secondary-subtle">
-                                    <i class="bi bi-camera-video"></i> @c.Name</div>
-                                <div class="col-6 border-bottom border-secondary-subtle text-end">@c.Job</div>
-                            }
+                        <hr class="mt-4"/>
+                        
+                        <div class="hstack gap-2 px-2 pb-2">
+                            <button type="button" class="btn btn-sm btn-danger" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-delete="/app/items/@(ItemModel.Id)" data-bs-dismiss="modal">
+                                <i class="bi bi-trash"></i> Remove
+                            </button>
+
+                            <button class="btn btn-sm btn-secondary" hx-indicator="#footer-indicator" hx-put="/app/items/@(ItemModel.Id)/refresh" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-folder-plus"></i> Move
+                                </button>
+                                <ul class="dropdown-menu">
+                                    @foreach (var b in Boards)
+                                    {
+                                        <button class="dropdown-item" hx-indicator="#indicator" hx-put="/app/items/@(ItemModel.Id)/move/@(b.Id)" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" type="button">
+                                            <i class="bi bi-arrow-right me-2"></i> @b.Name
+                                        </button>
+                                    }
+                                </ul>
+                            </div>
+
+                            <a class="btn btn-sm btn-secondary" href="@(ItemModel.ImdbUrl)">
+                                <i class="ms-1 bi bi-arrow-up-right-square"></i> IMDB
+                            </a>
+
+                            <div class="htmx-indicator spinner-border spinner-border-sm" id="footer-indicator" role="status"></div>
+
+                            <button type="button" class="ms-3 btn btn-sm btn-secondary ms-auto" data-bs-dismiss="modal">Close
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -160,106 +187,46 @@
                         </div>
                     </div>
                 }
-                <div class="tab-pane fade" id="provider-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="provider-tab-@(ItemModel.Id)" tabindex="0">
+                <div class="tab-pane fade" id="credits-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="credits-tab-@(ItemModel.Id)" tabindex="0">
                     <div class="pt-3 px-2">
-                        @foreach (var providerOption in ItemModel.GetProviders())
+
+                        @if (ItemModel.GetCredits().Cast.Count > 0)
                         {
-                            <div class="form-check">
-                                @if (providerOption.Selected)
+                            <p class="fw-bold text-uppercase">Top Cast</p>
+                            <div class="row mb-4">
+                                @foreach (var c in ItemModel.GetCredits().Cast.OrderBy(x => x.Order).Take(6))
                                 {
-                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" value="@(providerOption.Id)" checked>
+                                    <div class="col-6 border-bottom border-secondary-subtle">
+                                        <i class="bi bi-person"></i> @c.Name</div>
+                                    <div class="col-6 border-bottom border-secondary-subtle text-end">@c.Character</div>
                                 }
-                                else
-                                {
-                                    <input onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" id="selectedProviderId-@(providerOption.Id)" name="selectedProvider" value="@(providerOption.Id)">
-                                }
-                                <label class="form-check-label" for="selectedProviderId-@(providerOption.Id)">
-                                    @providerOption.Name
-                                </label>
                             </div>
                         }
-                        <div class="mt-3 fw-lighter" style="font-size: 0.8em;">
-                            Watch provider data supplied by <a href="https://www.justwatch.com/">JustWatch</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="images-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="images-tab-@(ItemModel.Id)" tabindex="0">
-                    <div class="pt-3 px-2">
-
-                        <div class="d-flex gap-3">
-                            <div>
-                                @foreach (var i in ItemModel.GetBackdropImages().OrderByDescending(x => x.VoteCount).ThenByDescending(x => x.VoteAverage).Take(12))
+                        
+                        @{
+                            var crew = ItemModel.GetCredits().Crew
+                                .Where(x => x.Job != null &&
+                                            (x.Job.Equals("Director", StringComparison.OrdinalIgnoreCase)
+                                             || x.Job.Equals("Writer", StringComparison.OrdinalIgnoreCase)
+                                             || (ItemModel.Type == ItemType.Tv && x.Job.Equals("Producer", StringComparison.OrdinalIgnoreCase)))).Take(6).ToList();
+                        }
+                        @if (crew.Count > 0)
+                        {
+                            <p class="fw-bold text-uppercase">Crew</p>
+                            <div class="row mb-4">
+                                @foreach (var c in crew)
                                 {
-                                    <div class="form-check" hx-indicator="#img-thumbnail-spinner">
-                                        @if (i.UrlPath == ItemModel.BackdropUrl)
-                                        {
-                                            <input hx-get="/app/items/@(ItemModel.Id)/backdrops/@(i.Id)" hx-target="#backdrop-thumbnail" hx-swap="innerHTML" onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)" checked>
-                                        }
-                                        else
-                                        {
-                                            <input hx-get="/app/items/@(ItemModel.Id)/backdrops/@(i.Id)" hx-target="#backdrop-thumbnail" hx-swap="innerHTML" onchange="enableItemDetailSubmitBtn()" class="form-check-input" type="radio" name="selectedImage" id="selectedImageId-@(i.Id)" value="@(i.Id)"/>
-                                        }
-                                        <label class="form-check-label" for="selectedImageId-@(i.Id)">
-                                            <i class="bi bi-image"></i> votes: @i.VoteCount / avg: @i.VoteAverage
-                                        </label>
-                                    </div>
+                                    <div class="col-6 border-bottom border-secondary-subtle">
+                                        <i class="bi bi-camera-video"></i> @c.Name</div>
+                                    <div class="col-6 border-bottom border-secondary-subtle text-end">@c.Job</div>
                                 }
                             </div>
-
-                            <div class="position-relative">
-                                <div id="backdrop-thumbnail">
-                                    <img class="img-thumbnail" src="@(ItemModel.BackdropBase64)" width="200" height="112" alt="@ItemModel.Name"/>
-                                </div>
-                                <div class="htmx-indicator position-absolute top-0 start-0 ms-3 mt-3" id="img-thumbnail-spinner">
-                                    <div class="spinner-border" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-3 fw-lighter" style="font-size: 0.8em;">
-                            Image data supplied by <a href="https://developer.themoviedb.org">TMDB</a>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="settings-tab-@(ItemModel.Id)" role="tabpanel" aria-labelledby="settings-tab-@(ItemModel.Id)" tabindex="0">
-                    <div class="pt-3 px-2">
-                        <button class="btn btn-link link-light link-underline link-underline-opacity-0" hx-put="/app/items/@(ItemModel.Id)/refresh" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-swap="outerHTML">
-                            <i class="bi bi-download me-2"></i>Refresh Metadata from TMDB
-                            <div class="htmx-indicator ms-3 spinner-border spinner-border-sm" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </button>
-                    </div>
-                    <div class="pt-1 px-2">
-                        @foreach (var b in Boards)
-                        {
-                            <button hx-put="/app/items/@(ItemModel.Id)/move/@(b.Id)" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" type="button" class="btn btn-link link-light link-underline link-underline-opacity-0">
-                                Move <i class="bi bi-arrow-right me-2"></i> <strong>@(b.Name)</strong>
-                            </button>
-                            <br/>
                         }
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="modal-footer d-flex justify-content-between">
-            <button type="button" class="btn btn-danger" hx-swap="delete swap:1s" hx-target="#card-@(ItemModel.Id)" hx-params="none" hx-delete="/app/items/@(ItemModel.Id)" data-bs-dismiss="modal">
-                Remove
-            </button>
-            <a class="btn btn-link" href="@(ItemModel.ImdbUrl)">
-                IMDB <i class="ms-1 bi bi-arrow-up-right-square"></i>
-            </a>
-            <div>
-                <button type="submit" id="itemDetailSubmitBtn" class="btn btn-primary me-2" data-bs-dismiss="modal" disabled>
-                    Save Changes
-                </button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 
 @code {
@@ -271,7 +238,7 @@
     public List<Board> Boards { get; set; } = [];
 
     private ItemProvider? SelectedProvider => ItemModel.GetProviders().FirstOrDefault(x => x.Selected);
-    
+
     private string ProviderSvg(string providerName)
     {
         if (providerName.Contains("Amazon", StringComparison.OrdinalIgnoreCase))
@@ -301,4 +268,5 @@
 
         return "bi bi-dot opacity-0";
     }
+
 }

@@ -15,8 +15,6 @@ public static class Items
         app.MapPost("/items/{tmDbId:int}",
             async (HttpContext context, HttpResponse response, [FromServices] IRepository repo, [FromRoute] int tmDbId, [FromQuery] string type) =>
             {
-                var b = context.GetBoardId();
-
                 await repo.AddItemToBoard(context.GetBoardId(), tmDbId, type);
                 response.Headers.Append("HX-Trigger", "newItem");
                 return Results.Ok();
@@ -59,14 +57,7 @@ public static class Items
                     await repo.SetItemProvider(itemId, selectedProviderId);
                 if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
                     await repo.SetItemBackdrop(itemId, selectedImageId);
-
-                var v = context.GetViewMode();
-                if (v == "posters")
-                    return new RazorComponentResult<_ItemPoster>(new
-                    {
-                        ItemModel = await repo.GetItem(itemId)
-                    });
-                return new RazorComponentResult<_Item>(new
+                return new RazorComponentResult<_ItemPoster>(new
                 {
                     ItemModel = await repo.GetItem(itemId)
                 });
@@ -84,19 +75,10 @@ public static class Items
 
         // UPDATE ITEM FROM TMDB
         app.MapPut("/items/{itemId:guid}/refresh",
-            async Task<RazorComponentResult> (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
+            async Task<RazorComponentResult> ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_ItemPoster>(new
             {
-                var v = context.GetViewMode();
-                if (v == "posters")
-                    return new RazorComponentResult<_ItemPoster>(new
-                    {
-                        ItemModel = await repo.RefreshItem(itemId)
-                    });
-                return new RazorComponentResult<_Item>(new
-                {
-                    ItemModel = await repo.RefreshItem(itemId)
-                });
-            });
+                ItemModel = await repo.RefreshItem(itemId)
+            }));
 
         return app;
     }

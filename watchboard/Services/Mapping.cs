@@ -199,13 +199,17 @@ public static class Mapping
 
     private static SeriesStatus? MapTmDbToSeriesStatus(this TmDbItem tmDbItem)
     {
-        if (tmDbItem.MediaType != "tv") return null;
-        if (tmDbItem.Status == null) return null;
-        if (tmDbItem.Status.Equals("Canceled", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Canceled;
-        if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) return SeriesStatus.Ended;
+        if (tmDbItem.MediaType != "tv" || tmDbItem.Status == null) return null;
+        
+        if (tmDbItem.Status.Equals("Canceled", StringComparison.OrdinalIgnoreCase)) 
+            return SeriesStatus.Canceled;
+        if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) 
+            return SeriesStatus.Ended;
         if (tmDbItem.Status.Equals("Returning Series", StringComparison.OrdinalIgnoreCase))
-            return tmDbItem.NextEpisodeToAir == null ? SeriesStatus.Returning : SeriesStatus.InProgress;
+            return tmDbItem.NextEpisodeToAir == null 
+                ? SeriesStatus.Returning 
+                : SeriesStatus.InProgress;
 
-        return null;
+        return SeriesStatus.Other;
     }
 }

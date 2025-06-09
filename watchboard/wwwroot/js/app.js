@@ -18,7 +18,3 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('searchInput').focus();
     });
 });
-
-function enableItemDetailSubmitBtn() {
-    document.getElementById('itemDetailSubmitBtn').removeAttribute('disabled');
-}
