@@ -6,5 +6,6 @@ public enum SeriesStatus
     Returning,
     Ended,
     Canceled,
-    Other
+    Other,
+    InProduction
 }

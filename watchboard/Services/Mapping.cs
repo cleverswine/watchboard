@@ -136,6 +136,8 @@ public static class Mapping
             return SeriesStatus.Canceled;
         if (tmDbItem.Status.Equals("Ended", StringComparison.OrdinalIgnoreCase)) 
             return SeriesStatus.Ended;
+        if (tmDbItem.Status.Equals("In Production", StringComparison.OrdinalIgnoreCase)) 
+            return SeriesStatus.InProduction;
         if (tmDbItem.Status.Equals("Returning Series", StringComparison.OrdinalIgnoreCase))
             return tmDbItem.NextEpisodeToAir == null 
                 ? SeriesStatus.Returning 

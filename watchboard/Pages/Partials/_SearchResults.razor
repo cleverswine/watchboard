@@ -1,20 +1,25 @@
 @using WatchBoard.Database.Entities
 @foreach (var itemModel in Items)
 {
-    <div class="card text-bg-dark mb-2" id="card-@(itemModel.Id)">
-        <img src="@(itemModel.PosterUrl)" width="111" height="166" class="opacity-50 card-img" alt="@itemModel.Name">
-        <div class="card-img-overlay">
-            <div class="position-relative w-100 h-100">
-                <div class="position-absolute top-0 end-0">
-                    <button class="btn p-0" hx-swap="none" hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
-                        <i class="bi bi-plus-circle"></i>
-                    </button>
-                </div>
-                <div class="position-absolute bottom-0">
-                    <h5 class="card-title shadow-lg">@itemModel.Name</h5>
-                    <div class="card-text">
-                        <i class="bi @(itemModel.Type == ItemType.Movie ? "bi-camera-reels" : "bi-tv")"></i> [@(itemModel.OriginalLanguage?.ToUpper() ?? "??")] @itemModel.ReleaseDates()
-                    </div>
+    <div class="card mb-3 bg-body-tertiary">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@(itemModel.PosterUrl)" width="92" height="138" class="img-fluid rounded-start" alt="@itemModel.Name">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body p-2">
+                    <h6 class="card-title">
+                        <a href="#" class="text-body-emphasis text-decoration-none stretched-link" hx-swap="none" hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
+                            @itemModel.Name
+                        </a>
+                    </h6>
+                    <p class="card-text">
+                        <i class="bi @(itemModel.Type == ItemType.Movie ? "bi-film" : "bi-tv")"></i> @itemModel.ReleaseDates() 
+                        @if (itemModel.OriginalLanguage?.ToUpper() != "EN")
+                        {
+                            <span class="ms-2">[@(itemModel.OriginalLanguage?.ToUpper() ?? "??")]</span>
+                        }
+                    </p>
                 </div>
             </div>
         </div>

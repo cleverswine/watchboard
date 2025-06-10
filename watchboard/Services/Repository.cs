@@ -174,7 +174,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<List<Item>> SearchForItems(string keyword, ItemType itemType)
     {
         var tmDbResults = await tmDb.Search(keyword, itemType.ToString().ToLower());
-        var items = tmDbResults.Select(async x => new Item
+        var items = tmDbResults.Select(x => new Item
         {
             Id = Guid.Empty,
             TmdbId = x.Id,
@@ -184,11 +184,12 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             ReleaseDate = x.ItemReleaseDate,
             EndDate = x.LastAirDate,
             NumberOfSeasons = x.NumberOfSeasons,
-            PosterUrl = await tmDb.GetImageUrl(x.PosterPath ?? "/img/ph.png", "w154"),
+            PosterUrl = x.PosterPath ?? "",
             OriginalLanguage = x.OriginalLanguage?.ToUpper() ?? "",
-            OriginCountry = string.Join(", ", x.OriginCountry)
+            OriginCountry = string.Join(", ", x.OriginCountry),
+            Overview = x.Overview
         }).ToList();
-        return (await Task.WhenAll(items)).ToList();
+        return items;
     }
 
     private async Task UpdateItemFromTmDb(Item dbItem)
