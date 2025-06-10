@@ -1,4 +1,3 @@
-using System.Net.Mime;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WatchBoard.Pages.Partials;
@@ -52,30 +51,17 @@ public static class Items
             {
                 var form = await context.Request.ReadFormAsync();
                 var selectedProvider = form["selectedProvider"];
-                var selectedImage = form["selectedImage"];
                 if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
                     await repo.SetItemProvider(itemId, selectedProviderId);
-                if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
-                    await repo.SetItemBackdrop(itemId, selectedImageId);
-                return new RazorComponentResult<_ItemPoster>(new
+                return new RazorComponentResult<_Item>(new
                 {
                     ItemModel = await repo.GetItem(itemId)
                 });
             });
 
-        // GET TMDB BACKDROP IMAGE TAG
-        app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}",
-            async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) =>
-            {
-                var url = await repo.GetItemBackdropUrl(itemId, imageId);
-                var s =
-                    $"<img class=\"img-thumbnail\" src=\"{url}\" width=\"200\" height=\"112\" alt=\"{imageId}\"/>";
-                return Results.Content(s, MediaTypeNames.Text.Html);
-            });
-
         // UPDATE ITEM FROM TMDB
         app.MapPut("/items/{itemId:guid}/refresh",
-            async Task<RazorComponentResult> ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_ItemPoster>(new
+            async Task<RazorComponentResult> ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_Item>(new
             {
                 ItemModel = await repo.RefreshItem(itemId)
             }));

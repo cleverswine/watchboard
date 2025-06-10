@@ -67,17 +67,6 @@
     [Parameter]
     public Item ItemModel { get; set; } = new();
 
-    private List<ItemImage> Images { get; set; } = [];
-
-    protected override void OnInitialized()
-    {
-        Images = ItemModel.GetBackdropImages()
-            .Where(x => x.Type == ItemImageType.Backdrop)
-            .Take(10)
-            .ToList();
-        base.OnInitialized();
-    }
-
     private ItemProvider? SelectedProvider => ItemModel.GetProviders().FirstOrDefault(x => x.Selected);
 
     private string ProviderSvg(string providerName)

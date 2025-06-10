@@ -19,8 +19,6 @@ public interface IRepository
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
     Task<Item> SetItemProvider(Guid itemId, int providerId);
-    Task<Item> SetItemBackdrop(Guid itemId, Guid imageId);
-    Task<string> GetItemBackdropUrl(Guid itemId, Guid imageId);
     Task<Item> RefreshItem(Guid itemId);
     Task DeleteItem(Guid id);
     Task<List<Item>> SearchForItems(string keyword, ItemType itemType);
@@ -81,10 +79,10 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
         var dbItem = new Item
         {
-            TmdbId = tmDbId,
             Type = type == "tv"
                 ? ItemType.Tv
                 : ItemType.Movie,
+            TmdbId = tmDbId,
             ListId = listId,
             Order = order
         };
@@ -101,7 +99,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         await db.SaveChangesAsync();
         return dbItem;
     }
-    
+
     public async Task MoveItemToOtherBoard(Guid itemId, Guid boardId)
     {
         var item = await db.Items.FindAsync(itemId);
@@ -128,23 +126,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         dbItem.SetProviders(providers);
         await db.SaveChangesAsync();
         return dbItem;
-    }
-
-    public async Task<Item> SetItemBackdrop(Guid itemId, Guid imageId)
-    {
-        var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
-        dbItem.BackdropBase64 = await tmDb.GetImageBase64(img.UrlPath);
-        dbItem.BackdropUrl = img.UrlPath;
-        await db.SaveChangesAsync();
-        return dbItem;
-    }
-
-    public async Task<string> GetItemBackdropUrl(Guid itemId, Guid imageId)
-    {
-        var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
-        return await tmDb.GetImageUrl(img.UrlPath);
     }
 
     public async Task DeleteItem(Guid id)
@@ -193,22 +174,21 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<List<Item>> SearchForItems(string keyword, ItemType itemType)
     {
         var tmDbResults = await tmDb.Search(keyword, itemType.ToString().ToLower());
-        var items = tmDbResults.Select(x => new Item
+        var items = tmDbResults.Select(async x => new Item
         {
             Id = Guid.Empty,
+            TmdbId = x.Id,
             Name = x.ItemName ?? "UNKNOWN",
             Type = x.MediaType == "tv" ? ItemType.Tv : ItemType.Movie,
             TagLine = x.TagLine,
             ReleaseDate = x.ItemReleaseDate,
             EndDate = x.LastAirDate,
             NumberOfSeasons = x.NumberOfSeasons,
-            TmdbId = x.Id,
-            PosterUrl = x.PosterPath ?? "/img/ph.png",
-            BackdropUrl = x.BackdropPath ?? "/img/ph.png",
+            PosterUrl = await tmDb.GetImageUrl(x.PosterPath ?? "/img/ph.png", "w154"),
             OriginalLanguage = x.OriginalLanguage?.ToUpper() ?? "",
             OriginCountry = string.Join(", ", x.OriginCountry)
         }).ToList();
-        return items;
+        return (await Task.WhenAll(items)).ToList();
     }
 
     private async Task UpdateItemFromTmDb(Item dbItem)
@@ -228,9 +208,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
         dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons.ToList());
 
-        if (string.IsNullOrWhiteSpace(dbItem.BackdropBase64)) 
-            dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
-        //if (string.IsNullOrWhiteSpace(dbItem.PosterBase64)) 
-            dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
+        dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
     }
 }

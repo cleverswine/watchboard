@@ -15,6 +15,9 @@ public class TmDbItem
     [JsonPropertyName("release_date")]
     public string? ReleaseDate { get; set; }
 
+    [JsonPropertyName("runtime")]
+    public int? RunTime { get; set; }
+
     // TV
     [JsonPropertyName("name")]
     public string? Name { get; set; }

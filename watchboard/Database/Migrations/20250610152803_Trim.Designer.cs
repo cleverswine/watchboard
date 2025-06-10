@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchBoard.Database;
 
 #nullable disable
 
-namespace WatchBoard.Services.Database.Migrations
+namespace WatchBoard.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250610152803_Trim")]
+    partial class Trim
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -101,9 +104,6 @@ namespace WatchBoard.Services.Database.Migrations
                     b.Property<string>("ReleaseDate")
                         .HasMaxLength(80)
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("RunTime")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SeriesNextEpisodeDate")
                         .HasMaxLength(50)

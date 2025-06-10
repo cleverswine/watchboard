@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using WatchBoard.Services.TmDb.Models;
+using WatchBoard.Services;
 
 namespace WatchBoard.Database.Entities;
 
@@ -8,16 +8,10 @@ public class Item
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    public int TmdbId { get; set; }
+
     [Required]
     public ItemType Type { get; set; } = ItemType.Tv;
-
-    public SeriesStatus? SeriesStatus { get; set; }
-
-    [MaxLength(50)]
-    public string? SeriesNextEpisodeDate { get; set; }
-
-    public int? SeriesNextEpisodeNumber { get; set; }
-    public int? SeriesNextEpisodeSeason { get; set; }
 
     [Required]
     [MaxLength(255)]
@@ -32,29 +26,35 @@ public class Item
     [MaxLength(255)]
     public string? TagLine { get; set; }
 
-    [MaxLength(80)]
-    public string? ReleaseDate { get; set; }
+    public int RunTime { get; set; } = 0;
+
+    // TV SHOW
+    // ////////////////////////
+
+    public SeriesStatus? SeriesStatus { get; set; }
+
+    [MaxLength(50)]
+    public string? SeriesNextEpisodeDate { get; set; }
+
+    public int? SeriesNextEpisodeNumber { get; set; }
+    public int? SeriesNextEpisodeSeason { get; set; }
 
     [MaxLength(80)]
     public string? EndDate { get; set; }
 
     public int NumberOfSeasons { get; set; }
 
-    public string? SeasonsJson { get; set; }
+    // COMMON
+    // ////////////////////////
+
+    [MaxLength(80)]
+    public string? ReleaseDate { get; set; }
 
     [MaxLength(80)]
     public string? OriginalLanguage { get; set; }
 
     [MaxLength(80)]
     public string? OriginCountry { get; set; }
-    
-    public int Order { get; set; }
-
-    [MaxLength(2048)]
-    public string BackdropUrl { get; set; } = string.Empty;
-
-    [MaxLength(16384)]
-    public string? BackdropBase64 { get; set; }
 
     [MaxLength(2048)]
     public string PosterUrl { get; set; } = string.Empty;
@@ -67,53 +67,14 @@ public class Item
     [MaxLength(255)]
     public string? ImdbId { get; set; }
 
-    [MaxLength(255)]
-    public int TmdbId { get; set; }
-
-    // ImagesJson
-    public string? Images { get; set; }
-
     public string? CreditsJson { get; set; }
 
     public DateTimeOffset? LastUpdated { get; set; } = DateTimeOffset.UtcNow;
 
     public Guid ListId { get; set; }
+    public int Order { get; set; }
 
     public string ImdbUrl => $"https://www.imdb.com/title/{ImdbId}/";
-
-    public string TmdbUrl => $"https://www.themoviedb.org/{Type.ToString().ToLower()}/{TmdbId}";
-
-    public List<ItemSeason> GetSeasons()
-    {
-        return SeasonsJson == null ? [] 
-            : JsonSerializer.Deserialize<List<ItemSeason>>(SeasonsJson) ?? [];
-    }
-    
-    public void SetSeasons(List<ItemSeason> seasons)
-    {
-        SeasonsJson = JsonSerializer.Serialize(seasons);
-    }
-    
-    public List<ItemImage> GetBackdropImages()
-    {
-        return Images == null
-            ? []
-            : JsonSerializer.Deserialize<List<ItemImage>>(Images)?
-                .Where(x => x.Type == ItemImageType.Backdrop).ToList() ?? [];
-    }
-    
-    public List<ItemImage> GetPosterImages()
-    {
-        return Images == null
-            ? []
-            : JsonSerializer.Deserialize<List<ItemImage>>(Images)?
-                .Where(x => x.Type == ItemImageType.Poster).ToList() ?? [];
-    }
-
-    public void SetImages(List<ItemImage> images)
-    {
-        Images = JsonSerializer.Serialize(images);
-    }
 
     public List<ItemProvider> GetProviders()
     {
@@ -127,25 +88,41 @@ public class Item
         ProvidersJson = JsonSerializer.Serialize(providers);
     }
 
-    public ItemCredits GetCredits() => CreditsJson == null ? new ItemCredits() : JsonSerializer.Deserialize<ItemCredits>(CreditsJson) ?? throw new JsonException("Could not deserialize CreditsJson");
+    private ItemCredits? _credits;
+
+    public ItemCredits GetCredits()
+    {
+        if (_credits != null) return _credits;
+        if (CreditsJson == null) return new ItemCredits();
+        var itemCredits = JsonSerializer.Deserialize<ItemCredits>(CreditsJson);
+        if (itemCredits == null) return new ItemCredits();
+        _credits = itemCredits;
+        return _credits;
+    }
 
     public void SetCredits(ItemCredits credits)
     {
         CreditsJson = JsonSerializer.Serialize(credits);
     }
-    
+
+    public string[] Crew(string job) => GetCredits().Crew.Where(x => x.Job != null && x.Job.Equals(job, StringComparison.OrdinalIgnoreCase)).Select(x => x.Name)
+        .ToArray();
+
+    public string[] Cast(int max = 6) => GetCredits().Cast.Take(max).Select(x => x.Name).ToArray();
+
     public string ReleaseDates()
     {
         if (ReleaseDate == null) return "";
-        var dates = !string.IsNullOrWhiteSpace(EndDate)
-            ? $"{Year(ReleaseDate)} - {Year(EndDate)}"
-            : $"{Year(ReleaseDate)}";
-        if (this is {Type: ItemType.Tv, NumberOfSeasons: > 0}) dates += $" ({NumberOfSeasons} seasons)";
+        var dates = !string.IsNullOrWhiteSpace(EndDate) && ReleaseDate.Year() != EndDate.Year()
+            ? $"{ReleaseDate.Year()} - {EndDate.Year()}"
+            : $"{ReleaseDate.Year()}";
         return dates;
     }
 
-    private string Year(string s)
+    public string Seasons()
     {
-        return string.IsNullOrWhiteSpace(s) ? "" : s.Split('-').First();
+        if (Type != ItemType.Tv) return "";
+        var s = NumberOfSeasons > 1 ? "s" : "";
+        return $"{NumberOfSeasons} season{s}";
     }
 }
