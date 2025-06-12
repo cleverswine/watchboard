@@ -47,7 +47,7 @@ When the EF models in the [Entities](watchboard/Database/Entities) directory cha
 migrations
 
 ```shell
-DATA_DIR="." dotnet ef migrations add DefaultList \
+DATA_DIR="." dotnet ef migrations add Foo \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Database/Migrations
@@ -63,17 +63,8 @@ There is a [helper script](./lib/copy-dist-libs.sh) to make it easier to copy th
 
 ## Screenshots
 
-![screenshot6.png](screenshot6.png)
+![screenshot9.png](screenshot9.png)
 
-![screenshot7.png](screenshot7.png)
+![screenshot10.png](screenshot10.png)
 
-![screenshot8.png](screenshot8.png)
-
-## TODO
-
-- series status: handle future miniseries (253372)
-- item detail: combine credits with main detail, remove tabs
-- item detail: add run time
-- item detail: better toolbar
-- search: poster size...
-- 
+![screenshot11.png](screenshot11.png)
