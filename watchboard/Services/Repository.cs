@@ -214,5 +214,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons.ToList());
 
         dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
+        dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w780");
     }
 }

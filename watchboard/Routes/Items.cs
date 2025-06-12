@@ -1,5 +1,8 @@
+using System.Net.Mime;
+using System.Text;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using WatchBoard.Pages.Partials;
 using WatchBoard.Services;
 using WatchBoard.Services.Helpers;
@@ -66,6 +69,22 @@ public static class Items
                 ItemModel = await repo.RefreshItem(itemId)
             }));
 
+        // GET ITEM POSTER
+        app.MapGet("/items/{itemId:guid}/poster", async ([FromServices] IRepository repo, Guid itemId) =>
+        {
+            var item = await repo.GetItem(itemId) ?? throw new KeyNotFoundException();
+            var b = Convert.FromBase64String(item.PosterBase64!.Split(",")[1]);
+            return Results.File(b, MediaTypeNames.Image.Jpeg);
+        });
+        
+        // GET ITEM BACKDROP
+        app.MapGet("/items/{itemId:guid}/backdrop", async ([FromServices] IRepository repo, Guid itemId) =>
+        {
+            var item = await repo.GetItem(itemId) ?? throw new KeyNotFoundException();
+            var b = Convert.FromBase64String((item.BackdropBase64 ?? item.PosterBase64!).Split(",")[1]);
+            return Results.File(b, MediaTypeNames.Image.Jpeg);
+        });
+        
         return app;
     }
 }

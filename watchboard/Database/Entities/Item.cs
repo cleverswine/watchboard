@@ -62,6 +62,12 @@ public class Item
     [MaxLength(16384)]
     public string? PosterBase64 { get; set; }
 
+    [MaxLength(2048)]
+    public string BackdropUrl { get; set; } = string.Empty;
+
+    [MaxLength(16384)]
+    public string? BackdropBase64 { get; set; }
+    
     public string? ProvidersJson { get; set; }
 
     [MaxLength(255)]

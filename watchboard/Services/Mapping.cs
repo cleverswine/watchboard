@@ -39,6 +39,7 @@ public static class Mapping
         item.SetProviders(updatedProviders);
         item.SetCredits(tmDbItem.Credits.MapTmDbCreditsToItemCredits());
         item.PosterUrl = tmDbItem.PosterPath ?? imageList.Posters.FirstOrDefault()?.FilePath ?? string.Empty;
+        item.BackdropUrl = tmDbItem.BackdropPath ?? imageList.Backdrops.FirstOrDefault()?.FilePath ?? string.Empty;
     }
 
     public static string Year(this string date)
