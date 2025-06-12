@@ -10,6 +10,8 @@ public class List
     [Required]
     public string Name { get; set; } = string.Empty;
 
+    public bool Default { get; set; }
+    
     public int Order { get; set; }
 
     public List<Item> Items { get; set; } = [];

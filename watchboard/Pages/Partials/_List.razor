@@ -1,5 +1,5 @@
 @using WatchBoard.Database.Entities
-<div class="header-line"> @ListModel.Name </div>
+<h4 class="header text-uppercase text-secondary-emphasis"> @ListModel.Name </h4>
 
 <form class="row sortable me-5" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
     @foreach (var i in ListModel.Items)

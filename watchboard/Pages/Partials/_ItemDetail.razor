@@ -26,9 +26,12 @@
                 @if (ItemModel.Type == ItemType.Tv)
                 {
                     <span><i class="bi bi-dot"></i>@ItemModel.Seasons()</span>
-                    <span><i class="bi bi-dot"></i>@ItemModel.SeriesStatus.Humanize()</span>
-                } </p>
-            
+                    <span>
+                        <i class="bi bi-dot"></i> <_ItemStatus ItemModel="ItemModel"></_ItemStatus> @ItemModel.SeriesStatus.Humanize()
+                    </span>
+                }
+            </p>
+
             @if (!string.IsNullOrWhiteSpace(ItemModel.Notes))
             {
                 <p class="text-muted">
@@ -126,5 +129,5 @@
 
     [Parameter]
     public List<Board> Boards { get; set; } = [];
-    
+
 }

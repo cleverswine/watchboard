@@ -1,0 +1,39 @@
+@using WatchBoard.Database.Entities
+
+<span>
+    @if (ItemModel.Type == ItemType.Tv)
+    {
+        @switch (ItemModel.SeriesStatus)
+        {
+            case SeriesStatus.Canceled:
+                <i class="bi bi-x"></i>
+                break;
+            case SeriesStatus.Ended:
+                <i class="bi bi-align-end"></i>
+                break;
+            case SeriesStatus.InProgress:
+                <i class="bi bi-align-center"></i>
+                break;
+            case SeriesStatus.Returning:
+                <i class="bi bi-align-start"></i>
+                break;
+            case SeriesStatus.InProduction:
+                <i class="bi bi-vector-pen"></i>
+                break;
+            default:
+                <i class="bi bi-question"></i>
+                break;
+        }
+    }
+    else
+    {
+        <i class="bi bi-film"></i>
+    }
+</span>
+
+@code {
+
+    [Parameter]
+    public Item ItemModel { get; set; } = new();
+
+}

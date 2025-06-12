@@ -69,14 +69,14 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
     public async Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type)
     {
-        var listId = db.Lists.FirstOrDefault(x => x.Name == "Queue" && x.BoardId == boardId)?.Id
-                     ??
-                     (db.Boards
-                         .Include(x => x.Lists.OrderByDescending(l => l.Order))
-                         .FirstOrDefault(x => x.Id == boardId)?
-                         .Lists.FirstOrDefault()?.Id ?? throw new KeyNotFoundException());
-
-        var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
+        var listId = db.Lists.AsNoTracking().FirstOrDefault(x => x.Default == true && x.BoardId == boardId)?.Id
+                     ?? db.Lists.AsNoTracking().FirstOrDefault(x => x.BoardId == boardId)?.Id
+                     ?? throw new KeyNotFoundException();
+        
+        var newListItems = db.Items.AsNoTracking()
+            .Where(x => x.ListId == listId).ToList();
+        var maxOrder = newListItems.Count > 0 ? newListItems.Max(x => x.Order) : 0;
+        
         var dbItem = new Item
         {
             Type = type == "tv"
@@ -84,7 +84,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
                 : ItemType.Movie,
             TmdbId = tmDbId,
             ListId = listId,
-            Order = order
+            Order = maxOrder + 1
         };
         await UpdateItemFromTmDb(dbItem);
         db.Items.Add(dbItem);
@@ -105,12 +105,16 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var item = await db.Items.FindAsync(itemId);
         if (item == null) return;
 
-        var itemList = await db.Lists.FirstOrDefaultAsync(x => x.Id == item.ListId);
-        var otherLists = await db.Lists.Where(x => x.BoardId == boardId).ToListAsync();
-        var newList = otherLists.FirstOrDefault(x => x.Name.Equals(itemList?.Name, StringComparison.OrdinalIgnoreCase)) ?? otherLists.FirstOrDefault();
-        if (newList == null) return;
+        var newListId = db.Lists.AsNoTracking().FirstOrDefault(x => x.Default == true && x.BoardId == boardId)?.Id
+                        ?? db.Lists.AsNoTracking().FirstOrDefault(x => x.BoardId == boardId)?.Id
+                        ?? throw new KeyNotFoundException();
 
-        item.ListId = newList.Id;
+        var newListItems = db.Items.AsNoTracking()
+            .Where(x => x.ListId == newListId).ToList();
+        var maxOrder = newListItems.Count > 0 ? newListItems.Max(x => x.Order) : 0;
+
+        item.ListId = newListId;
+        item.Order = maxOrder + 1;
         await db.SaveChangesAsync();
     }
 

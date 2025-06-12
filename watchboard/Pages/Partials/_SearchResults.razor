@@ -9,7 +9,7 @@
             <div class="col-md-8">
                 <div class="card-body p-2">
                     <h6 class="card-title">
-                        <a href="#" class="text-body-emphasis text-decoration-none stretched-link" hx-swap="none" hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
+                        <a href="#" data-bs-dismiss="offcanvas" class="text-body-emphasis text-decoration-none stretched-link" hx-swap="none" hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
                             @itemModel.Name
                         </a>
                     </h6>
