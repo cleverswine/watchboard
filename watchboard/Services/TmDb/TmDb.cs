@@ -9,6 +9,7 @@ public interface ITmDb
 {
     Task<List<TmDbItem>> Search(string query, string type = "tv", int limit = 8);
     Task<TmDbItem> GetDetail(int id, string type);
+    Task<TmDbItem> GetDetailByImDbId(string id);
     Task<TmDbImages> GetImages(int id, string type);
     Task<TmDbSeason> GetSeason(int id, int seasonNumber);
     Task<string> GetImageBase64(string imagePath, string size = "w300");
@@ -60,6 +61,48 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
 
         cache.Set($"TmDbDetail-{type}-{id}", item, TimeSpan.FromMinutes(60));
         return item;
+    }
+
+    public async Task<TmDbItem> GetDetailByImDbId(string id)
+    {
+        if (cache.TryGetValue($"GetDetailByImDbId-{id}", out TmDbItem? item) && item is not null)
+            return item;
+        //      --url 'https://api.themoviedb.org/3/find/tt21146902?external_source=imdb_id' \
+        //
+        // {
+        //     "movie_results": [],
+        //     "person_results": [],
+        //     "tv_results": [
+        //     {
+        //         "backdrop_path": "/ny8Sh6xoeZGN7WS0mEciNr2SLSv.jpg",
+        //         "id": 196268,
+        //         "name": "Anna",
+        //         "original_name": "안나",
+        //         "overview": "The story of a woman who ends up living a completely different life due to a petty lie.",
+        //         "poster_path": "/2Dq9A4l5KaoBz1LerrDcBVgHdJm.jpg",
+        //         "media_type": "tv",
+        //         "adult": false,
+        //         "original_language": "ko",
+        //         "genre_ids": [
+        //         18
+        //             ],
+        //         "popularity": 11.4129,
+        //         "first_air_date": "2022-06-24",
+        //         "vote_average": 7.5,
+        //         "vote_count": 52,
+        //         "origin_country": [
+        //         "KR"
+        //             ]
+        //     }
+        //     ],
+        //     "tv_episode_results": [],
+        //     "tv_season_results": []
+        // }
+        var url = $"{BaseApiPath}find/{id}?external_source=imdb_id";
+        item = await httpClient.GetFromJsonAsync<TmDbItem>(url, JsonOpts);
+        if (item == null) throw new NullReferenceException("TmDb Item is null");
+        // item.MediaType = type;
+        return new();
     }
 
     public async Task<TmDbImages> GetImages(int id, string type)
