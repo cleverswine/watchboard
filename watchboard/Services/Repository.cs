@@ -19,8 +19,6 @@ public interface IRepository
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
     Task<Item> SetItemProvider(Guid itemId, int providerId);
-    Task<Item> SetItemBackdrop(Guid itemId, Guid imageId);
-    Task<string> GetItemBackdropUrl(Guid itemId, Guid imageId);
     Task<Item> RefreshItem(Guid itemId);
     Task DeleteItem(Guid id);
     Task<List<Item>> SearchForItems(string keyword, ItemType itemType);
@@ -71,22 +69,22 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
     public async Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type)
     {
-        var listId = db.Lists.FirstOrDefault(x => x.Name == "Queue" && x.BoardId == boardId)?.Id
-                     ??
-                     (db.Boards
-                         .Include(x => x.Lists.OrderByDescending(l => l.Order))
-                         .FirstOrDefault(x => x.Id == boardId)?
-                         .Lists.FirstOrDefault()?.Id ?? throw new KeyNotFoundException());
-
-        var order = (db.Items.AsNoTracking().Where(x => x.ListId == listId).OrderByDescending(x => x.Order).FirstOrDefault()?.Order ?? -1) + 1;
+        var listId = db.Lists.AsNoTracking().FirstOrDefault(x => x.Default == true && x.BoardId == boardId)?.Id
+                     ?? db.Lists.AsNoTracking().FirstOrDefault(x => x.BoardId == boardId)?.Id
+                     ?? throw new KeyNotFoundException();
+        
+        var newListItems = db.Items.AsNoTracking()
+            .Where(x => x.ListId == listId).ToList();
+        var maxOrder = newListItems.Count > 0 ? newListItems.Max(x => x.Order) : 0;
+        
         var dbItem = new Item
         {
-            TmdbId = tmDbId,
             Type = type == "tv"
                 ? ItemType.Tv
                 : ItemType.Movie,
+            TmdbId = tmDbId,
             ListId = listId,
-            Order = order
+            Order = maxOrder + 1
         };
         await UpdateItemFromTmDb(dbItem);
         db.Items.Add(dbItem);
@@ -101,18 +99,22 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         await db.SaveChangesAsync();
         return dbItem;
     }
-    
+
     public async Task MoveItemToOtherBoard(Guid itemId, Guid boardId)
     {
         var item = await db.Items.FindAsync(itemId);
         if (item == null) return;
 
-        var itemList = await db.Lists.FirstOrDefaultAsync(x => x.Id == item.ListId);
-        var otherLists = await db.Lists.Where(x => x.BoardId == boardId).ToListAsync();
-        var newList = otherLists.FirstOrDefault(x => x.Name.Equals(itemList?.Name, StringComparison.OrdinalIgnoreCase)) ?? otherLists.FirstOrDefault();
-        if (newList == null) return;
+        var newListId = db.Lists.AsNoTracking().FirstOrDefault(x => x.Default == true && x.BoardId == boardId)?.Id
+                        ?? db.Lists.AsNoTracking().FirstOrDefault(x => x.BoardId == boardId)?.Id
+                        ?? throw new KeyNotFoundException();
 
-        item.ListId = newList.Id;
+        var newListItems = db.Items.AsNoTracking()
+            .Where(x => x.ListId == newListId).ToList();
+        var maxOrder = newListItems.Count > 0 ? newListItems.Max(x => x.Order) : 0;
+
+        item.ListId = newListId;
+        item.Order = maxOrder + 1;
         await db.SaveChangesAsync();
     }
 
@@ -128,23 +130,6 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         dbItem.SetProviders(providers);
         await db.SaveChangesAsync();
         return dbItem;
-    }
-
-    public async Task<Item> SetItemBackdrop(Guid itemId, Guid imageId)
-    {
-        var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
-        dbItem.BackdropBase64 = await tmDb.GetImageBase64(img.UrlPath);
-        dbItem.BackdropUrl = img.UrlPath;
-        await db.SaveChangesAsync();
-        return dbItem;
-    }
-
-    public async Task<string> GetItemBackdropUrl(Guid itemId, Guid imageId)
-    {
-        var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        var img = dbItem.GetBackdropImages().FirstOrDefault(x => x.Id == imageId) ?? throw new KeyNotFoundException();
-        return await tmDb.GetImageUrl(img.UrlPath);
     }
 
     public async Task DeleteItem(Guid id)
@@ -196,17 +181,17 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var items = tmDbResults.Select(x => new Item
         {
             Id = Guid.Empty,
+            TmdbId = x.Id,
             Name = x.ItemName ?? "UNKNOWN",
             Type = x.MediaType == "tv" ? ItemType.Tv : ItemType.Movie,
             TagLine = x.TagLine,
             ReleaseDate = x.ItemReleaseDate,
             EndDate = x.LastAirDate,
             NumberOfSeasons = x.NumberOfSeasons,
-            TmdbId = x.Id,
-            PosterUrl = x.PosterPath ?? "/img/ph.png",
-            BackdropUrl = x.BackdropPath ?? "/img/ph.png",
+            PosterUrl = x.PosterPath ?? "",
             OriginalLanguage = x.OriginalLanguage?.ToUpper() ?? "",
-            OriginCountry = string.Join(", ", x.OriginCountry)
+            OriginCountry = string.Join(", ", x.OriginCountry),
+            Overview = x.Overview
         }).ToList();
         return items;
     }
@@ -228,9 +213,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
         dbItem.UpdateFromTmDb(tmDbItem, images, tmDbItemSeasons.ToList());
 
-        if (string.IsNullOrWhiteSpace(dbItem.BackdropBase64)) 
-            dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl);
-        //if (string.IsNullOrWhiteSpace(dbItem.PosterBase64)) 
-            dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
+        dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
+        dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w780");
     }
 }

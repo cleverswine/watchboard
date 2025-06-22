@@ -1,6 +1,8 @@
 using System.Net.Mime;
+using System.Text;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using WatchBoard.Pages.Partials;
 using WatchBoard.Services;
 using WatchBoard.Services.Helpers;
@@ -15,8 +17,6 @@ public static class Items
         app.MapPost("/items/{tmDbId:int}",
             async (HttpContext context, HttpResponse response, [FromServices] IRepository repo, [FromRoute] int tmDbId, [FromQuery] string type) =>
             {
-                var b = context.GetBoardId();
-
                 await repo.AddItemToBoard(context.GetBoardId(), tmDbId, type);
                 response.Headers.Append("HX-Trigger", "newItem");
                 return Results.Ok();
@@ -54,50 +54,37 @@ public static class Items
             {
                 var form = await context.Request.ReadFormAsync();
                 var selectedProvider = form["selectedProvider"];
-                var selectedImage = form["selectedImage"];
                 if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
                     await repo.SetItemProvider(itemId, selectedProviderId);
-                if (Guid.TryParse(selectedImage.ToString(), out var selectedImageId))
-                    await repo.SetItemBackdrop(itemId, selectedImageId);
-
-                var v = context.GetViewMode();
-                if (v == "posters")
-                    return new RazorComponentResult<_ItemPoster>(new
-                    {
-                        ItemModel = await repo.GetItem(itemId)
-                    });
                 return new RazorComponentResult<_Item>(new
                 {
                     ItemModel = await repo.GetItem(itemId)
                 });
             });
 
-        // GET TMDB BACKDROP IMAGE TAG
-        app.MapGet("/items/{itemId:guid}/backdrops/{imageId:guid}",
-            async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid imageId) =>
-            {
-                var url = await repo.GetItemBackdropUrl(itemId, imageId);
-                var s =
-                    $"<img class=\"img-thumbnail\" src=\"{url}\" width=\"200\" height=\"112\" alt=\"{imageId}\"/>";
-                return Results.Content(s, MediaTypeNames.Text.Html);
-            });
-
         // UPDATE ITEM FROM TMDB
         app.MapPut("/items/{itemId:guid}/refresh",
-            async Task<RazorComponentResult> (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
+            async Task<RazorComponentResult> ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_Item>(new
             {
-                var v = context.GetViewMode();
-                if (v == "posters")
-                    return new RazorComponentResult<_ItemPoster>(new
-                    {
-                        ItemModel = await repo.RefreshItem(itemId)
-                    });
-                return new RazorComponentResult<_Item>(new
-                {
-                    ItemModel = await repo.RefreshItem(itemId)
-                });
-            });
+                ItemModel = await repo.RefreshItem(itemId)
+            }));
 
+        // GET ITEM POSTER
+        app.MapGet("/items/{itemId:guid}/poster", async ([FromServices] IRepository repo, Guid itemId) =>
+        {
+            var item = await repo.GetItem(itemId) ?? throw new KeyNotFoundException();
+            var b = Convert.FromBase64String(item.PosterBase64!.Split(",")[1]);
+            return Results.File(b, MediaTypeNames.Image.Jpeg);
+        });
+        
+        // GET ITEM BACKDROP
+        app.MapGet("/items/{itemId:guid}/backdrop", async ([FromServices] IRepository repo, Guid itemId) =>
+        {
+            var item = await repo.GetItem(itemId) ?? throw new KeyNotFoundException();
+            var b = Convert.FromBase64String((item.BackdropBase64 ?? item.PosterBase64!).Split(",")[1]);
+            return Results.File(b, MediaTypeNames.Image.Jpeg);
+        });
+        
         return app;
     }
 }

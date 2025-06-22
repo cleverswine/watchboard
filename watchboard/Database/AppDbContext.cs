@@ -21,52 +21,30 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 Order = 0,
                 Lists =
                 [
-                    new List {Name = "Future", Order = 0, Items = []},
-                    new List {Name = "Queue", Order = 1, Items = []},
+                    new List {Name = "Started", Order = 0, Items = []},
+                    new List {Name = "Queue", Order = 1, Default = true, Items = []},
                     new List {Name = "Watching", Order = 2, Items = []}
                 ]
             });
             Boards.Add(new Board
             {
-                Name = "My Movies",
+                Name = "Family Stuff",
                 Order = 1,
                 Lists =
                 [
-                    new List {Name = "Future", Order = 0, Items = []},
-                    new List {Name = "Queue", Order = 1, Items = []},
-                    new List {Name = "Watching", Order = 2, Items = []}
-                ]
-            });
-            Boards.Add(new Board
-            {
-                Name = "Family",
-                Order = 2,
-                Lists =
-                [
-                    new List {Name = "Future", Order = 0, Items = []},
-                    new List {Name = "Queue", Order = 1, Items = []},
-                    new List {Name = "Watching", Order = 2, Items = []}
-                ]
-            });
-            Boards.Add(new Board
-            {
-                Name = "Family Movies",
-                Order = 3,
-                Lists =
-                [
-                    new List {Name = "Future", Order = 0, Items = []},
-                    new List {Name = "Queue", Order = 1, Items = []},
+                    new List {Name = "Started", Order = 0, Items = []},
+                    new List {Name = "Queue", Order = 1, Default = true, Items = []},
                     new List {Name = "Watching", Order = 2, Items = []}
                 ]
             });
             await SaveChangesAsync();
         }
 
-        var b = await Boards.FirstOrDefaultAsync(x => x.Name == "Movies");
-        if (b != null)
+        var lists = Lists.Where(x => x.Name == "Queue");
+        foreach (var list in lists)
         {
-            b.Name = "My Movies";
-            await SaveChangesAsync();
+            list.Default = true;
         }
+        await SaveChangesAsync();
     }
 }

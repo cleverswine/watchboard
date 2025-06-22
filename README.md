@@ -6,7 +6,6 @@ A vertical kanban board for tv/movie watching
 - search via the TMDB API to add tv shows and movies
 - drag items to reorder and move from list to list
 - dialog with details, links to imdb, etc
-- ability change the backdrop picture
 - select which provider to watch on (netflix, amazon, home server, etc)
 
 ## Set Up
@@ -48,7 +47,7 @@ When the EF models in the [Entities](watchboard/Database/Entities) directory cha
 migrations
 
 ```shell
-DATA_DIR="." dotnet ef migrations add Credits \
+DATA_DIR="." dotnet ef migrations add Foo \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Database/Migrations
@@ -64,8 +63,8 @@ There is a [helper script](./lib/copy-dist-libs.sh) to make it easier to copy th
 
 ## Screenshots
 
-![screenshot6.png](screenshot6.png)
+![screenshot9.png](screenshot9.png)
 
-![screenshot7.png](screenshot7.png)
+![screenshot10.png](screenshot10.png)
 
-![screenshot8.png](screenshot8.png)
+![screenshot11.png](screenshot11.png)
