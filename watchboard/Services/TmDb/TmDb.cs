@@ -67,42 +67,16 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
     {
         if (cache.TryGetValue($"GetDetailByImDbId-{id}", out TmDbItem? item) && item is not null)
             return item;
-        //      --url 'https://api.themoviedb.org/3/find/tt21146902?external_source=imdb_id' \
-        //
-        // {
-        //     "movie_results": [],
-        //     "person_results": [],
-        //     "tv_results": [
-        //     {
-        //         "backdrop_path": "/ny8Sh6xoeZGN7WS0mEciNr2SLSv.jpg",
-        //         "id": 196268,
-        //         "name": "Anna",
-        //         "original_name": "안나",
-        //         "overview": "The story of a woman who ends up living a completely different life due to a petty lie.",
-        //         "poster_path": "/2Dq9A4l5KaoBz1LerrDcBVgHdJm.jpg",
-        //         "media_type": "tv",
-        //         "adult": false,
-        //         "original_language": "ko",
-        //         "genre_ids": [
-        //         18
-        //             ],
-        //         "popularity": 11.4129,
-        //         "first_air_date": "2022-06-24",
-        //         "vote_average": 7.5,
-        //         "vote_count": 52,
-        //         "origin_country": [
-        //         "KR"
-        //             ]
-        //     }
-        //     ],
-        //     "tv_episode_results": [],
-        //     "tv_season_results": []
-        // }
+
         var url = $"{BaseApiPath}find/{id}?external_source=imdb_id";
-        item = await httpClient.GetFromJsonAsync<TmDbItem>(url, JsonOpts);
-        if (item == null) throw new NullReferenceException("TmDb Item is null");
-        // item.MediaType = type;
-        return new();
+        var items = await httpClient.GetFromJsonAsync<TmDbByIdResults>(url, JsonOpts);
+        if (items == null) throw new NullReferenceException("TmDb Item by ID is null");
+
+        var tmDbItem = items.TvResults.FirstOrDefault() ?? items.MovieResults.FirstOrDefault() ?? throw new NullReferenceException("TmDb Item by ID is null");
+        item = await GetDetail(tmDbItem.Id, tmDbItem.MediaType ?? "tv");
+
+        cache.Set($"GetDetailByImDbId-{id}", item, TimeSpan.FromMinutes(60));
+        return item;
     }
 
     public async Task<TmDbImages> GetImages(int id, string type)
@@ -130,7 +104,7 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         cache.Set($"TmDbSeason-{id}-{seasonNumber}", item, TimeSpan.FromMinutes(60));
         return item;
     }
-    
+
     public async Task<string> GetImageUrl(string imagePath, string size = "w300")
     {
         ArgumentNullException.ThrowIfNull(imagePath);
@@ -162,7 +136,7 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         configuration = await httpClient.GetFromJsonAsync<TmDbConfiguration>($"{BaseApiPath}configuration", JsonOpts) ?? new TmDbConfiguration();
         configuration.Languages = await httpClient.GetFromJsonAsync<List<TmDbConfigurationLanguage>>($"{BaseApiPath}configuration/languages", JsonOpts) ?? [];
         configuration.Countries = await httpClient.GetFromJsonAsync<List<TmDbConfigurationCountry>>($"{BaseApiPath}configuration/countries", JsonOpts) ?? [];
-        
+
         cache.Set("TmdDConfiguration", configuration, TimeSpan.FromMinutes(120));
         return configuration;
     }
