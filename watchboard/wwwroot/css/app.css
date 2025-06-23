@@ -3,7 +3,7 @@ h4.header {
     flex-direction: row;
     gap: 12px;
     font-size: 1.1em;
-    margin: 1em;
+    margin: 1em 4em 1em 1em;
 }
 
 h4.header:before,
@@ -48,4 +48,12 @@ h4.header:after {
 .item-details > * {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     color: white;
+}
+
+.htmx-indicator {
+    display: none;
+}
+
+.htmx-request.htmx-indicator {
+    display: inline;
 }

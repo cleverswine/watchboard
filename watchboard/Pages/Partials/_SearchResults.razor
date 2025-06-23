@@ -9,16 +9,27 @@
             <div class="col-md-8">
                 <div class="card-body p-2">
                     <h6 class="card-title">
-                        <a href="#" class="text-body-emphasis text-decoration-none stretched-link" hx-swap="none" hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
+                        <a href="#" onclick="document.getElementById('searchInput').value = '';" 
+                           class="text-body-emphasis text-decoration-none stretched-link" 
+                           hx-indicator="#add-indicator-@(itemModel.TmdbId)"
+                           hx-swap="innerHTML"
+                           hx-target="#item-added-@(itemModel.TmdbId)"
+                           hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">
                             @itemModel.Name
                         </a>
                     </h6>
                     <p class="card-text">
-                        <i class="bi @(itemModel.Type == ItemType.Movie ? "bi-film" : "bi-tv")"></i> @itemModel.ReleaseDates() 
+                        <i class="bi @(itemModel.Type == ItemType.Movie ? "bi-film" : "bi-tv")"></i> @itemModel.ReleaseDates()
                         @if (itemModel.OriginalLanguage?.ToUpper() != "EN")
                         {
                             <span class="ms-2">[@(itemModel.OriginalLanguage?.ToUpper() ?? "??")]</span>
                         }
+                        <div class="htmx-indicator text-secondary-emphasis" id="add-indicator-@(itemModel.TmdbId)" role="status">
+                            <span class="spinner-border spinner-border-sm me-1"></span> adding...
+                        </div>
+                        <div id="item-added-@(itemModel.TmdbId)" class="text-success fw-bold">
+                            
+                        </div>
                     </p>
                 </div>
             </div>

@@ -19,7 +19,7 @@ public static class Items
             {
                 await repo.AddItemToBoard(context.GetBoardId(), tmDbId, type);
                 response.Headers.Append("HX-Trigger", "newItem");
-                return Results.Ok();
+                return Results.Content("""<i class="bi bi-check-circle"></i> Added!""", "text/html");
             });
 
         // DELETE ITEM

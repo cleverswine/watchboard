@@ -1,8 +1,8 @@
 @using WatchBoard.Database.Entities
 
-<div hx-indicator="#indicator-@(ItemModel.Id)" id="card-@(ItemModel.Id)" class="col-sm-6 col-md-2 col-xl-1">
+<div hx-indicator="#indicator-@(ItemModel.Id)" id="card-@(ItemModel.Id)" class="col-sm-6 col-md-2 col-xl-1 p-2">
     <input type="hidden" name="item" value="@ItemModel.Id"/>
-    <div class="card mb-3">
+    <div class="card">
         <div style="position: relative;">
             <a href="#" hx-get="/app/items/@(ItemModel.Id)" hx-target="#modals-here" hx-trigger="click" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#modals-here" class="stretched-link">
                 <img src="@(ItemModel.PosterBase64)" class="card-img-top img-fluid" alt="@ItemModel.Name">
@@ -13,11 +13,15 @@
                 </div>
             </div>
         </div>
-        <div class="card-body pb-0 pt-1 px-2 text-muted text-end small">
+        <div class="card-body bg-body-secondary pb-0 pt-1 px-2 text-end  border-top border-secondary-subtle">
             @{
                 var s = ProviderSvg(SelectedProvider?.Name ?? "");
             }
             <div class="hstack gap-1">
+                @if (!string.IsNullOrWhiteSpace(ItemModel.Notes))
+                {
+                    <i class="bi bi-info-circle text-muted"></i>
+                }
                 <div class="ms-auto">
                     <_ItemStatus ItemModel="ItemModel"></_ItemStatus>
                 </div>
@@ -26,7 +30,7 @@
                     <div>
                         @if (s.StartsWith("bi"))
                         {
-                            <i class="@(s)" style="font-size: 1.1em;"></i>
+                            <i class="@(s)" style="font-size: 1em;"></i>
                         }
                         @if (SelectedProvider != null && !s.StartsWith("bi"))
                         {
