@@ -72,11 +72,11 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var listId = db.Lists.AsNoTracking().FirstOrDefault(x => x.Default == true && x.BoardId == boardId)?.Id
                      ?? db.Lists.AsNoTracking().FirstOrDefault(x => x.BoardId == boardId)?.Id
                      ?? throw new KeyNotFoundException();
-        
+
         var newListItems = db.Items.AsNoTracking()
             .Where(x => x.ListId == listId).ToList();
         var maxOrder = newListItems.Count > 0 ? newListItems.Max(x => x.Order) : 0;
-        
+
         var dbItem = new Item
         {
             Type = type == "tv"
@@ -174,10 +174,24 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
         await db.SaveChangesAsync();
     }
-    
+
     public async Task<List<Item>> SearchForItems(string keyword, ItemType itemType)
     {
-        var tmDbResults = await tmDb.Search(keyword, itemType.ToString().ToLower());
+        List<TmDbItem> tmDbResults;
+
+        if (keyword.Contains("www.imdb.com"))
+        {
+            var xs = keyword.Split("/", StringSplitOptions.RemoveEmptyEntries);
+            if (xs.Length < 4)
+                tmDbResults = await tmDb.Search(keyword, itemType.ToString().ToLower());
+            else
+                tmDbResults = [await tmDb.GetDetailByImDbId(xs[3])];
+        }
+        else
+        {
+            tmDbResults = await tmDb.Search(keyword, itemType.ToString().ToLower());
+        }
+
         var items = tmDbResults.Select(x => new Item
         {
             Id = Guid.Empty,

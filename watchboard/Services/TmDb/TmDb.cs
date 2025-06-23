@@ -72,8 +72,9 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         var items = await httpClient.GetFromJsonAsync<TmDbByIdResults>(url, JsonOpts);
         if (items == null) throw new NullReferenceException("TmDb Item by ID is null");
 
-        var tmDbItem = items.TvResults.FirstOrDefault() ?? items.MovieResults.FirstOrDefault() ?? throw new NullReferenceException("TmDb Item by ID is null");
-        item = await GetDetail(tmDbItem.Id, tmDbItem.MediaType ?? "tv");
+        item = items.TvResults.FirstOrDefault() ?? items.MovieResults.FirstOrDefault() ?? throw new NullReferenceException("TmDb Item by ID is null");
+        var configuration = await GetConfiguration();
+        item.PosterPath = configuration.Images.BaseUrl + "w92" + item.PosterPath;
 
         cache.Set($"GetDetailByImDbId-{id}", item, TimeSpan.FromMinutes(60));
         return item;
