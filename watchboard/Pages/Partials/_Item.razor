@@ -74,6 +74,11 @@
             return "bi bi-cloud-download";
         }
 
+        if (providerName.Contains("pbs", StringComparison.OrdinalIgnoreCase))
+        {
+            return "bi bi-p-circle";
+        }
+        
         if (providerName.Contains("Television", StringComparison.OrdinalIgnoreCase))
         {
             return "bi bi-tv";
