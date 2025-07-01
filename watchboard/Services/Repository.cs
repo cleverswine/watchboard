@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using WatchBoard.Database;
 using WatchBoard.Database.Entities;
@@ -22,6 +23,8 @@ public interface IRepository
     Task<Item> RefreshItem(Guid itemId);
     Task DeleteItem(Guid id);
     Task<List<Item>> SearchForItems(string keyword, ItemType itemType);
+
+    Task DownloadProviderLogos();
 }
 
 public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
@@ -229,5 +232,32 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
         dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
         dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w780");
+    }
+    
+    public async Task DownloadProviderLogos()
+    {
+        var json = File.ReadAllText("/Users/Kevin.Noone/Code/xdeleteme/watchboard/watchboard/Services/TmDb/Json/tvproviders.json");
+        using var doc = JsonDocument.Parse(json);
+
+        var baseUrl = "https://image.tmdb.org/t/p/w92";
+        var c = new HttpClient();
+
+        foreach (var el in doc.RootElement.GetProperty("results").EnumerateArray())
+        {
+            var displayPriorities = el.GetProperty("display_priorities");
+            try
+            {
+                displayPriorities.GetProperty("US");
+                var id = el.GetProperty("provider_id").GetInt32();
+                var name = el.GetProperty("provider_name").GetString() ?? throw new InvalidOperationException();
+                var url = $"{baseUrl}{el.GetProperty("logo_path").GetString()}" ?? throw new InvalidOperationException();
+                var fn = $"/Users/Kevin.Noone/Code/xdeleteme/watchboard/watchboard/Services/TmDb/img/{id}_" + name.Replace(" ", "_") + "." + url.Split(".").Last();
+                if (!File.Exists(fn))
+                {
+                    var b = await c.GetByteArrayAsync(url);
+                    await File.WriteAllBytesAsync(fn, b);
+                }
+            } catch {}
+        }
     }
 }

@@ -51,4 +51,8 @@
         <_ContentIncludedByDefault Remove="Pages.Admin\Shared\_Layout.razor" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\TmDb\img\" />
+    </ItemGroup>
+
 </Project>
