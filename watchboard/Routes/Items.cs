@@ -73,10 +73,10 @@ public static class Items
         app.MapGet("/items/{itemId:guid}/poster", async ([FromServices] IRepository repo, Guid itemId) =>
         {
             var item = await repo.GetItem(itemId) ?? throw new KeyNotFoundException();
-            var b = Convert.FromBase64String(item.PosterBase64!.Split(",")[1]);
+            var b = Convert.FromBase64String((item.PosterBase64 ?? item.BackdropBase64!).Split(",")[1]);
             return Results.File(b, MediaTypeNames.Image.Jpeg);
         });
-        
+
         // GET ITEM BACKDROP
         app.MapGet("/items/{itemId:guid}/backdrop", async ([FromServices] IRepository repo, Guid itemId) =>
         {
@@ -84,7 +84,7 @@ public static class Items
             var b = Convert.FromBase64String((item.BackdropBase64 ?? item.PosterBase64!).Split(",")[1]);
             return Results.File(b, MediaTypeNames.Image.Jpeg);
         });
-        
+
         return app;
     }
 }

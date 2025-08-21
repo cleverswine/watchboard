@@ -233,7 +233,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
         dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w780");
     }
-    
+
     public async Task DownloadProviderLogos()
     {
         var json = File.ReadAllText("/Users/Kevin.Noone/Code/xdeleteme/watchboard/watchboard/Services/TmDb/Json/tvproviders.json");
@@ -251,13 +251,17 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
                 var id = el.GetProperty("provider_id").GetInt32();
                 var name = el.GetProperty("provider_name").GetString() ?? throw new InvalidOperationException();
                 var url = $"{baseUrl}{el.GetProperty("logo_path").GetString()}" ?? throw new InvalidOperationException();
-                var fn = $"/Users/Kevin.Noone/Code/xdeleteme/watchboard/watchboard/Services/TmDb/img/{id}_" + name.Replace(" ", "_") + "." + url.Split(".").Last();
+                var fn = $"/Users/Kevin.Noone/Code/xdeleteme/watchboard/watchboard/Services/TmDb/img/{id}_" + name.Replace(" ", "_") + "." +
+                         url.Split(".").Last();
                 if (!File.Exists(fn))
                 {
                     var b = await c.GetByteArrayAsync(url);
                     await File.WriteAllBytesAsync(fn, b);
                 }
-            } catch {}
+            }
+            catch
+            {
+            }
         }
     }
 }

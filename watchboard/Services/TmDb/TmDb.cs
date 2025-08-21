@@ -12,7 +12,7 @@ public interface ITmDb
     Task<TmDbItem> GetDetailByImDbId(string id);
     Task<TmDbImages> GetImages(int id, string type);
     Task<TmDbSeason> GetSeason(int id, int seasonNumber);
-    Task<string> GetImageBase64(string imagePath, string size = "w300");
+    Task<string?> GetImageBase64(string imagePath, string size = "w300");
     Task<string> GetImageUrl(string imagePath, string size = "w300");
 }
 
@@ -113,7 +113,7 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         return configuration.Images.BaseUrl + size + imagePath;
     }
 
-    public async Task<string> GetImageBase64(string imagePath, string size = "w300")
+    public async Task<string?> GetImageBase64(string imagePath, string size = "w300")
     {
         ArgumentNullException.ThrowIfNull(imagePath);
 
@@ -121,12 +121,18 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
             return data;
 
         var url = await GetImageUrl(imagePath, size);
-        var b = await httpClient.GetByteArrayAsync(url);
-
-        var imageExtension = imagePath.Split(".").Last();
-        data = $"data:image/{imageExtension};base64,{Convert.ToBase64String(b)}";
-        cache.Set($"GetImageBase64-{imagePath}-{size}", data, TimeSpan.FromMinutes(1));
-        return data;
+        try
+        {
+            var b = await httpClient.GetByteArrayAsync(url);
+            var imageExtension = imagePath.Split(".").Last();
+            data = $"data:image/{imageExtension};base64,{Convert.ToBase64String(b)}";
+            cache.Set($"GetImageBase64-{imagePath}-{size}", data, TimeSpan.FromMinutes(1));
+            return data;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     private async Task<TmDbConfiguration> GetConfiguration()
