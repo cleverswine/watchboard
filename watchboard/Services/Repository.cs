@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using WatchBoard.Database;
 using WatchBoard.Database.Entities;
@@ -10,33 +9,31 @@ namespace WatchBoard.Services;
 public interface IRepository
 {
     Task<List<Board>> GetBoards();
-    Task<Board?> GetBoard(Guid? id);
+    Task<Board?> GetBoard(Guid? boardId);
 
-    Task<List?> GetList(Guid id);
-    Task SortList(Guid id, string?[] itemIdsStr);
+    Task<List?> GetList(Guid listId);
+    Task SortList(Guid listId, string?[] itemIdsStr);
 
-    Task<List<Item>> GetItems();
-    Task<Item?> GetItem(Guid id);
+    Task<Item?> GetItem(Guid itemId);
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
     Task<Item> SetItemProvider(Guid itemId, int providerId);
     Task<Item> RefreshItem(Guid itemId);
-    Task DeleteItem(Guid id);
+    Task RefreshAllItems(int minItemUpdateFrequencyMinutes = 60, CancellationToken cancellationToken = default);
+    Task DeleteItem(Guid itemId);
     Task<List<Item>> SearchForItems(string keyword, ItemType itemType);
-
-    Task DownloadProviderLogos();
 }
 
 public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 {
-    public async Task<Board?> GetBoard(Guid? id)
+    public async Task<Board?> GetBoard(Guid? boardId)
     {
         var boards = db.Boards
             .AsNoTracking()
             .Include(x => x.Lists.OrderByDescending(l => l.Order))
             .ThenInclude(x => x.Items.OrderBy(i => i.Order));
-        if (id.HasValue)
-            return await boards.FirstOrDefaultAsync(x => x.Id == id);
+        if (boardId.HasValue)
+            return await boards.FirstOrDefaultAsync(x => x.Id == boardId);
         return await boards.FirstOrDefaultAsync();
     }
 
@@ -49,25 +46,19 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             .ToListAsync();
     }
 
-    public async Task<List?> GetList(Guid id)
+    public async Task<List?> GetList(Guid listId)
     {
         return await db.Lists
             .AsNoTracking()
             .Include(x => x.Items.OrderBy(y => y.Order))
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == listId);
     }
 
-    public Task<List<Item>> GetItems()
-    {
-        return db.Items
-            .AsNoTracking().ToListAsync();
-    }
-
-    public async Task<Item?> GetItem(Guid id)
+    public async Task<Item?> GetItem(Guid itemId)
     {
         return await db.Items
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == itemId);
     }
 
     public async Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type)
@@ -103,6 +94,19 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         return dbItem;
     }
 
+    public async Task RefreshAllItems(int minItemUpdateFrequencyMinutes = 60, CancellationToken cancellationToken = default)
+    {
+        var dbItems = await db.Items.AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
+        var dbItemsToUpdate = dbItems
+            .Where(dbItem => dbItem.LastUpdated == null ||
+                             !(dbItem.LastUpdated > DateTimeOffset.UtcNow.AddMinutes(-minItemUpdateFrequencyMinutes)));
+        foreach (var dbItemChunk in dbItemsToUpdate.Chunk(3))
+        {
+            Task.WaitAll(dbItemChunk.Select(UpdateItemFromTmDb), cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
+        }
+    }
+
     public async Task MoveItemToOtherBoard(Guid itemId, Guid boardId)
     {
         var item = await db.Items.FindAsync(itemId);
@@ -135,17 +139,17 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         return dbItem;
     }
 
-    public async Task DeleteItem(Guid id)
+    public async Task DeleteItem(Guid itemId)
     {
-        var item = await db.Items.FindAsync(id);
+        var item = await db.Items.FindAsync(itemId);
         if (item == null) return;
         db.Remove(item);
         await db.SaveChangesAsync();
     }
 
-    public async Task SortList(Guid id, string?[] itemIdsStr)
+    public async Task SortList(Guid listId, string?[] itemIdsStr)
     {
-        var dbItems = db.Items.Where(x => x.ListId == id).ToList();
+        var dbItems = db.Items.Where(x => x.ListId == listId).ToList();
 
         var newItemIds = itemIdsStr
             .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -163,7 +167,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
                 {
                     // move it to this list
                     dbItem.Order = itemPosition;
-                    dbItem.ListId = id;
+                    dbItem.ListId = listId;
                 }
             }
             else
@@ -232,36 +236,5 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
         dbItem.PosterBase64 = await tmDb.GetImageBase64(dbItem.PosterUrl, "w185");
         dbItem.BackdropBase64 = await tmDb.GetImageBase64(dbItem.BackdropUrl, "w780");
-    }
-
-    public async Task DownloadProviderLogos()
-    {
-        var json = File.ReadAllText("/Users/Kevin.Noone/Code/xdeleteme/watchboard/watchboard/Services/TmDb/Json/tvproviders.json");
-        using var doc = JsonDocument.Parse(json);
-
-        var baseUrl = "https://image.tmdb.org/t/p/w92";
-        var c = new HttpClient();
-
-        foreach (var el in doc.RootElement.GetProperty("results").EnumerateArray())
-        {
-            var displayPriorities = el.GetProperty("display_priorities");
-            try
-            {
-                displayPriorities.GetProperty("US");
-                var id = el.GetProperty("provider_id").GetInt32();
-                var name = el.GetProperty("provider_name").GetString() ?? throw new InvalidOperationException();
-                var url = $"{baseUrl}{el.GetProperty("logo_path").GetString()}" ?? throw new InvalidOperationException();
-                var fn = $"/Users/Kevin.Noone/Code/xdeleteme/watchboard/watchboard/Services/TmDb/img/{id}_" + name.Replace(" ", "_") + "." +
-                         url.Split(".").Last();
-                if (!File.Exists(fn))
-                {
-                    var b = await c.GetByteArrayAsync(url);
-                    await File.WriteAllBytesAsync(fn, b);
-                }
-            }
-            catch
-            {
-            }
-        }
     }
 }

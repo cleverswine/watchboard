@@ -28,6 +28,19 @@ public static class Pages
         // EMPTY PAGE
         app.MapGet("/empty", () => Results.Ok());
         
+        // UPDATE ALL ITEMS FROM TMDB
+        app.MapPut("/refresh", async (HttpContext context, [FromServices] IRepository repo, CancellationToken cancellationToken) =>
+        {
+            await repo.RefreshAllItems(15, cancellationToken);
+            
+            var selectedBoard = await repo.GetBoard(context.GetBoardId());
+            return new RazorComponentResult<Home>(new
+            {
+                selectedBoard?.Lists,
+                Boards = await repo.GetBoards()
+            });
+        });
+        
         return app;
     }
 }

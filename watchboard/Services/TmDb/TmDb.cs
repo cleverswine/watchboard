@@ -13,7 +13,6 @@ public interface ITmDb
     Task<TmDbImages> GetImages(int id, string type);
     Task<TmDbSeason> GetSeason(int id, int seasonNumber);
     Task<string?> GetImageBase64(string imagePath, string size = "w300");
-    Task<string> GetImageUrl(string imagePath, string size = "w300");
 }
 
 public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
@@ -106,13 +105,6 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         return item;
     }
 
-    public async Task<string> GetImageUrl(string imagePath, string size = "w300")
-    {
-        ArgumentNullException.ThrowIfNull(imagePath);
-        var configuration = await GetConfiguration();
-        return configuration.Images.BaseUrl + size + imagePath;
-    }
-
     public async Task<string?> GetImageBase64(string imagePath, string size = "w300")
     {
         ArgumentNullException.ThrowIfNull(imagePath);
@@ -135,6 +127,13 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
         }
     }
 
+    private async Task<string> GetImageUrl(string imagePath, string size = "w300")
+    {
+        ArgumentNullException.ThrowIfNull(imagePath);
+        var configuration = await GetConfiguration();
+        return configuration.Images.BaseUrl + size + imagePath;
+    }
+    
     private async Task<TmDbConfiguration> GetConfiguration()
     {
         if (cache.TryGetValue("TmdDConfiguration", out TmDbConfiguration? configuration) && configuration is not null)
