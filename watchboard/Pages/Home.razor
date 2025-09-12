@@ -5,12 +5,29 @@
 
 <nav class="navbar navbar-expand-sm bg-body-tertiary">
     <div class="container-fluid mx-4">
-        <a class="navbar-brand" href="#">
-            <span><i class="bi bi-person-workspace"></i> @SelectedBoard.Name</span>
-        </a>
+        <button type="button" class="navbar-brand nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-workspace"></i> @SelectedBoard.Name
+        </button>
+        <ul class="dropdown-menu">
+            @foreach (var b in Boards.OrderBy(x => x.Order))
+            {
+                <li>
+                    @if (b.Id == SelectedBoard.Id)
+                    {
+                        <a class="dropdown-item disabled" href="/?boardId=@(b.Id)">@b.Name</a>
+                    }
+                    else
+                    {
+                        <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
+                    }
+                </li>
+            }
+        </ul>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse d-sm-flex justify-content-end" id="navbarTogglerDemo02">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -18,33 +35,13 @@
                         <i class="bi bi-search"></i> Search
                     </button>
                 </li>
-                <div class="btn-group">
-                    <button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-workspace"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        @foreach (var b in Boards.OrderBy(x => x.Order))
-                        {
-                            <li>
-                                @if (b.Id == SelectedBoard.Id)
-                                {
-                                    <a class="dropdown-item disabled" href="/?boardId=@(b.Id)">@b.Name</a>
-                                }
-                                else
-                                {
-                                    <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
-                                }
-                            </li>
-                        }
-                    </ul>
-                </div>
             </ul>
         </div>
     </div>
 </nav>
 
 <div class="container-fluid px-md-4">
-    
+
     <_Search></_Search>
 
     <div class="pt-3">
@@ -62,7 +59,7 @@
             <div class="modal-content">XXX</div>
         </div>
     </div>
-    
+
 </div>
 
 @code {
@@ -72,6 +69,6 @@
 
     [Parameter]
     public List<Board> Boards { get; set; } = [];
-    
+
     private Board SelectedBoard => Boards.FirstOrDefault(x => x.Id == Lists[0].BoardId) ?? Boards.First();
 }
