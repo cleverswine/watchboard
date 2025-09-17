@@ -1,6 +1,5 @@
 @using Humanizer
 @using WatchBoard.Database.Entities
-@using WatchBoard.Services
 
 <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
@@ -97,6 +96,19 @@
                                     </label>
                                 </div>
                             }
+                            <div class="col-4 form-check text-truncate pe-2">
+                                @if (ItemModel.GetProviders().Any(x => x.Selected))
+                                {
+                                    <input class="form-check-input" type="radio" id="selectedProviderId-none" name="selectedProvider" value="none">
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" type="radio" id="selectedProviderId-none" name="selectedProvider" value="none" checked>
+                                }
+                                <label class="form-check-label" for="selectedProviderId-none">
+                                    None
+                                </label>
+                            </div>
                         </div>
                     </form>
 

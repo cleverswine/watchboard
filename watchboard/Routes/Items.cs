@@ -54,7 +54,8 @@ public static class Items
             {
                 var form = await context.Request.ReadFormAsync();
                 var selectedProvider = form["selectedProvider"];
-                if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
+                if (selectedProvider == "none") await repo.SetItemProvider(itemId, null);
+                else if (int.TryParse(selectedProvider.ToString(), out var selectedProviderId))
                     await repo.SetItemProvider(itemId, selectedProviderId);
                 return new RazorComponentResult<_Item>(new
                 {

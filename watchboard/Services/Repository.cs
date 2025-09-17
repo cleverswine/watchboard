@@ -18,7 +18,7 @@ public interface IRepository
     Task<Item?> GetItem(Guid itemId);
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
-    Task<Item> SetItemProvider(Guid itemId, int providerId);
+    Task<Item> SetItemProvider(Guid itemId, int? providerId);
     Task<Item> RefreshItem(Guid itemId);
     Task RefreshAllItems(int minItemUpdateFrequencyMinutes = 60, CancellationToken cancellationToken = default);
     Task DeleteItem(Guid itemId);
@@ -131,7 +131,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         await db.SaveChangesAsync();
     }
 
-    public async Task<Item> SetItemProvider(Guid itemId, int providerId)
+    public async Task<Item> SetItemProvider(Guid itemId, int? providerId)
     {
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
         var providers = dbItem.GetProviders();
