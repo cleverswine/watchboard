@@ -27,9 +27,9 @@
 
     <v-navigation-drawer v-model="drawer">
       <v-container>
-        <div>Filter</div>
-
-        <v-divider></v-divider>
+        <div>
+          Filter
+        </div>
 
         <v-select density="default" v-model="value" :items="items" label="country" multiple></v-select>
         <v-select density="comfortable" v-model="value" :items="items" label="language" multiple></v-select>
@@ -72,7 +72,7 @@
 import { ref } from 'vue'
 import { shallowRef } from 'vue'
 
-const items = shallowRef(['foo', 'bar', 'fizz', 'buzz'])
+const items = shallowRef(['foo', 'bar', 'fizz', 'buzz', 'dfdf', 'sdfasdff', 'asdfsdffff'])
 const value = shallowRef(['foo', 'bar', 'fizz', 'buzz'])
 
 const theme = ref('dark')

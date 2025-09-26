@@ -3,36 +3,38 @@ import { shallowRef } from 'vue'
 
 const items = shallowRef(['foo', 'bar', 'fizz', 'buzz'])
 const value = shallowRef(['foo', 'bar', 'fizz', 'buzz'])
+const selected = shallowRef('foo')
 </script>
 
 <template>
   <v-container>
-    <v-toolbar elevation="8" density="compact">
-      <v-toolbar-items>
-        <v-btn color="medium-emphasis" density="comfortable" icon="mdi-crosshairs-gps"></v-btn>
+    <div class="d-flex ga-3 align-center mb-3">
+      <v-select multiple clearable density="compact" hide-details label="Type" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+      <v-select multiple clearable density="compact" hide-details label="Country" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+      <v-select multiple clearable density="compact" hide-details label="Language" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+      <v-select multiple clearable density="compact" hide-details label="Source" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+      <v-select multiple clearable density="compact" hide-details label="Status" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+      <v-btn variant="tonal">Clear All</v-btn>
 
-        <v-btn class="ms-1" color="medium-emphasis" density="comfortable" icon="mdi-dots-vertical"></v-btn>
 
-        <v-menu>
-          <template v-slot:activator="{ props }">
-            <v-btn icon="mdi-filter-menu" variant="text" v-bind="props"></v-btn>
-          </template>
+      <v-btn-toggle density="compact">
+        <v-btn>
+          <v-icon>mdi-format-align-left</v-icon>
+        </v-btn>
 
-          <v-list>
-            <v-list-item v-for="i in 6" :key="i" :value="i">
-              <v-list-item-title>{{ i }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-btn>
+          <v-icon>mdi-format-align-center</v-icon>
+        </v-btn>
 
-        <v-text-field
-          class="me-2"
-          density="compact"
-          placeholder="Search"
-          prepend-inner-icon="mdi-magnify"
-        ></v-text-field>
-      </v-toolbar-items>
-    </v-toolbar>
+        <v-btn>
+          <v-icon>mdi-format-align-right</v-icon>
+        </v-btn>
+
+        <v-btn>
+          <v-icon>mdi-format-align-justify</v-icon>
+        </v-btn>
+      </v-btn-toggle>
+    </div>
 
     <v-row>
       <v-col v-for="n in 14" :key="n" lg="2" md="4" sm="6" xl="2  " xs="12">
