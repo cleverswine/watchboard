@@ -4,12 +4,9 @@
       <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" />
       <v-toolbar-title>My files</v-toolbar-title>
       <v-spacer />
-      <v-btn
-        :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-        slim
-        text="Toggle Theme"
-        @click="onClick"
-      />
+      <v-text-field placeholder="search..."></v-text-field>
+      <v-spacer />
+      <v-btn :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'" slim text="Toggle Theme" @click="onClick" />
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer">
