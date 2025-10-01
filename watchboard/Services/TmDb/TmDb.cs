@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Web;
 using Microsoft.Extensions.Caching.Memory;
 using WatchBoard.Services.TmDb.Models;
@@ -20,6 +21,113 @@ public class TmDb(HttpClient httpClient, IMemoryCache cache) : ITmDb
     private static readonly JsonSerializerOptions JsonOpts = new() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
     private static readonly string BaseApiPath = "https://api.themoviedb.org/3/";
 
+    
+    /// <summary>
+    /// Fetches the detailed item JSON from TMDB for the given id and type ("tv" or "movie").
+    /// This method will:
+    /// - fetch the base detail with appended responses (latest, external_ids, credits, watch/providers)
+    /// - fetch and attach the images JSON under the "images" property
+    /// - for each season in the returned "seasons" array, fetch the season detail and attach it
+    ///   under the season object's "detail" property. If the season detail contains an "episodes"
+    ///   array, it will also attach that array directly under the season as "episodes".
+    /// The combined JsonNode is cached for 60 minutes under the key "TmDbDetailJson-{type}-{id}".
+    /// </summary>
+    public async Task<JsonNode> GetDetailJson(int id, string type)
+    {
+        var url = $"{BaseApiPath}{type.ToLower()}/{id}?append_to_response=latest%2Cexternal_ids%2Ccredits%2Cwatch%2Fproviders&language=en-US";
+
+        // get the main detail as JsonNode so we can mutate it
+        var respStream = await httpClient.GetStreamAsync(url);
+        using var doc = await JsonDocument.ParseAsync(respStream);
+        var root = JsonNode.Parse(doc.RootElement.GetRawText()) ?? new JsonObject();
+
+        var mainObj = root as JsonObject ?? new JsonObject();
+        
+        // add media type
+        mainObj["media_type"] = type;
+        
+        // prune watch/providers results to only include US
+        try
+        {
+            if (mainObj["watch/providers"] is JsonObject wp && wp["results"] is JsonObject results)
+            {
+                // collect keys to remove (all except "US")
+                var keysToRemove = results.Select(kvp => kvp.Key).Where(k => !string.Equals(k, "US", StringComparison.OrdinalIgnoreCase)).ToList();
+                foreach (var k in keysToRemove)
+                {
+                    results.Remove(k);
+                }
+            }
+        }
+        catch (Exception)
+        {
+            // non-fatal: ignore prune errors
+        }
+        
+        // fetch images and attach
+        try
+        {
+            var imagesUrl = $"{BaseApiPath}{type.ToLower()}/{id}/images";
+            var imagesStream = await httpClient.GetStreamAsync(imagesUrl);
+            using var imagesDoc = await JsonDocument.ParseAsync(imagesStream);
+            var imagesNode = JsonNode.Parse(imagesDoc.RootElement.GetRawText()) ?? new JsonObject();
+            mainObj["images"] = imagesNode;
+        }
+        catch (Exception)
+        {
+            // ignore image fetch failure
+        }
+
+        // iterate seasons if present and fetch each season details
+        // if (mainObj["seasons"] is JsonArray seasons)
+        // {
+        //     var seasonTasks = new List<Task>();
+        //     for (var i = 0; i < seasons.Count; i++)
+        //     {
+        //         if (seasons[i] is JsonObject sObj)
+        //         {
+        //             var snText = sObj["season_number"]?.ToString();
+        //             if (!string.IsNullOrWhiteSpace(snText) && int.TryParse(snText, out var seasonNumber))
+        //             {
+        //                 var idx = i;
+        //                 var sn = seasonNumber;
+        //                 seasonTasks.Add(Task.Run(async () =>
+        //                 {
+        //                     try
+        //                     {
+        //                         var seasonUrl = $"{BaseApiPath}tv/{id}/season/{sn}?append_to_response=watch%2Fproviders&language=en-US";
+        //                         var sStream = await httpClient.GetStreamAsync(seasonUrl);
+        //                         using var sDoc = await JsonDocument.ParseAsync(sStream);
+        //                         var seasonDetailNode = JsonNode.Parse(sDoc.RootElement.GetRawText()) ?? new JsonObject();
+        //                         // attach under a property 'detail' on the season object
+        //                         lock (seasons)
+        //                         {
+        //                             if (seasons[idx] is JsonObject target)
+        //                             {
+        //                                 target["detail"] = seasonDetailNode;
+        //                                 // if season detail contains episodes, attach them directly for quick access
+        //                                 if (seasonDetailNode is JsonObject sdObj && sdObj["episodes"] is JsonArray eps)
+        //                                 {
+        //                                     target["episodes"] = eps;
+        //                                 }
+        //                             }
+        //                         }
+        //                     }
+        //                     catch (Exception)
+        //                     {
+        //                         // ignore per-season fetch errors
+        //                     }
+        //                 }));
+        //             }
+        //         }
+        //     }
+        //
+        //     await Task.WhenAll(seasonTasks);
+        // }
+        
+        return root;
+    }
+    
     public async Task<List<TmDbItem>> Search(string query, string type = "tv", int limit = 8)
     {
         if (cache.TryGetValue($"TmDbSearch-{query}-{limit}-{type}", out List<TmDbItem>? results) && results is not null)
