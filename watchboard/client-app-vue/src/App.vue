@@ -27,21 +27,23 @@
 
     <v-navigation-drawer v-model="drawer">
       <v-container>
-        <div>
-          Filter
+        <div class="mb-2">
+          <v-select multiple clearable density="compact" hide-details label="Type" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
         </div>
-
-        <v-select density="default" v-model="value" :items="items" label="country" multiple></v-select>
-        <v-select density="comfortable" v-model="value" :items="items" label="language" multiple></v-select>
-        <v-select density="compact" v-model="value" :items="items" label="service" multiple></v-select>
-
-        <div class="v-row">
-          <div class="v-col-6">
-            <v-btn block variant="elevated" color="blue-darken-4">Apply</v-btn>
-          </div>
-          <div class="v-col-6">
-            <v-btn block variant="tonal">Clear</v-btn>
-          </div>
+        <div class="mb-2">
+          <v-select multiple clearable density="compact" hide-details label="Country" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+        </div>
+        <div class="mb-2">
+          <v-select multiple clearable density="compact" hide-details label="Language" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+        </div>
+        <div class="mb-2">
+          <v-select multiple clearable density="compact" hide-details label="Source" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+        </div>
+        <div class="mb-2">
+          <v-select multiple clearable density="compact" hide-details label="Status" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+        </div>
+        <div class="">
+          <v-btn variant="tonal">Clear All</v-btn>
         </div>
       </v-container>
 
