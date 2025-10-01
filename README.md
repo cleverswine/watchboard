@@ -68,3 +68,11 @@ There is a [helper script](./lib/copy-dist-libs.sh) to make it easier to copy th
 ![screenshot10.png](screenshot10.png)
 
 ![screenshot11.png](screenshot11.png)
+
+# usb
+
+```
+/dev/sda1: LABEL="twotbext" UUID="aaa11437-ccaa-4785-9d30-d71aa1dbc555" BLOCK_SIZE="4096" TYPE="ext4" PARTLABEL="Extreme SSD" PARTUUID="d998dc80-b66b-433e-9852-448ed937ebf2"
+
+
+```
