@@ -1,60 +1,74 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import NavigationDrawer from '@/components/NavigationDrawer.vue'
+import { computed, ref, shallowRef } from 'vue'
+import items from '@/assets/ItemAllDetails.json'
 
-const items = shallowRef(['foo', 'bar', 'fizz', 'buzz'])
-const value = shallowRef(['foo', 'bar', 'fizz', 'buzz'])
-const chip = shallowRef(true)
-const dialog = shallowRef(false)
+/*
+Singleton: items, current filter
+ */
+const drawer = ref(true)
+
+const amenitiesChoices1 = ['US', 'FR', 'DE', 'ES', 'PO']
+const amenitiesChoices2 = ['Amazon Prime', 'Netflix', 'Television', 'Amazon Prime PBS Subscription', 'Hulu']
+
+// shallowRef means nly setting the top level value triggers change, not nested properties
+const amenities1 = shallowRef([1, 4])
+const amenities2 = shallowRef([1, 4])
+
+const selected1 = computed(() => {
+  const result = [amenities1.value.map((i) => amenitiesChoices1[i]).join(', '), amenities2.value.map((i) => amenitiesChoices2[i]).join(', ')]
+  return result.join(', ')
+})
 </script>
 
 <template>
-  <v-dialog v-model="dialog" width="auto">
-    <v-card max-width="400" prepend-icon="mdi-update" title="Update in progress">
-      <v-card-text>
-        <v-row align="center">
-          <v-col cols="6">
-            <v-select multiple clearable density="compact" hide-details label="Type" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
-          </v-col>
-          <v-col cols="6">
-            <v-select multiple clearable density="compact" hide-details label="Country" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
-          </v-col>
-          <v-col cols="6">
-            <v-select multiple clearable density="compact" hide-details label="Language" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
-          </v-col>
-          <v-col cols="6">
-            <v-select multiple clearable density="compact" hide-details label="Source" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
-          </v-col>
-          <v-col cols="6">
-            <v-select multiple clearable density="compact" hide-details label="Status" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
-          </v-col>
-          <v-col cols="6">
-            <v-btn variant="tonal">Clear All</v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <template v-slot:actions>
-        <v-btn class="ms-auto" text="Ok" @click="dialog = false"></v-btn>
-      </template>
-    </v-card>
-  </v-dialog>
+  <NavigationDrawer v-model="drawer"></NavigationDrawer>
 
   <v-container>
-    <v-row class="align-center">
-      <v-col cols="4">
-        <v-select clearable variant="plain" density="compact" hide-details label="Saved Filter" :items="['US TV Shows', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"></v-select>
-      </v-col>
-      <v-col cols="8" class="text-end">
-        <v-chip variant="tonal" class="me-2">TV</v-chip>
-        <v-chip variant="tonal" class="me-2">US</v-chip>
-        <v-chip variant="tonal" class="me-2">Amazon</v-chip>
-      </v-col>
-    </v-row>
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-title>{{ selected1 }} <v-btn variant="plain" density="compact" class="ms-2" icon="mdi-close-circle-outline"></v-btn> </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <v-row>
+            <v-col cols="4">
+              <div class="text-caption">Languages</div>
+              <v-chip-group v-model="amenities1" column multiple>
+                <v-chip v-for="s in amenitiesChoices1" density="compact" :text="s" variant="outlined" filter></v-chip>
+              </v-chip-group>
+            </v-col>
+            <v-col cols="4">
+              <div class="text-caption">Services</div>
+              <v-chip-group v-model="amenities2" column multiple>
+                <v-chip v-for="s in amenitiesChoices2" density="compact" :text="s" variant="outlined" filter></v-chip>
+              </v-chip-group>
+            </v-col>
+            <v-col cols="4">
+              <div class="text-caption">Languages</div>
+              <v-chip-group v-model="amenities1" column multiple>
+                <v-chip density="compact" text="Elevator" variant="outlined" filter></v-chip>
+                <v-chip density="compact" text="Washer / Dryer" variant="outlined" filter></v-chip>
+                <v-chip density="compact" text="Fireplace" variant="outlined" filter></v-chip>
+                <v-chip density="compact" text="Wheelchair access" variant="outlined" filter></v-chip>
+                <v-chip density="compact" text="Dogs ok" variant="outlined" filter></v-chip>
+                <v-chip density="compact" text="Cats ok" variant="outlined" filter></v-chip>
+              </v-chip-group>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="text-end">
+              <v-btn variant="plain">Save as...</v-btn>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
     <v-divider class="mt-2 mb-4"></v-divider>
     <v-row>
-      <v-col v-for="n in 14" :key="n" lg="2" md="4" sm="6" xl="2  " xs="12">
+      <v-col v-for="n in items" lg="2" md="4" sm="6" xl="2" xs="12">
         <v-card link to="/ItemDetail">
           <v-img class="align-end text-white" cover src="@/assets/logo.png">
-            <v-card-title>Top 10 Australian beaches Top 10 Australian beaches</v-card-title>
+            <v-card-text>{{ n.name }}</v-card-text>
           </v-img>
         </v-card>
       </v-col>
