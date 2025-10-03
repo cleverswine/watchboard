@@ -11,55 +11,42 @@
         <v-text-field density="compact" placeholder="Search" prepend-inner-icon="mdi-magnify" variant="solo" flat hide-details single-line></v-text-field>
       </div>
       <v-spacer></v-spacer>
-      <v-menu>
-        <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-account-circle" v-bind="props"></v-btn>
-        </template>
-        <v-list>
-          <v-list-item v-for="i in 6" :key="i" :value="i">
-            <v-list-item-title>Stuff for {{ i }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
       <v-btn :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click="onClick" />
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer">
       <v-container>
+        <v-list-item title="Saved Filters"></v-list-item>
         <div class="mb-2">
-          <v-select multiple clearable density="compact" hide-details label="Type" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+          <v-select density="compact" hide-details label="Type" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+        </div>
+
+        <v-divider class="my-4"></v-divider>
+
+        <v-list-item title="Filter" subtitle="set a name to save the filter"></v-list-item>
+        <div class="mb-2">
+          <v-text-field hide-details clearable density="compact" placeholder="filter name (optional)"></v-text-field>
         </div>
         <div class="mb-2">
-          <v-select multiple clearable density="compact" hide-details label="Country" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+          <v-select multiple clearable density="comfortable" hide-details label="Type" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
         </div>
         <div class="mb-2">
-          <v-select multiple clearable density="compact" hide-details label="Language" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+          <v-select multiple clearable density="comfortable" hide-details label="Country" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
         </div>
         <div class="mb-2">
-          <v-select multiple clearable density="compact" hide-details label="Source" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+          <v-select multiple clearable density="comfortable" hide-details label="Language" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
         </div>
         <div class="mb-2">
-          <v-select multiple clearable density="compact" hide-details label="Status" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+          <v-select multiple clearable density="comfortable" hide-details label="Source" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
         </div>
-        <div class="">
-          <v-btn variant="tonal">Clear All</v-btn>
+        <div class="mb-2">
+          <v-select multiple clearable density="comfortable" hide-details label="Status" :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']" variant="solo-filled"></v-select>
+        </div>
+        <div class="d-flex ga-2">
+          <v-btn class="flex-grow-0" variant="tonal">Clear All</v-btn>
+          <v-btn class="flex-grow-1" variant="tonal">Apply</v-btn>
         </div>
       </v-container>
-
-      <v-list>
-        <v-list-item title="My Application" subtitle="Vuetify"></v-list-item>
-        <v-divider></v-divider>
-        <v-list-item>
-          <v-select density="default" v-model="value" :items="items" label="country" multiple></v-select>
-        </v-list-item>
-        <v-list-item>
-          <v-select density="comfortable" v-model="value" :items="items" label="language" multiple></v-select>
-        </v-list-item>
-        <v-list-item>
-          <v-select density="compact" v-model="value" :items="items" label="service" multiple></v-select>
-        </v-list-item>
-      </v-list>
     </v-navigation-drawer>
 
     <v-main>

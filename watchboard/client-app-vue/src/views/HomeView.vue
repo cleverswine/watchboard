@@ -39,38 +39,17 @@ const dialog = shallowRef(false)
   </v-dialog>
 
   <v-container>
-    <v-toolbar density="comfortable">
-      <template v-slot:prepend>
-        <v-menu>
-          <template v-slot:activator="{ props }">
-            <v-btn icon="mdi-filter" v-bind="props"></v-btn>
-          </template>
-          <v-list>
-            <v-list-subheader>Saved Filters</v-list-subheader>
-            <v-list-item v-for="(item, i) in items" :key="i" :value="item" color="primary">
-              <template v-slot:append>
-                <v-btn variant="flat" icon="mdi-delete" class="ms-2"></v-btn>
-              </template>
-              <v-list-item-title v-text="item"></v-list-item-title>
-            </v-list-item>
-            <v-divider></v-divider>
-            <v-list-item @click="dialog = true">
-              <v-list-item-title>New Filter...</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <span class="text-center text-grey-lighten-2">
-          <v-chip v-if="chip" class="ma-2" size="small" closable @click:close="chip = false">US TV Shows: TV, EN </v-chip>
-          <v-btn density="compact" v-if="!chip" color="primary" @click="chip = true"> Reset Chip </v-btn>
-        </span>
-      </template>
-      <template v-slot:append>
-        <v-btn icon="mdi-magnify"></v-btn>
-        <v-btn icon="mdi-heart"></v-btn>
-        <v-btn icon="mdi-dots-vertical"></v-btn>
-      </template>
-    </v-toolbar>
-
+    <v-row class="align-center">
+      <v-col cols="4">
+        <v-select clearable variant="plain" density="compact" hide-details label="Saved Filter" :items="['US TV Shows', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"></v-select>
+      </v-col>
+      <v-col cols="8" class="text-end">
+        <v-chip variant="tonal" class="me-2">TV</v-chip>
+        <v-chip variant="tonal" class="me-2">US</v-chip>
+        <v-chip variant="tonal" class="me-2">Amazon</v-chip>
+      </v-col>
+    </v-row>
+    <v-divider class="mt-2 mb-4"></v-divider>
     <v-row>
       <v-col v-for="n in 14" :key="n" lg="2" md="4" sm="6" xl="2  " xs="12">
         <v-card link to="/ItemDetail">
