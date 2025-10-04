@@ -17,7 +17,7 @@
     </v-app-bar>
 
     <v-main>
-      <v-container>
+      <v-container fluid class="pa-xs-2 pa-sm-4 pa-md-6 pa-lg-8 pa-xl-10">
         <router-view />
       </v-container>
     </v-main>
