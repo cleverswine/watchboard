@@ -1,24 +1,84 @@
 <script setup lang="ts">
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
 import { computed, ref, shallowRef } from 'vue'
-import items from '@/assets/ItemAllDetails.json'
+import allItems from '@/assets/ItemAllDetails.json'
+import { MediaItem, SpokenLanguage, WatchProvider } from '@/views/Item.ts'
 
 /*
 Singleton: items, current filter
  */
+
 const drawer = ref(true)
 
-const amenitiesChoices1 = ['US', 'FR', 'DE', 'ES', 'PO']
-const amenitiesChoices2 = ['Amazon Prime', 'Netflix', 'Television', 'Amazon Prime PBS Subscription', 'Hulu']
+const items = computed(() => {
+  return allItems.map(
+    (item) =>
+      new MediaItem({
+        name: item.name,
+        posterPath: item.poster_path,
+        spokenLanguages: item.spoken_languages.map((i) => new SpokenLanguage(i)),
+        watchProviders: item['watch/providers']?.results?.US?.flatrate.map((i) => new WatchProvider(i)),
+      }),
+  )
+})
 
-// shallowRef means nly setting the top level value triggers change, not nested properties
-const amenities1 = shallowRef([1, 4])
-const amenities2 = shallowRef([1, 4])
+// const groupedByLanguageItems: Record<string, any[]> = items.reduce((acc: Record<string, any[]>, currentItem) => {
+//   const keys = currentItem.spoken_languages.map((i) => i.english_name)
+//   for (let key of keys) {
+//     if (!acc[key]) {
+//       acc[key] = []
+//     }
+//     acc[key].push(currentItem)
+//   }
+//   return acc
+// }, {})
+// console.log(groupedByLanguageItems)
+//
+// const groupedByProviderItems: Record<string, any[]> = items.reduce((acc: Record<string, any[]>, currentItem) => {
+//   const keys = (currentItem['watch/providers']?.results?.US?.flatrate ?? []).map((i) => i.provider_name)
+//   for (let key of keys) {
+//     if (!acc[key]) {
+//       acc[key] = []
+//     }
+//     acc[key].push(currentItem)
+//   }
+//   return acc
+// }, {})
+// console.log(groupedByProviderItems)
 
-const selected1 = computed(() => {
-  const result = [amenities1.value.map((i) => amenitiesChoices1[i]).join(', '), amenities2.value.map((i) => amenitiesChoices2[i]).join(', ')]
+const languageChoices = [...new Set(allItems.map((i) => i.spoken_languages.map((l) => l.english_name)).flat())]
+const providerChoices = [
+  ...new Set(
+    allItems
+      .map((i) => i['watch/providers']?.results?.US?.flatrate)
+      .flat()
+      .sort((a, b) => (a && b ? a.display_priority - b.display_priority : 0))
+      .map((l) => (l ? l.provider_name : '?')),
+  ),
+]
+
+// shallowRef means only setting the top level value triggers change, not nested properties
+const languagesSelected = shallowRef([1, 4])
+const providersSelected = shallowRef([1, 4])
+
+const filterDisplayString = computed(() => {
+  const result = [languagesSelected.value.map((i) => languageChoices[i]).join(', '), providersSelected.value.map((i) => providerChoices[i]).join(', ')]
   return result.join(', ')
 })
+
+// const items = shallowRef([1, 4])
+
+// function ismatch(item: any) {
+//   const l = languagesSelected.value.map((i) => languageChoices[i])
+//   const p = providersSelected.value.map((i) => providerChoices[i])
+//
+//   const itemLanguages = [...item.spoken_languages.map((i: any) => i.english_name)]
+//   const itemProviders = [...(item['watch/providers']?.results?.US?.flatrate.map((i: any) => i.provider_name) ?? '?')]
+//
+//   if (itemLanguages.some((lang: string) => l.includes(lang))) return true
+//   if (itemProviders.some((prov: string) => p.includes(prov))) return true
+//   return false
+// }
 </script>
 
 <template>
@@ -27,30 +87,19 @@ const selected1 = computed(() => {
   <v-container>
     <v-expansion-panels>
       <v-expansion-panel>
-        <v-expansion-panel-title>{{ selected1 }} <v-btn variant="plain" density="compact" class="ms-2" icon="mdi-close-circle-outline"></v-btn> </v-expansion-panel-title>
+        <v-expansion-panel-title>{{ filterDisplayString }} <v-btn variant="plain" density="compact" class="ms-2" icon="mdi-close-circle-outline"></v-btn> </v-expansion-panel-title>
         <v-expansion-panel-text>
           <v-row>
             <v-col cols="4">
               <div class="text-caption">Languages</div>
-              <v-chip-group v-model="amenities1" column multiple>
-                <v-chip v-for="s in amenitiesChoices1" density="compact" :text="s" variant="outlined" filter></v-chip>
+              <v-chip-group v-model="languagesSelected" column multiple>
+                <v-chip v-for="s in languageChoices" density="compact" :text="s" variant="outlined" filter></v-chip>
               </v-chip-group>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="8">
               <div class="text-caption">Services</div>
-              <v-chip-group v-model="amenities2" column multiple>
-                <v-chip v-for="s in amenitiesChoices2" density="compact" :text="s" variant="outlined" filter></v-chip>
-              </v-chip-group>
-            </v-col>
-            <v-col cols="4">
-              <div class="text-caption">Languages</div>
-              <v-chip-group v-model="amenities1" column multiple>
-                <v-chip density="compact" text="Elevator" variant="outlined" filter></v-chip>
-                <v-chip density="compact" text="Washer / Dryer" variant="outlined" filter></v-chip>
-                <v-chip density="compact" text="Fireplace" variant="outlined" filter></v-chip>
-                <v-chip density="compact" text="Wheelchair access" variant="outlined" filter></v-chip>
-                <v-chip density="compact" text="Dogs ok" variant="outlined" filter></v-chip>
-                <v-chip density="compact" text="Cats ok" variant="outlined" filter></v-chip>
+              <v-chip-group v-model="providersSelected" column multiple>
+                <v-chip v-for="s in providerChoices" density="compact" :text="s" variant="outlined" filter></v-chip>
               </v-chip-group>
             </v-col>
           </v-row>
@@ -64,6 +113,17 @@ const selected1 = computed(() => {
     </v-expansion-panels>
 
     <v-divider class="mt-2 mb-4"></v-divider>
+
+    <!--    <v-row v-for="[k, items] in groupedByLanguageItems">-->
+    <!--      <v-col cols="12">-->
+    <!--        <p>-->
+    <!--          {{ k }}-->
+    <!--        </p>-->
+    <!--      </v-col>-->
+    <!--      <v-col v-for="item in items">-->
+    <!--        <div class="text-caption">{{ item }}</div>-->
+    <!--      </v-col>-->
+    <!--    </v-row>-->
     <v-row>
       <v-col v-for="n in items" lg="2" md="4" sm="6" xl="2" xs="12">
         <v-card link to="/ItemDetail">
