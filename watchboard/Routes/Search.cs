@@ -15,15 +15,30 @@ public static class Search
         app.MapPost("/search", async (HttpContext context, [FromServices] IRepository repo, [FromServices] ITmDb tmDb) =>
         {
             var form = await context.Request.ReadFormAsync();
-            var s = form["SearchName"];
+            var s = form["SearchName"].ToString();
             if (string.IsNullOrWhiteSpace(s)) throw new Exception("Search Name is required.");
-            var t = form["SearchType"];
+            var t = form["SearchType"].ToString();
             if (string.IsNullOrWhiteSpace(t)) t = "tv";
+
+            var type = Enum.Parse<ItemType>(t, true);
+
+            List<Item> items;
+            string? errorMessage = null;
+            try
+            {
+                items = await repo.SearchForItems(s, type);
+            }
+            catch (Exception ex)
+            {
+                items = new List<Item>();
+                errorMessage = ex.ToString();
+            }
 
             return new RazorComponentResult<_SearchResults>(new
             {
-                Items = await repo.SearchForItems(s, Enum.Parse<ItemType>(t)),
-                Lists = new List<List>()
+                Items = items,
+                Lists = new List<List>(),
+                ErrorMessage = errorMessage
             });
         });
 

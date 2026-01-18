@@ -81,11 +81,7 @@ public static class Mapping
             return result == "now" ? "today!" : result;
         }
 
-        int EpisodeCount(int seasonNumber)
-        {
-            var season = tmDbItem.Seasons.FirstOrDefault(x => x.SeasonNumber == seasonNumber);
-            return season?.EpisodeCount ?? 0;
-        }
+        // EpisodeCount was declared previously but is not used; removed to avoid compiler warning
     }
 
     private static ItemCredits MapTmDbCreditsToItemCredits(this TmDbCredits tmDbCredits)
