@@ -18,9 +18,16 @@
                 var s = ProviderSvg(SelectedProvider?.Name ?? "");
             }
             <div class="hstack gap-1">
+
                 @if (!string.IsNullOrWhiteSpace(ItemModel.Notes))
                 {
                     <i class="bi bi-info-circle text-muted"></i>
+                }
+                @if (!string.IsNullOrWhiteSpace(ItemModel.OriginalLanguage) && ItemModel.OriginalLanguage != "EN")
+                {
+                    <div class="small text-muted">
+                        @ItemModel.OriginalLanguage
+                    </div>
                 }
                 <div class="ms-auto">
                     <_ItemStatus ItemModel="ItemModel"></_ItemStatus>
