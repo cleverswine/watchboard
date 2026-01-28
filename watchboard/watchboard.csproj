@@ -10,13 +10,13 @@
 
     <ItemGroup>
         <PackageReference Include="Humanizer.Core" Version="3.0.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.1.24128.4" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.1.24128.4">
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.1.24128.4" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.0-preview.1.24128.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -48,6 +48,14 @@
         <_ContentIncludedByDefault Remove="Pages.Admin\Partials\_ListRowEdit.razor" />
         <_ContentIncludedByDefault Remove="Pages.Admin\Providers.razor" />
         <_ContentIncludedByDefault Remove="Pages.Admin\Shared\_Layout.razor" />
+        <_ContentIncludedByDefault Remove="client-app-vue\.prettierrc.json" />
+        <_ContentIncludedByDefault Remove="client-app-vue\package-lock.json" />
+        <_ContentIncludedByDefault Remove="client-app-vue\package.json" />
+        <_ContentIncludedByDefault Remove="client-app-vue\src\assets\boo.json" />
+        <_ContentIncludedByDefault Remove="client-app-vue\src\assets\ItemAllDetails.json" />
+        <_ContentIncludedByDefault Remove="client-app-vue\tsconfig.app.json" />
+        <_ContentIncludedByDefault Remove="client-app-vue\tsconfig.json" />
+        <_ContentIncludedByDefault Remove="client-app-vue\tsconfig.node.json" />
     </ItemGroup>
 
 </Project>
