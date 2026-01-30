@@ -11,6 +11,8 @@ public static class Search
 {
     public static RouteGroupBuilder MapSearch(this RouteGroupBuilder app)
     {
+        app.MapGet("/search", () => new RazorComponentResult<_SearchModal>(new { }));
+
         // SEARCH
         app.MapPost("/search", async (HttpContext context, [FromServices] IRepository repo, [FromServices] ITmDb tmDb) =>
         {
@@ -34,7 +36,7 @@ public static class Search
                 errorMessage = ex.ToString();
             }
 
-            return new RazorComponentResult<_SearchResults>(new
+            return new RazorComponentResult<_SearchResultsModal>(new
             {
                 Items = items,
                 Lists = new List<List>(),
