@@ -36,6 +36,7 @@ else
                 </div>
             </div>
             <button type="button" class="btn btn-sm btn-primary"
+                    onclick="clearSearch();"
                     hx-indicator="#add-indicator-@(itemModel.TmdbId)"
                     hx-swap="outerHTML"
                     hx-post="/app/items/@(itemModel.TmdbId)?type=@(itemModel.Type.ToString().ToLower())">

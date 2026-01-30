@@ -12,9 +12,19 @@ htmx.onLoad(function (content) {
     }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+function clearSearch() {
+    const i = document.getElementById('searchInput');
+    i.value = "";
+    i.focus();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
     const myModal = document.getElementById('search-modals-here');
     myModal.addEventListener('shown.bs.modal', function () {
-        document.getElementById('searchInput').focus();
+        setTimeout(function () {
+            const input = document.getElementById('searchInput');
+            input.focus();
+            input.click();
+        }, 100);
     });
 });
