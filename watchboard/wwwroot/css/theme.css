@@ -1,0 +1,97 @@
+[data-bs-theme=dark] {
+    color-scheme: dark;
+    /* Tailwind color variables (trying to copy the color scheme...) */
+    --color-red-400: oklch(70.4% .191 22.216);
+    --color-red-500: oklch(63.7% .237 25.331);
+    --color-red-600: oklch(57.7% .245 27.325);
+    --color-red-700: oklch(50.5% .213 27.518);
+    --color-red-900: oklch(39.6% .141 25.723);
+    --color-yellow-400: oklch(85.2% .199 91.936);
+    --color-yellow-600: oklch(68.1% .162 75.834);
+    --color-yellow-700: oklch(55.4% .135 66.442);
+    --color-green-400: oklch(79.2% .209 151.711);
+    --color-green-600: oklch(62.7% .194 149.214);
+    --color-sky-400: oklch(74.6% .16 232.661);
+    --color-sky-500: oklch(68.5% .169 237.323);
+    --color-sky-600: oklch(58.8% .158 241.966);
+    --color-blue-400: oklch(70.7% .165 254.624);
+    --color-blue-600: oklch(54.6% .245 262.881);
+    --color-gray-200: oklch(92.8% .006 264.531);
+    --color-gray-300: oklch(87.2% .01 258.338);
+    --color-gray-400: oklch(70.7% .022 261.325);
+    --color-gray-500: oklch(55.1% .027 264.364);
+    --color-gray-600: oklch(44.6% .03 256.802);
+    --color-gray-700: oklch(37.3% .034 259.733);
+    --color-gray-800: oklch(27.8% .033 256.848);
+    --color-gray-900: oklch(21% .034 264.665);
+
+    /* Bootstrap body colors - using Tailwind gray scale */
+    --bs-body-color: var(--color-gray-200);
+    --bs-body-color-rgb: var(--color-gray-200);
+    --bs-body-bg: var(--color-gray-900);
+    --bs-body-bg-rgb: var(--color-gray-900);
+    --bs-emphasis-color: #fff;
+    --bs-emphasis-color-rgb: #fff;
+    --bs-secondary-color: var(--color-gray-400);
+    --bs-secondary-color-rgb: var(--color-gray-400);
+    --bs-secondary-bg: var(--color-gray-800);
+    --bs-secondary-bg-rgb: var(--color-gray-800);
+    --bs-tertiary-color: var(--color-gray-500);
+    --bs-tertiary-color-rgb: var(--color-gray-500);
+    --bs-tertiary-bg: var(--color-gray-700);
+    --bs-tertiary-bg-rgb: var(--color-gray-700);
+
+    /* Text emphasis colors - using Tailwind semantic colors */
+    --bs-primary-text-emphasis: var(--color-blue-400);
+    --bs-secondary-text-emphasis: var(--color-gray-400);
+    --bs-success-text-emphasis: var(--color-green-400);
+    --bs-info-text-emphasis: var(--color-sky-400);
+    --bs-warning-text-emphasis: var(--color-yellow-400);
+    --bs-danger-text-emphasis: var(--color-red-400);
+    --bs-light-text-emphasis: var(--color-gray-200);
+    --bs-dark-text-emphasis: var(--color-gray-300);
+
+    /* Subtle backgrounds - using darker Tailwind shades */
+    --bs-primary-bg-subtle: var(--color-gray-900);
+    --bs-secondary-bg-subtle: var(--color-gray-900);
+    --bs-success-bg-subtle: var(--color-gray-900);
+    --bs-info-bg-subtle: var(--color-gray-900);
+    --bs-warning-bg-subtle: var(--color-gray-900);
+    --bs-danger-bg-subtle: var(--color-red-900);
+    --bs-light-bg-subtle: var(--color-gray-700);
+    --bs-dark-bg-subtle: var(--color-gray-800);
+
+    /* Border colors - using mid-range Tailwind shades */
+    --bs-primary-border-subtle: var(--color-blue-600);
+    --bs-secondary-border-subtle: var(--color-gray-600);
+    --bs-success-border-subtle: var(--color-green-600);
+    --bs-info-border-subtle: var(--color-sky-600);
+    --bs-warning-border-subtle: var(--color-yellow-600);
+    --bs-danger-border-subtle: var(--color-red-600);
+    --bs-light-border-subtle: var(--color-gray-500);
+    --bs-dark-border-subtle: var(--color-gray-700);
+
+    /* Link colors - using Tailwind blue */
+    --bs-heading-color: inherit;
+    --bs-link-color: var(--color-blue-400);
+    --bs-link-hover-color: var(--color-sky-400);
+    --bs-link-color-rgb: 110, 168, 254;
+    --bs-link-hover-color-rgb: 139, 185, 254;
+
+    /* Code and highlights */
+    --bs-code-color: var(--color-red-400);
+    --bs-highlight-color: var(--color-gray-200);
+    --bs-highlight-bg: var(--color-yellow-700);
+
+    /* Border colors */
+    --bs-border-color: var(--color-gray-600);
+    --bs-border-color-translucent: rgba(255, 255, 255, 0.15);
+
+    /* Form validation colors - using Tailwind green/red */
+    --bs-form-valid-color: var(--color-green-400);
+    --bs-form-valid-border-color: var(--color-green-400);
+    --bs-form-invalid-color: var(--color-red-400);
+    --bs-form-invalid-border-color: var(--color-red-400);
+
+
+}

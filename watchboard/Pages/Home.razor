@@ -3,7 +3,7 @@
 @using WatchBoard.Database.Entities
 @layout _Layout
 
-<nav class="navbar navbar-expand-sm bg-body-tertiary">
+<nav class="navbar  navbar-dark bg-body-tertiary navbar-expand-sm">
     <div class="container-fluid mx-4">
         <button type="button" class="navbar-brand nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-person-workspace"></i> @SelectedBoard.Name
@@ -31,17 +31,12 @@
         <div class="collapse navbar-collapse d-sm-flex justify-content-end" id="navbarTogglerDemo02">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <button class="nav-link me-3" data-bs-toggle="offcanvas" data-bs-target="#searchDrawer" aria-controls="searchDrawer">
-                        <i class="bi bi-search"></i> Search
-                    </button>
-                </li>
-                <li class="nav-item">
                     <button class="nav-link me-3"
                             hx-get="/app/search"
                             hx-target="#search-modals-here" hx-trigger="click" hx-swap="innerHTML"
                             data-bs-toggle="modal" data-bs-target="#search-modals-here"
                             aria-controls="searchDrawer">
-                        <i class="bi bi-search"></i> SearchModal
+                        <i class="bi bi-search"></i> Search
                     </button>
                 </li>
             </ul>
@@ -50,8 +45,6 @@
 </nav>
 
 <div class="container-fluid px-md-4">
-
-    <_Search></_Search>
 
     <div class="pt-3">
         @foreach (var l in Lists)

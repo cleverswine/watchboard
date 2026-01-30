@@ -13,8 +13,8 @@ htmx.onLoad(function (content) {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const element = document.getElementById('searchDrawer')
-    element.addEventListener('shown.bs.offcanvas', event => {
+    const myModal = document.getElementById('search-modals-here');
+    myModal.addEventListener('shown.bs.modal', function () {
         document.getElementById('searchInput').focus();
     });
 });

@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="card-body py-1 ps-3">
-        <form class="row sortable me-4 gap-0" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
+        <form class="row sortable gap-0" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
             @foreach (var i in ListModel.Items)
             {
                 <_Item ItemModel="i"></_Item>

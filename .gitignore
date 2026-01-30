@@ -486,3 +486,6 @@ $RECYCLE.BIN/
 # Node.js
 node_modules/
 dist/
+
+# npm config file
+**/.npmrc
