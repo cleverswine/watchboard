@@ -1,12 +1,27 @@
 @using WatchBoard.Database.Entities
-<h4 class="header text-uppercase text-secondary-emphasis"> @ListModel.Name </h4>
 
-<form class="row sortable me-4 gap-0" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
-    @foreach (var i in ListModel.Items)
-    {
-        <_Item ItemModel="i"></_Item>
-    }
-</form>
+<div class="card border-dark-subtle mb-3">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <span>
+                @ListModel.Name
+            </span>
+            <span>
+                <span class="badge rounded-pill text-bg-secondary bg-opacity-50 text-white-50">
+                    @ListModel.Items.Count
+                </span>
+            </span>
+        </div>
+    </div>
+    <div class="card-body py-1 ps-3">
+        <form class="row sortable me-4 gap-0" hx-put="/app/lists/@(ListModel.Id)/items" hx-trigger="sort" hx-swap="none">
+            @foreach (var i in ListModel.Items)
+            {
+                <_Item ItemModel="i"></_Item>
+            }
+        </form>
+    </div>
+</div>
 
 @code {
 
