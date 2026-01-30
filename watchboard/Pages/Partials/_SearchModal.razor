@@ -5,13 +5,13 @@
         <div class="modal-header">
             <form class="w-100" hx-post="/app/search" hx-target="#searchResultsModal" hx-indicator="#search-indicator">
                 <div class="d-flex justify-content-between gap-3">
-                    <input id="searchInput" class="form-control small w-75" type="search" name="SearchName"
+                    <input id="searchInput" class="form-control w-75" type="search" name="SearchName"
                            placeholder="Search for TV shows or movies..."
                            aria-label="Search">
 
                     <div>
                         <input type="radio" value="@ItemType.Tv" class="btn-check" name="SearchType" id="option2"
-                               autocomplete="off">
+                               autocomplete="off" checked>
                         <label class="btn btn-outline-secondary rounded-pill" for="option2"><i class="bi bi-tv me-0"></i></label>
 
                         <input type="radio" value="@ItemType.Movie" class="btn-check" name="SearchType" id="option1"
@@ -26,7 +26,9 @@
                 <span class="spinner-border spinner-border-sm"></span> searching...
             </div>
             <div id="searchResultsModal">
-
+                <p class="text-center text-muted py-5">
+                    Enter a search term and press enter to search...
+                </p>
             </div>
         </div>
         <div class="modal-footer">
