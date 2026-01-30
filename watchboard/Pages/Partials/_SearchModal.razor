@@ -1,38 +1,27 @@
 @using WatchBoard.Database.Entities
 
-<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Add TV Show or Movie</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form hx-post="/app/search" hx-target="#searchResultsModal" hx-indicator="#search-indicator">
-                <div class="d-flex flex-row gap-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="SearchType" id="searchTypeTv"
-                               value="@ItemType.Tv" checked>
-                        <label class="form-check-label" for="searchTypeTv">
-                            TV Shows
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="SearchType" id="searchTypeMovies"
-                               value="@ItemType.Movie">
-                        <label class="form-check-label" for="searchTypeMovies">
-                            Movies
-                        </label>
-                    </div>
-                </div>
-                <div class="d-flex flex-row mt-3 mb-3">
-                    <input id="searchInput" class="form-control" type="search" name="SearchName"
-                           placeholder="Search"
+            <form class="w-100" hx-post="/app/search" hx-target="#searchResultsModal" hx-indicator="#search-indicator">
+                <div class="d-flex justify-content-between gap-3">
+                    <input id="searchInput" class="form-control small w-75" type="search" name="SearchName"
+                           placeholder="Search for TV shows or movies..."
                            aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit" hx-disabled-elt="this">
-                        Search
-                    </button>
+
+                    <div>
+                        <input type="radio" value="@ItemType.Tv" class="btn-check" name="SearchType" id="option2"
+                               autocomplete="off">
+                        <label class="btn btn-outline-secondary rounded-pill" for="option2"><i class="bi bi-tv me-0"></i></label>
+
+                        <input type="radio" value="@ItemType.Movie" class="btn-check" name="SearchType" id="option1"
+                               autocomplete="off">
+                        <label class="btn btn-outline-secondary rounded-pill" for="option1"><i class="bi bi-film me-0"></i></label>
+                    </div>
                 </div>
             </form>
+        </div>
+        <div class="modal-body">
             <div class="htmx-indicator ps-3" id="search-indicator" role="status">
                 <span class="spinner-border spinner-border-sm"></span> searching...
             </div>
@@ -42,7 +31,6 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
         </div>
     </div>
 </div>
