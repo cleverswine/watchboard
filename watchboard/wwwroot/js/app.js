@@ -16,15 +16,17 @@ function clearSearch() {
     const i = document.getElementById('searchInput');
     i.value = "";
     i.focus();
+    i.click();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const myModal = document.getElementById('search-modals-here');
-    myModal.addEventListener('shown.bs.modal', function () {
-        setTimeout(function () {
-            const input = document.getElementById('searchInput');
-            input.focus();
-            input.click();
-        }, 100);
-    });
+    // Find the button that opens the modal
+    const modalTrigger = document.querySelector('[data-bs-target="#search-modals-here"]');
+    if (modalTrigger) {
+        modalTrigger.addEventListener('click', function () {
+            setTimeout(function () {
+                document.getElementById('searchInput').focus();
+            }, 500); // Wait for modal animation
+        });
+    }
 });
