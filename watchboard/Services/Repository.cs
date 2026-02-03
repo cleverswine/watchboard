@@ -12,6 +12,7 @@ public interface IRepository
     Task<Board?> GetBoard(Guid? boardId);
 
     Task<List?> GetList(Guid listId);
+    Task<int> GetListItemCount(Guid listId);
     Task SortList(Guid listId, string?[] itemIdsStr);
 
     Task<Item[]> GetItems();
@@ -53,6 +54,13 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             .AsNoTracking()
             .Include(x => x.Items.OrderBy(y => y.Order))
             .FirstOrDefaultAsync(x => x.Id == listId);
+    }
+
+    public async Task<int> GetListItemCount(Guid listId)
+    {
+        return await db.Items
+            .AsNoTracking()
+            .CountAsync(x => x.ListId == listId);
     }
 
     public async Task<Item[]> GetItems()

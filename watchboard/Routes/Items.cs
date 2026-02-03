@@ -23,9 +23,10 @@ public static class Items
             });
 
         // DELETE ITEM
-        app.MapDelete("/items/{itemId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId) =>
+        app.MapDelete("/items/{itemId:guid}", async (HttpResponse response, [FromServices] IRepository repo, [FromRoute] Guid itemId) =>
         {
             await repo.DeleteItem(itemId);
+            response.Headers.Append("HX-Trigger", "deleteItem");
             return Results.Ok();
         });
 
@@ -42,9 +43,10 @@ public static class Items
         });
 
         // MOVE ITEM TO ANOTHER BOARD
-        app.MapPut("/items/{itemId:guid}/move/{boardId:guid}", async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid boardId) =>
+        app.MapPut("/items/{itemId:guid}/move/{boardId:guid}", async (HttpResponse response, [FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid boardId) =>
         {
             await repo.MoveItemToOtherBoard(itemId, boardId);
+            response.Headers.Append("HX-Trigger", "moveItem");
             return Results.Ok();
         });
 

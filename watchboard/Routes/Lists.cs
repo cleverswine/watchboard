@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WatchBoard.Pages.Partials;
 using WatchBoard.Services;
-using WatchBoard.Services.Helpers;
 
 namespace WatchBoard.Routes;
 
@@ -17,11 +16,16 @@ public static class Lists
             ListModel = await repo.GetList(listId)
         }));
 
+        // GET LIST ITEM COUNT
+        app.MapGet("/lists/{listId:guid}/items/count", async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid listId) =>
+        (await repo.GetListItemCount(listId)).ToString());
+
         // SORT LIST
-        app.MapPut("/lists/{listId:guid}/items", async (HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid listId) =>
+        app.MapPut("/lists/{listId:guid}/items", async (HttpResponse response, HttpContext context, [FromServices] IRepository repo, [FromRoute] Guid listId) =>
         {
             var form = await context.Request.ReadFormAsync();
             await repo.SortList(listId, form["item"].ToArray());
+            response.Headers.Append("HX-Trigger", "moveItem");
             return Results.Ok();
         });
 

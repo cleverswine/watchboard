@@ -7,7 +7,8 @@
                 @ListModel.Name
             </span>
             <span>
-                <span class="badge rounded-pill text-bg-secondary bg-opacity-50 text-white-50">
+                <span hx-get="/app/lists/@(ListModel.Id)/items/count" hx-trigger="deleteItem from:body, moveItem from:body" hx-target="this"
+                      class="badge rounded-pill text-bg-secondary bg-opacity-50 text-white-50">
                     @ListModel.Items.Count
                 </span>
             </span>
