@@ -1,9 +1,13 @@
 @using WatchBoard.Database.Entities
 
-<div hx-indicator="#indicator-@(ItemModel.Id)" id="card-@(ItemModel.Id)" class="col-sm-6 col-md-2 col-xl-1 p-2">
+<div hx-indicator="#indicator-@(ItemModel.Id)" id="card-@(ItemModel.Id)" class="list-item col-sm-6 col-md-2 col-xl-1 p-2">
     <input type="hidden" name="item" value="@ItemModel.Id"/>
     <div class="card">
         <div style="position: relative;">
+            <!-- Drag handle in the top-left -->
+            <div class="drag-handle position-absolute bg-body-tertiary bg-opacity-25 rounded m-1 px-1 pe-0 top-0 start-0" title="Drag to reorder" aria-label="Drag to reorder" style="z-index: 2;">
+                <i class="bi bi-grip-vertical"></i>
+            </div>
             <a href="#" hx-get="/app/items/@(ItemModel.Id)" hx-target="#modals-here" hx-trigger="click" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#modals-here" class="stretched-link">
                 <img src="@(ItemModel.PosterBase64)" class="card-img-top img-fluid" alt="@ItemModel.Name">
             </a>

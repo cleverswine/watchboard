@@ -7,7 +7,9 @@ htmx.onLoad(function (content) {
         new Sortable(sortable, {
             animation: 150,
             group: 'shared',
-            ghostClass: 'blue-background-class'
+            ghostClass: 'blue-background-class',
+            draggable: '.list-item',
+            handle: '.drag-handle'
         });
     }
 });
