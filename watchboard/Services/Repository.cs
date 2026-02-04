@@ -10,8 +10,17 @@ public interface IRepository
 {
     Task<List<Board>> GetBoards();
     Task<Board?> GetBoard(Guid? boardId);
+    Task<Board> CreateBoard(string name);
+    Task ReorderBoards(Guid[] boardIds);
+    Task RenameBoard(Guid boardId, string name);
+    Task DeleteBoard(Guid boardId);
 
     Task<List?> GetList(Guid listId);
+    Task<List> CreateList(Guid boardId, string name);
+    Task ReorderLists(Guid boardId, Guid[] listIds);
+    Task RenameList(Guid listId, string name);
+    Task SetDefaultList(Guid listId);
+    Task DeleteList(Guid listId);
     Task<int> GetListItemCount(Guid listId);
     Task SortList(Guid listId, string?[] itemIdsStr);
 
@@ -53,12 +62,158 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             .ToListAsync();
     }
 
+    public async Task<Board> CreateBoard(string name)
+    {
+        var maxOrder = await db.Boards.MaxAsync(b => (int?)b.Order) ?? -1;
+
+        var board = new Board
+        {
+            Name = name,
+            Order = maxOrder + 1,
+            Lists =
+            [
+                new List { Name = "Queue", Order = 0, Default = true, Items = [] },
+                new List { Name = "Watching", Order = 1, Items = [] },
+                new List { Name = "Finished", Order = 2, Items = [] }
+            ]
+        };
+
+        db.Boards.Add(board);
+        await db.SaveChangesAsync();
+
+        return board;
+    }
+
+    public async Task ReorderBoards(Guid[] boardIds)
+    {
+        for (var i = 0; i < boardIds.Length; i++)
+        {
+            var board = await db.Boards.FindAsync(boardIds[i]);
+            if (board != null)
+            {
+                board.Order = i;
+            }
+        }
+        await db.SaveChangesAsync();
+    }
+
+    public async Task RenameBoard(Guid boardId, string name)
+    {
+        var board = await db.Boards.FindAsync(boardId);
+        if (board != null)
+        {
+            board.Name = name;
+            await db.SaveChangesAsync();
+        }
+    }
+
+    public async Task DeleteBoard(Guid boardId)
+    {
+        var board = await db.Boards
+            .Include(b => b.Lists)
+            .ThenInclude(l => l.Items)
+            .FirstOrDefaultAsync(b => b.Id == boardId);
+
+        if (board != null)
+        {
+            // Remove all items from lists
+            foreach (var list in board.Lists)
+            {
+                db.Items.RemoveRange(list.Items);
+            }
+
+            // Remove all lists
+            db.Lists.RemoveRange(board.Lists);
+
+            // Remove the board
+            db.Boards.Remove(board);
+
+            await db.SaveChangesAsync();
+        }
+    }
+
     public async Task<List?> GetList(Guid listId)
     {
         return await db.Lists
             .AsNoTracking()
             .Include(x => x.Items.OrderBy(y => y.Order))
             .FirstOrDefaultAsync(x => x.Id == listId);
+    }
+
+    public async Task<List> CreateList(Guid boardId, string name)
+    {
+        var maxOrder = await db.Lists
+            .Where(l => l.BoardId == boardId)
+            .MaxAsync(l => (int?)l.Order) ?? -1;
+
+        var list = new List
+        {
+            Name = name,
+            BoardId = boardId,
+            Order = maxOrder + 1,
+            Default = false,
+            Items = []
+        };
+
+        db.Lists.Add(list);
+        await db.SaveChangesAsync();
+
+        return list;
+    }
+
+    public async Task ReorderLists(Guid boardId, Guid[] listIds)
+    {
+        for (var i = 0; i < listIds.Length; i++)
+        {
+            var list = await db.Lists.FindAsync(listIds[i]);
+            if (list != null && list.BoardId == boardId)
+            {
+                list.Order = i;
+            }
+        }
+        await db.SaveChangesAsync();
+    }
+
+    public async Task RenameList(Guid listId, string name)
+    {
+        var list = await db.Lists.FindAsync(listId);
+        if (list != null)
+        {
+            list.Name = name;
+            await db.SaveChangesAsync();
+        }
+    }
+
+    public async Task SetDefaultList(Guid listId)
+    {
+        var list = await db.Lists.FindAsync(listId);
+        if (list == null) return;
+
+        // Clear default from all lists in the same board
+        var boardLists = await db.Lists.Where(l => l.BoardId == list.BoardId).ToListAsync();
+        foreach (var l in boardLists)
+        {
+            l.Default = l.Id == listId;
+        }
+        await db.SaveChangesAsync();
+    }
+
+    public async Task DeleteList(Guid listId)
+    {
+        var list = await db.Lists
+            .Include(l => l.Items)
+            .FirstOrDefaultAsync(l => l.Id == listId);
+
+        if (list != null)
+        {
+            // Remove all items from the list
+            db.Items.RemoveRange(list.Items);
+
+            // Remove the list
+            db.Lists.Remove(list);
+
+            await db.SaveChangesAsync();
+        }
     }
 
     public async Task<int> GetListItemCount(Guid listId)

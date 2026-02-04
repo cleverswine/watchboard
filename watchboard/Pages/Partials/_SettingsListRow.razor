@@ -1,0 +1,67 @@
+@using WatchBoard.Database.Entities
+
+<tr id="list-row-@(ListModel.Id)" data-list-id="@(ListModel.Id)" data-board-id="@(ListModel.BoardId)">
+    <td class="text-center">
+        <i class="bi bi-grip-vertical drag-handle text-muted"></i>
+    </td>
+    <td>
+        <span class="list-name-display">@ListModel.Name</span>
+        <div class="list-name-edit d-none">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm" value="@ListModel.Name"
+                       onkeydown="handleEditListKeydown(event, '@ListModel.Id')">
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="saveEditList('@ListModel.Id')">
+                    <i class="bi bi-check"></i>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="cancelEditList('@ListModel.Id')">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+    </td>
+    <td>
+        <span class="badge text-bg-secondary">@ListModel.Items.Count</span>
+    </td>
+    <td nowrap>
+        @if (ListModel.Default)
+        {
+            <span class="badge text-bg-success default-badge">
+                <i class="bi bi-check-circle"></i> Default
+            </span>
+            <button type="button" class="btn btn-sm btn-outline-secondary set-default-btn d-none"
+                    onclick="setDefaultList('@ListModel.Id', '@ListModel.BoardId')">
+                Set Default
+            </button>
+        }
+        else
+        {
+            <span class="badge text-bg-success default-badge d-none">
+                <i class="bi bi-check-circle"></i> Default
+            </span>
+            <button type="button" class="btn btn-sm btn-outline-secondary set-default-btn"
+                    onclick="setDefaultList('@ListModel.Id', '@ListModel.BoardId')">
+                Set Default
+            </button>
+        }
+    </td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-secondary" title="Rename"
+                    onclick="startEditList('@ListModel.Id', '@ListModel.Name.Replace("'", "\\'")' )">
+                <i class="bi bi-pencil"></i>
+            </button>
+            <button type="button" class="btn btn-outline-danger" title="Delete"
+                    onclick="showDeleteListModal('@ListModel.Id', '@ListModel.Name.Replace("'", "\\'")' )">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public List ListModel { get; set; } = new();
+
+    [Parameter]
+    public string BoardName { get; set; } = "";
+}

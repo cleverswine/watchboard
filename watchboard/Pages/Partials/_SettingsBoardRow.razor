@@ -1,0 +1,42 @@
+@using WatchBoard.Database.Entities
+
+<tr id="board-row-@(BoardModel.Id)" data-board-id="@(BoardModel.Id)">
+    <td class="text-center">
+        <i class="bi bi-grip-vertical drag-handle text-muted"></i>
+    </td>
+    <td>
+        <span class="board-name-display">@BoardModel.Name</span>
+        <div class="board-name-edit d-none">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm" value="@BoardModel.Name"
+                       onkeydown="handleEditKeydown(event, '@BoardModel.Id')">
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="saveEditBoard('@BoardModel.Id')">
+                    <i class="bi bi-check"></i>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="cancelEditBoard('@BoardModel.Id')">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+    </td>
+    <td>
+        <span class="badge text-bg-secondary">@BoardModel.Lists.Count</span>
+    </td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-secondary" title="Rename"
+                    onclick="startEditBoard('@BoardModel.Id', '@BoardModel.Name.Replace("'", "\\'")' )">
+                <i class="bi bi-pencil"></i>
+            </button>
+            <button type="button" class="btn btn-outline-danger" title="Delete"
+                    onclick="showDeleteBoardModal('@BoardModel.Id', '@BoardModel.Name.Replace("'", "\\'")' )">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public Board BoardModel { get; set; } = new();
+}
