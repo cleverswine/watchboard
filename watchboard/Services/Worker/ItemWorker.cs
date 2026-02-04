@@ -1,16 +1,15 @@
+using Microsoft.Extensions.Options;
+
 namespace WatchBoard.Services.Worker;
 
-// TODO - make configurable
 public class WorkerConfig
 {
     public int WorkerIntervalMinutes { get; set; } = 360; // 6 hours
     public int MinItemUpdateFrequencyMinutes { get; set; } = 60; // 1 hour
 }
 
-public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundService
+public class ItemWorker(IOptions<WorkerConfig> options, IServiceScopeFactory serviceScopeFactory) : BackgroundService
 {
-    private readonly WorkerConfig _workerConfig = new();
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
@@ -26,7 +25,7 @@ public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundSe
                 foreach (var dbItem in dbItems)
                 {
                     if (dbItem.LastUpdated != null &&
-                        dbItem.LastUpdated > DateTimeOffset.UtcNow.AddMinutes(-_workerConfig.MinItemUpdateFrequencyMinutes)) continue;
+                        dbItem.LastUpdated > DateTimeOffset.UtcNow.AddMinutes(-options.Value.MinItemUpdateFrequencyMinutes)) continue;
                     await repository.RefreshItem(dbItem.Id);
                 }
             }
@@ -35,7 +34,7 @@ public class ItemWorker(IServiceScopeFactory serviceScopeFactory) : BackgroundSe
                 Console.WriteLine(ex);
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(_workerConfig.WorkerIntervalMinutes), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(options.Value.WorkerIntervalMinutes), stoppingToken);
         }
     }
 }

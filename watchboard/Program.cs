@@ -14,6 +14,8 @@ builder.Services.AddRazorComponents();
 builder.Services.AddHttpContextAccessor();
 
 // Worker to update items every x hours
+// Add after var builder = WebApplication.CreateBuilder(args);
+builder.Services.Configure<WorkerConfig>(builder.Configuration.GetSection("WorkerConfig"));
 if (!builder.Environment.IsDevelopment())
     builder.Services.AddHostedService<ItemWorker>();
 
