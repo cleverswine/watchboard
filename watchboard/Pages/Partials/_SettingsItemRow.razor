@@ -1,0 +1,67 @@
+@using WatchBoard.Database.Entities
+
+<tr id="row-@(ItemModel.Id)"
+    data-item-id="@(ItemModel.Id)"
+    data-board="@BoardName"
+    data-list="@ListName"
+    data-name="@ItemModel.Name"
+    data-notes="@(ItemModel.Notes ?? "")"
+    data-lastUpdated="@(ItemModel.LastUpdated?.ToString("o") ?? "")"
+    hx-put="/app/items/@(ItemModel.Id)/refresh?view=row"
+    hx-trigger="refresh-item"
+    hx-target="this"
+    hx-swap="outerHTML"
+    hx-indicator="#indicator-row-@(ItemModel.Id)">
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <input type="checkbox" class="form-check-input" value="@ItemModel.Id">
+            <div class="htmx-indicator" id="indicator-row-@(ItemModel.Id)">
+                <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Refreshing...</span>
+                </div>
+            </div>
+        </div>
+    </td>
+    <td>@BoardName</td>
+    <td>@ListName</td>
+    <td>
+        <a href="#" hx-get="/app/items/@(ItemModel.Id)" hx-target="#modals-here" hx-trigger="click" hx-swap="innerHTML" data-bs-toggle="modal" data-bs-target="#modals-here">
+            @ItemModel.Name
+        </a>
+    </td>
+    <td>
+        @if (!string.IsNullOrWhiteSpace(ItemModel.Notes))
+        {
+            <span class="text-truncate d-inline-block" style="max-width: 150px;" title="@ItemModel.Notes">
+                @ItemModel.Notes
+            </span>
+        }
+        else
+        {
+            <span class="text-muted">-</span>
+        }
+    </td>
+    <td>
+        @if (ItemModel.LastUpdated != null)
+        {
+            <span title="@ItemModel.LastUpdated?.ToString("f")">
+                @ItemModel.LastUpdated?.ToString("yyyy-MM-dd HH:mm")
+            </span>
+        }
+        else
+        {
+            <span class="text-muted">-</span>
+        }
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public Item ItemModel { get; set; } = new();
+
+    [Parameter]
+    public string BoardName { get; set; } = "";
+
+    [Parameter]
+    public string ListName { get; set; } = "";
+}

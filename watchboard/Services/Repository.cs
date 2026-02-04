@@ -17,6 +17,8 @@ public interface IRepository
 
     Task<Item[]> GetItems();
     Task<Item?> GetItem(Guid itemId);
+    Task<List<Item>> GetAllItemsWithDetails();
+    Task<(Item Item, string BoardName, string ListName)?> GetItemWithDetails(Guid itemId);
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
     Task<Item> SetItemProvider(Guid itemId, int? providerId);
@@ -73,6 +75,35 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         return await db.Items
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == itemId);
+    }
+
+    public async Task<List<Item>> GetAllItemsWithDetails()
+    {
+        return await db.Items
+            .AsNoTracking()
+            .OrderBy(x => x.Name)
+            .ToListAsync();
+    }
+
+    public async Task<(Item Item, string BoardName, string ListName)?> GetItemWithDetails(Guid itemId)
+    {
+        var item = await db.Items
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == itemId);
+
+        if (item == null) return null;
+
+        var list = await db.Lists
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == item.ListId);
+
+        if (list == null) return (item, "Unknown", "Unknown");
+
+        var board = await db.Boards
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == list.BoardId);
+
+        return (item, board?.Name ?? "Unknown", list.Name);
     }
 
     public async Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type)

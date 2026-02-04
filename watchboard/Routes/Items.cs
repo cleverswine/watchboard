@@ -67,10 +67,29 @@ public static class Items
 
         // UPDATE ITEM FROM TMDB
         app.MapPut("/items/{itemId:guid}/refresh",
-            async Task<RazorComponentResult> ([FromServices] IRepository repo, [FromRoute] Guid itemId) => new RazorComponentResult<_Item>(new
+            async Task<RazorComponentResult> ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromQuery] string? view) =>
             {
-                ItemModel = await repo.RefreshItem(itemId)
-            }));
+                var item = await repo.RefreshItem(itemId);
+
+                switch (view)
+                {
+                    case "row":
+                    {
+                        var details = await repo.GetItemWithDetails(itemId);
+                        return new RazorComponentResult<_SettingsItemRow>(new
+                        {
+                            ItemModel = item,
+                            BoardName = details?.BoardName ?? "Unknown",
+                            ListName = details?.ListName ?? "Unknown"
+                        });
+                    }
+                    default:
+                        return new RazorComponentResult<_Item>(new
+                        {
+                            ItemModel = item
+                        });
+                }
+            });
 
         // GET ITEM POSTER
         app.MapGet("/items/{itemId:guid}/poster", async ([FromServices] IRepository repo, Guid itemId) =>

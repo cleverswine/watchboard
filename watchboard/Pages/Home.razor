@@ -26,6 +26,18 @@
     </ul>
 </SectionContent>
 
+<SectionContent SectionName="nav-end">
+    <li class="nav-item">
+        <button class="nav-link me-3"
+                hx-get="/app/search"
+                hx-target="#search-modals-here" hx-trigger="click" hx-swap="innerHTML"
+                data-bs-toggle="modal" data-bs-target="#search-modals-here"
+                aria-controls="searchDrawer">
+            <i class="bi bi-search"></i> Search
+        </button>
+    </li>
+</SectionContent>
+
 <div class="container-fluid px-md-4 pt-2">
     <div>
         @foreach (var l in Lists)

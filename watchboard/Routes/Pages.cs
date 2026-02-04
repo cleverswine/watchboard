@@ -26,7 +26,17 @@ public static class Pages
         });
 
         // SETTINGS PAGE
-        app.MapGet("/settings", () =>  new RazorComponentResult<Settings>());
+        app.MapGet("/settings", async ([FromServices] IRepository repo) =>
+        {
+            var items = await repo.GetAllItemsWithDetails();
+            var boards = await repo.GetBoards();
+            return new RazorComponentResult<Settings>(new
+            {
+                Items = items,
+                Boards = boards
+            });
+        });
+
 
         // EMPTY PAGE
         app.MapGet("/empty", () => Results.Ok());
