@@ -11,9 +11,39 @@
             </div>
 
             <div class="d-flex align-items-center gap-2">
-                <button type="button" class="btn btn-sm rounded-pill btn-outline-secondary" id="refresh-selected-btn"
-                        onclick="refreshSelectedItems()" disabled>
+                @* <button type="button" class="btn btn-sm rounded-pill btn-outline-secondary" id="refresh-selected-btn" *@
+                @*         onclick="refreshSelectedItems()" disabled> *@
+                @*     <i class="bi bi-arrow-clockwise"></i> Refresh Selected *@
+                @* </button> *@
+                <button type="button" class="btn btn btn-sm rounded-pill btn-outline-secondary"
+                        data-action="refresh"
+                        id="refresh-selected-btn" onclick="applyToSelected(this)" disabled>
                     <i class="bi bi-arrow-clockwise"></i> Refresh Selected
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn btn-sm rounded-pill btn-outline-secondary" type="button"
+                            data-bs-toggle="dropdown"
+                            id="move-selected-btn"
+                            aria-expanded="false" disabled>
+                        <i class="bi bi-folder-plus"></i> Move Selected
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var b in Boards)
+                        {
+                            foreach (var l in b.Lists)
+                            {
+                                <li>
+                                    <button class="dropdown-item" data-action="move" data-list="@l.Id" onclick="applyToSelected(this)">
+                                        <span><i class="bi bi-arrow-right me-2"></i> @b.Name - @l.Name</span>
+                                    </button>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <button type="button" class="btn btn btn-sm rounded-pill btn-outline-secondary" data-action="delete"
+                        id="delete-selected-btn" onclick="applyToSelected(this)" disabled>
+                    <i class="bi bi-trash"></i> Delete Selected
                 </button>
             </div>
         </div>
@@ -21,7 +51,7 @@
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-striped table-hover mb-0" id="all-items-table">
-                <thead class="table-dark sticky-top">
+                <thead class="table-dark">
                 <tr>
                     <th style="width: 40px;">
                         <input type="checkbox" class="form-check-input" id="select-all-checkbox"
@@ -82,6 +112,11 @@
     #all-items-table th, #all-items-table td {
         vertical-align: middle;
     }
+
+    .fade-out {
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+    }
 </style>
 
 <script>
@@ -90,13 +125,25 @@
     function toggleSelectAll(checkbox) {
         const checkboxes = document.querySelectorAll('#all-items-tbody input[type="checkbox"]');
         checkboxes.forEach(cb => cb.checked = checkbox.checked);
-        updateRefreshButtonState();
+        updateActionButtonsState();
     }
 
-    function updateRefreshButtonState() {
+    function updateActionButtonsState() {
         const checkedCount = document.querySelectorAll('#all-items-tbody input[type="checkbox"]:checked').length;
         const refreshBtn = document.getElementById('refresh-selected-btn');
         refreshBtn.disabled = checkedCount === 0;
+        const deleteBtn = document.getElementById('delete-selected-btn');
+        deleteBtn.disabled = checkedCount === 0;
+        const moveBtn = document.getElementById('move-selected-btn');
+        moveBtn.disabled = checkedCount === 0;
+    }
+
+    function updateSelectAllState() {
+        const allCheckboxes = document.querySelectorAll('#all-items-tbody input[type="checkbox"]');
+        const checkedCheckboxes = document.querySelectorAll('#all-items-tbody input[type="checkbox"]:checked');
+        const selectAllCheckbox = document.getElementById('select-all-checkbox');
+        selectAllCheckbox.checked = allCheckboxes.length === checkedCheckboxes.length;
+        selectAllCheckbox.indeterminate = checkedCheckboxes.length > 0 && checkedCheckboxes.length < allCheckboxes.length;
     }
 
     function sortTable(column) {
@@ -141,33 +188,36 @@
         rows.forEach(row => tbody.appendChild(row));
     }
 
-    async function refreshSelectedItems() {
+    async function applyToSelected(button) {
+        button.blur();
+        const action = button.dataset.action;
         const checkboxes = document.querySelectorAll('#all-items-tbody input[type="checkbox"]:checked');
         const itemIds = Array.from(checkboxes).map(cb => cb.value);
 
         for (const itemId of itemIds) {
-            const row = document.querySelector(`tr[data-item-id="${itemId}"]`);
-            if (row) {
-                // Trigger htmx refresh for this row
-                htmx.trigger(row, 'refresh-item');
+            const row = document.getElementById(`row-${itemId}`);
+            if (!row) continue;
+
+            if (action === 'refresh') {
+                await htmx.ajax('PUT', `/app/items/${itemId}/refresh?view=row`, {
+                    target: row,
+                    swap: 'outerHTML'
+                });
+            } else if (action === 'delete') {
+                row.classList.add('fade-out');
+                await htmx.ajax('DELETE', `/app/items/${itemId}`, {
+                    target: row,
+                    swap: 'delete swap:500ms'
+                });
+            } else if (action === 'move') {
+                const listId = button.dataset.list;
+                await htmx.ajax('PUT', `/app/items/${itemId}/move/lists/${listId}?view=row`, {
+                    target: row,
+                    swap: 'outerHTML'
+                });
             }
         }
     }
-
-    // Add event listener for checkbox changes
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('all-items-tbody')?.addEventListener('change', function (e) {
-            if (e.target.type === 'checkbox') {
-                updateRefreshButtonState();
-                // Update select-all checkbox state
-                const allCheckboxes = document.querySelectorAll('#all-items-tbody input[type="checkbox"]');
-                const checkedCheckboxes = document.querySelectorAll('#all-items-tbody input[type="checkbox"]:checked');
-                const selectAllCheckbox = document.getElementById('select-all-checkbox');
-                selectAllCheckbox.checked = allCheckboxes.length === checkedCheckboxes.length;
-                selectAllCheckbox.indeterminate = checkedCheckboxes.length > 0 && checkedCheckboxes.length < allCheckboxes.length;
-            }
-        });
-    });
 </script>
 
 @code {

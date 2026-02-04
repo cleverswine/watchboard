@@ -29,6 +29,20 @@ public static class Lists
             return Results.Ok();
         });
 
+        // MOVE ITEM TO ANOTHER LIST
+        app.MapPut("/items/{itemId:guid}/move/lists/{listId:guid}",
+            async ([FromServices] IRepository repo, [FromRoute] Guid itemId, [FromRoute] Guid listId) =>
+            {
+                await repo.MoveItemToOtherList(itemId, listId);
+                var details = await repo.GetItemWithDetails(itemId);
+                return new RazorComponentResult<_SettingsItemRow>(new
+                {
+                    ItemModel = details?.Item,
+                    BoardName = details?.BoardName ?? "Unknown",
+                    ListName = details?.ListName ?? "Unknown"
+                });
+            });
+
         return app;
     }
 }

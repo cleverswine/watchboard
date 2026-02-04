@@ -21,6 +21,7 @@ public interface IRepository
     Task<(Item Item, string BoardName, string ListName)?> GetItemWithDetails(Guid itemId);
     Task<Item> AddItemToBoard(Guid? boardId, int tmDbId, string type);
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
+    Task MoveItemToOtherList(Guid itemId, Guid listId);
     Task<Item> SetItemProvider(Guid itemId, int? providerId);
     Task<Item> RefreshItem(Guid itemId);
     Task DeleteItem(Guid itemId);
@@ -168,6 +169,20 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         await db.SaveChangesAsync();
     }
 
+    public async Task MoveItemToOtherList(Guid itemId, Guid listId)
+    {
+        var item = await db.Items.FindAsync(itemId);
+        if (item == null) return;
+
+        var newListItems = db.Items.AsNoTracking()
+            .Where(x => x.ListId == listId).ToList();
+        var maxOrder = newListItems.Count > 0 ? newListItems.Max(x => x.Order) : 0;
+
+        item.ListId = listId;
+        item.Order = maxOrder + 1;
+        await db.SaveChangesAsync();
+    }
+
     public async Task<Item> SetItemProvider(Guid itemId, int? providerId)
     {
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
@@ -272,7 +287,7 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         var logs = await db.SystemLogs
             .AsNoTracking()
             .Include(x => x.Item)
-            .OrderBy(x => x.Timestamp)
+            .OrderByDescending(x => x.Timestamp)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
