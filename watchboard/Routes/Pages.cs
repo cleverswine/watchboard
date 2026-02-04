@@ -25,6 +25,9 @@ public static class Pages
             });
         });
 
+        // SETTINGS PAGE
+        app.MapGet("/settings", () =>  new RazorComponentResult<Settings>());
+
         // EMPTY PAGE
         app.MapGet("/empty", () => Results.Ok());
         

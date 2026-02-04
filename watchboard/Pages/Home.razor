@@ -1,52 +1,33 @@
+@using Microsoft.AspNetCore.Components.Sections
 @using WatchBoard.Pages.Shared
 @using WatchBoard.Pages.Partials
 @using WatchBoard.Database.Entities
 @layout _Layout
 
-<nav class="navbar  navbar-dark bg-body-tertiary navbar-expand-sm">
-    <div class="container-fluid mx-4">
-        <button type="button" class="navbar-brand nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-workspace"></i> @SelectedBoard.Name
-        </button>
-        <ul class="dropdown-menu">
-            @foreach (var b in Boards.OrderBy(x => x.Order))
-            {
-                <li>
-                    @if (b.Id == SelectedBoard.Id)
-                    {
-                        <a class="dropdown-item disabled" href="/?boardId=@(b.Id)">@b.Name</a>
-                    }
-                    else
-                    {
-                        <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
-                    }
-                </li>
-            }
-        </ul>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse d-sm-flex justify-content-end" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <button class="nav-link me-3"
-                            hx-get="/app/search"
-                            hx-target="#search-modals-here" hx-trigger="click" hx-swap="innerHTML"
-                            data-bs-toggle="modal" data-bs-target="#search-modals-here"
-                            aria-controls="searchDrawer">
-                        <i class="bi bi-search"></i> Search
-                    </button>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<SectionContent SectionName="nav-title">
+    <button type="button" class="navbar-brand nav-link dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+        <i class="bi bi-person-workspace"></i> @SelectedBoard.Name
+    </button>
+    <ul class="dropdown-menu">
+        @foreach (var b in Boards.OrderBy(x => x.Order))
+        {
+            <li>
+                @if (b.Id == SelectedBoard.Id)
+                {
+                    <a class="dropdown-item disabled" href="/?boardId=@(b.Id)">@b.Name</a>
+                }
+                else
+                {
+                    <a class="dropdown-item" href="/?boardId=@(b.Id)">@b.Name</a>
+                }
+            </li>
+        }
+    </ul>
+</SectionContent>
 
-<div class="container-fluid px-md-4">
-
-    <div class="pt-3">
+<div class="container-fluid px-md-4 pt-2">
+    <div>
         @foreach (var l in Lists)
         {
             <div hx-get="/app/lists/@(l.Id)" hx-trigger="newItem from:body" hx-target="this">

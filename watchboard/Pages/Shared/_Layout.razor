@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Components.Sections
 @inherits LayoutComponentBase
 
 <!DOCTYPE html>
@@ -15,7 +16,43 @@
 
 <body>
 
+
+<nav class="navbar navbar-dark navbar-expand-sm">
+    <div class="container-fluid mx-4">
+        <SectionOutlet SectionName="nav-title"/>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse d-sm-flex justify-content-end" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <button class="nav-link me-3"
+                            hx-get="/app/search"
+                            hx-target="#search-modals-here" hx-trigger="click" hx-swap="innerHTML"
+                            data-bs-toggle="modal" data-bs-target="#search-modals-here"
+                            aria-controls="searchDrawer">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 @Body
+
+<footer class="footer">
+    <div class="container py-4 text-center">
+        <a class="text-muted text-decoration-none" href="/">Watch Board &copy; @DateTime.Now.Year</a>
+        <span class="text-muted px-2"> | </span>
+        <a class="text-muted" href="/settings"><i class="bi bi-gear"></i></a>
+        <span class="text-muted px-2"> | </span>
+        <a class="text-muted" target="_blank" href="https://github.com/cleverswine/watchboard"><i class="bi bi-github"></i></a>
+    </div>
+</footer>
 
 <script src="/lib/Sortable.min.js"></script>
 <script src="/lib/bootstrap.bundle.min.js"></script>
