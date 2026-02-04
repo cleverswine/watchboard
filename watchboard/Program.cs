@@ -56,6 +56,6 @@ app.UseStaticFiles();
 // Routes
 app.MapPages()
     .MapGroup("/app")
-    .MapSearch().MapBoards().MapLists().MapItems();
+    .MapSearch().MapBoards().MapLists().MapItems().MapSettings();
 
 app.Run();

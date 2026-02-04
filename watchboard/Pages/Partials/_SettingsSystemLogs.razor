@@ -1,0 +1,154 @@
+@using WatchBoard.Database.Entities
+
+<div class="card border-dark-subtle mb-3">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                System Logs
+                <span class="badge rounded-pill text-bg-secondary bg-opacity-50 text-white-50">
+                    @TotalCount items
+                </span>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <label for="type-filter" class="form-label mb-0 me-2 text-muted">Filter by Type:</label>
+                <select id="type-filter" class="form-select form-select-sm" style="width: auto;"
+                        onchange="filterByType(this.value)">
+                    <option value="">All Types</option>
+                    @foreach (var logType in Enum.GetValues<SystemLogType>())
+                    {
+                        <option value="@logType">@logType</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0" id="system-logs-table">
+                <thead class="table-dark sticky-top">
+                <tr>
+                    <th style="width: 180px;">Timestamp</th>
+                    <th style="width: 180px;">Type</th>
+                    <th>Message</th>
+                    <th style="width: 150px;">Item</th>
+                </tr>
+                </thead>
+                <tbody id="system-logs-tbody">
+                @foreach (var log in Logs)
+                {
+                    <tr data-type="@log.Type">
+                        <td>@log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>
+                            <span class="badge @GetBadgeClass(log.Type)">@log.Type</span>
+                        </td>
+                        <td class="text-truncate" style="max-width: 400px;" title="@log.Message">@log.Message</td>
+                        <td>
+                            @if (log.ItemId.HasValue)
+                            {
+                                <span class="text-muted small">@log.Item?.Name</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <nav aria-label="System logs pagination">
+            <ul class="pagination pagination-sm mb-0 justify-content-center">
+                @if (CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" hx-get="/app/settings/system-logs?page=@(CurrentPage - 1)"
+                           hx-target="#settings-container" hx-swap="innerHTML">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                    </li>
+                }
+
+                @for (var i = Math.Max(1, CurrentPage - 2); i <= Math.Min(TotalPages, CurrentPage + 2); i++)
+                {
+                    var pageNum = i;
+                    <li class="page-item @(pageNum == CurrentPage ? "active" : "")">
+                        <a class="page-link" href="#" hx-get="/app/settings/system-logs?page=@pageNum"
+                           hx-target="#settings-container" hx-swap="innerHTML">@pageNum</a>
+                    </li>
+                }
+
+                @if (CurrentPage < TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" hx-get="/app/settings/system-logs?page=@(CurrentPage + 1)"
+                           hx-target="#settings-container" hx-swap="innerHTML">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                    </li>
+                }
+            </ul>
+        </nav>
+        <div class="text-center text-muted small mt-2">
+            Showing @(((CurrentPage - 1) * PageSize) + 1) - @Math.Min(CurrentPage * PageSize, TotalCount) of @TotalCount
+        </div>
+    </div>
+</div>
+
+<style>
+    #system-logs-table th, #system-logs-table td {
+        vertical-align: middle;
+    }
+
+    .hidden-by-filter {
+        display: none !important;
+    }
+</style>
+
+<script>
+    function filterByType(type) {
+        const rows = document.querySelectorAll('#system-logs-tbody tr');
+        rows.forEach(row => {
+            if (type === '' || row.dataset.type === type) {
+                row.classList.remove('hidden-by-filter');
+            } else {
+                row.classList.add('hidden-by-filter');
+            }
+        });
+    }
+</script>
+
+@code {
+    [Parameter]
+    public List<SystemLog> Logs { get; set; } = [];
+
+    [Parameter]
+    public int CurrentPage { get; set; } = 1;
+
+    [Parameter]
+    public int TotalCount { get; set; }
+
+    [Parameter]
+    public int PageSize { get; set; } = 50;
+
+    private int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+
+    private string GetBadgeClass(SystemLogType type) => type switch
+    {
+        SystemLogType.ApplicationStarted => "text-bg-info",
+        SystemLogType.ItemWorkerInvoked => "text-bg-warning",
+        SystemLogType.ItemRefreshed => "text-bg-success",
+        _ => "text-bg-secondary"
+    };
+}

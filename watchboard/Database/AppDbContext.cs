@@ -8,10 +8,19 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Board> Boards { get; set; }
     public DbSet<List> Lists { get; set; }
     public DbSet<Item> Items { get; set; }
+    public DbSet<SystemLog> SystemLogs { get; set; }
 
     public async Task ApplyMigrations()
     {
+        var pendingMigrations = (await Database.GetPendingMigrationsAsync()).ToList();
+        var migrationsMessage = pendingMigrations.Count != 0
+            ? $"Applying {pendingMigrations.Count} migrations: {string.Join(", ", pendingMigrations)}"
+            : "No migrations to apply.";
+
         await Database.MigrateAsync();
+
+        SystemLogs.Add(new SystemLog { Type = SystemLogType.ApplicationStarted, Message = $"Application started. {migrationsMessage}"});
+        await SaveChangesAsync();
 
         if (!Boards.Any())
         {

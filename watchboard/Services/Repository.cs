@@ -23,9 +23,11 @@ public interface IRepository
     Task MoveItemToOtherBoard(Guid itemId, Guid boardId);
     Task<Item> SetItemProvider(Guid itemId, int? providerId);
     Task<Item> RefreshItem(Guid itemId);
-    Task RefreshAllItems(int minItemUpdateFrequencyMinutes = 60, CancellationToken cancellationToken = default);
     Task DeleteItem(Guid itemId);
     Task<List<Item>> SearchForItems(string keyword, ItemType itemType);
+
+    Task AddSystemLog(SystemLog log);
+    Task<(List<SystemLog> Logs, int TotalCount)> GetSystemLogs(int page, int pageSize);
 }
 
 public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
@@ -134,22 +136,18 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
     public async Task<Item> RefreshItem(Guid itemId)
     {
         var dbItem = await db.Items.FindAsync(itemId) ?? throw new KeyNotFoundException();
-        await UpdateItemFromTmDb(dbItem);
-        await db.SaveChangesAsync();
-        return dbItem;
-    }
+        var previousItemHash = dbItem.ItemHash;
 
-    public async Task RefreshAllItems(int minItemUpdateFrequencyMinutes = 60, CancellationToken cancellationToken = default)
-    {
-        var dbItems = await db.Items.AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
-        var dbItemsToUpdate = dbItems
-            .Where(dbItem => dbItem.LastUpdated == null ||
-                             !(dbItem.LastUpdated > DateTimeOffset.UtcNow.AddMinutes(-minItemUpdateFrequencyMinutes)));
-        foreach (var dbItemChunk in dbItemsToUpdate.Chunk(3))
-        {
-            Task.WaitAll(dbItemChunk.Select(UpdateItemFromTmDb), cancellationToken);
-            await db.SaveChangesAsync(cancellationToken);
-        }
+        await UpdateItemFromTmDb(dbItem);
+        var newItemHash = $"0x{System.Text.Json.JsonSerializer.Serialize(dbItem).GetHashCode():X8}";
+        dbItem.ItemHash = newItemHash;
+
+        await db.SaveChangesAsync();
+
+        if (previousItemHash != newItemHash)
+            await AddSystemLog(new SystemLog { Type = SystemLogType.ItemRefreshed, ItemId = dbItem.Id, Message = $"Item {dbItem.Id} - \"{dbItem.Name}\" was updated from TMDB." });
+
+        return dbItem;
     }
 
     public async Task MoveItemToOtherBoard(Guid itemId, Guid boardId)
@@ -260,6 +258,25 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             Overview = x.Overview
         }).ToList();
         return items;
+    }
+
+    public async Task AddSystemLog(SystemLog log)
+    {
+        db.SystemLogs.Add(log);
+        await db.SaveChangesAsync();
+    }
+
+    public async Task<(List<SystemLog> Logs, int TotalCount)> GetSystemLogs(int page, int pageSize)
+    {
+        var totalCount = await db.SystemLogs.CountAsync();
+        var logs = await db.SystemLogs
+            .AsNoTracking()
+            .Include(x => x.Item)
+            .OrderBy(x => x.Timestamp)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return (logs, totalCount);
     }
 
     private async Task UpdateItemFromTmDb(Item dbItem)

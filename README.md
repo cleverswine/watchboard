@@ -47,7 +47,7 @@ When the EF models in the [Entities](watchboard/Database/Entities) directory cha
 migrations
 
 ```shell
-DATA_DIR="." dotnet ef migrations add Foo \
+DATA_DIR="." dotnet ef migrations add SysLog \
 --project watchboard/watchboard.csproj \
 --configuration Debug \
 --output-dir Database/Migrations

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using WatchBoard.Database.Entities;
 
 namespace WatchBoard.Services.Worker;
 
@@ -21,7 +22,10 @@ public class ItemWorker(IOptions<WorkerConfig> options, IServiceScopeFactory ser
 
             try
             {
-                var dbItems = await repository.GetItems();
+                var dbItems = (await repository.GetItems()).ToList();
+
+                await repository.AddSystemLog(new SystemLog {Type = SystemLogType.ItemWorkerInvoked, Message = $"Item worker invoked with {dbItems.Count} items to process"});
+
                 foreach (var dbItem in dbItems)
                 {
                     if (dbItem.LastUpdated != null &&

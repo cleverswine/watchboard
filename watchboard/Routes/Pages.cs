@@ -26,34 +26,11 @@ public static class Pages
         });
 
         // SETTINGS PAGE
-        app.MapGet("/settings", async ([FromServices] IRepository repo) =>
-        {
-            var items = await repo.GetAllItemsWithDetails();
-            var boards = await repo.GetBoards();
-            return new RazorComponentResult<Settings>(new
-            {
-                Items = items,
-                Boards = boards
-            });
-        });
-
+        app.MapGet("/settings", () => new RazorComponentResult<Settings>());
 
         // EMPTY PAGE
         app.MapGet("/empty", () => Results.Ok());
-        
-        // UPDATE ALL ITEMS FROM TMDB
-        app.MapPut("/refresh", async (HttpContext context, [FromServices] IRepository repo, CancellationToken cancellationToken) =>
-        {
-            await repo.RefreshAllItems(15, cancellationToken);
-            
-            var selectedBoard = await repo.GetBoard(context.GetBoardId());
-            return new RazorComponentResult<Home>(new
-            {
-                selectedBoard?.Lists,
-                Boards = await repo.GetBoards()
-            });
-        });
-        
+
         return app;
     }
 }

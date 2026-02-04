@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using WatchBoard.Services;
 
 namespace WatchBoard.Database.Entities;
@@ -75,10 +76,14 @@ public class Item
 
     public string? CreditsJson { get; set; }
 
+    [JsonIgnore]
     public DateTimeOffset? LastUpdated { get; set; } = DateTimeOffset.UtcNow;
 
     public Guid ListId { get; set; }
     public int Order { get; set; }
+
+    [JsonIgnore]
+    public string ItemHash { get; set; } = string.Empty;
 
     public string ImdbUrl => $"https://www.imdb.com/title/{ImdbId}/";
 

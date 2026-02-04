@@ -1,7 +1,5 @@
 @using Microsoft.AspNetCore.Components.Sections
-@using WatchBoard.Database.Entities
 @using WatchBoard.Pages.Shared
-@using WatchBoard.Pages.Partials
 @layout _Layout
 
 <SectionContent SectionName="nav-title">
@@ -28,10 +26,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">General</a>
+                        <a class="nav-link settings-nav-link active" href="#"
+                           hx-get="/app/settings/system-logs"
+                           hx-target="#settings-container"
+                           hx-swap="innerHTML">System Logs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Data Refresh</a>
+                        <a class="nav-link settings-nav-link" href="#"
+                           hx-get="/app/settings/data-refresh"
+                           hx-target="#settings-container"
+                           hx-swap="innerHTML">Data Refresh</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true">Manage Boards</a>
@@ -43,7 +47,12 @@
             </div>
         </div>
     </nav>
-    <_SettingsItemTable Items="Items" Boards="Boards"></_SettingsItemTable>
+
+    <div id="settings-container"
+         hx-get="/app/settings/system-logs"
+         hx-trigger="load"
+         hx-swap="innerHTML">
+    </div>
 </div>
 
 <!-- Bootstrap Modal for ItemDetails -->
@@ -53,10 +62,16 @@
     </div>
 </div>
 
-@code {
-    [Parameter]
-    public List<Item> Items { get; set; } = [];
+<script>
+    document.addEventListener('htmx:afterSwap', function (event) {
+        if (event.detail.target.id === 'settings-container' && event.detail.requestConfig.elt.classList.contains('settings-nav-link')) {
+            document.querySelectorAll('.settings-nav-link').forEach(link => link.classList.remove('active'));
+            if (event.detail.requestConfig && event.detail.requestConfig.elt) {
+                event.detail.requestConfig.elt.classList.add('active');
+            }
+        }
+    });
+</script>
 
-    [Parameter]
-    public List<Board> Boards { get; set; } = [];
+@code {
 }
