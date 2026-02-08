@@ -22,6 +22,11 @@ public class ItemWorker(IOptions<WorkerConfig> options, IServiceScopeFactory ser
 
             try
             {
+                // CLEAN UP SYSTEM LOGS
+                var removed = await repository.CleanSystemLogs(DateTimeOffset.UtcNow.AddDays(-14));
+                await repository.AddSystemLog(new SystemLog
+                    { Type = SystemLogType.LogsPruned, Message = $"{removed} items cleaned from system log" });
+                
                 var dbItems = (await repository.GetItems()).ToList();
 
                 await repository.AddSystemLog(new SystemLog {Type = SystemLogType.ItemWorkerInvoked, Message = $"Item worker invoked with {dbItems.Count} items to process"});

@@ -7,7 +7,8 @@ public enum SystemLogType
 {
     ApplicationStarted,
     ItemWorkerInvoked,
-    ItemRefreshed
+    ItemRefreshed,
+    LogsPruned
 }
 
 public class SystemLog

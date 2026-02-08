@@ -38,6 +38,7 @@ public interface IRepository
 
     Task AddSystemLog(SystemLog log);
     Task<(List<SystemLog> Logs, int TotalCount)> GetSystemLogs(int page, int pageSize);
+    Task<int> CleanSystemLogs(DateTimeOffset cutOffDateTime);
 }
 
 public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
@@ -297,11 +298,20 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
         await UpdateItemFromTmDb(dbItem);
         var newItemHash = $"0x{System.Text.Json.JsonSerializer.Serialize(dbItem).GetHashCode():X8}";
         dbItem.ItemHash = newItemHash;
-
-        await db.SaveChangesAsync();
-
+        
         if (previousItemHash != newItemHash)
-            await AddSystemLog(new SystemLog { Type = SystemLogType.ItemRefreshed, ItemId = dbItem.Id, Message = $"Item {dbItem.Id} - \"{dbItem.Name}\" was updated from TMDB." });
+        {
+            await db.SaveChangesAsync();
+            await AddSystemLog(new SystemLog
+            {
+                Type = SystemLogType.ItemRefreshed, ItemId = dbItem.Id,
+                Message = $"Item \"{dbItem.Name}\" was updated from TMDB."
+            });
+        }
+        else
+        {
+            db.Entry(dbItem).State = EntityState.Unchanged;
+        }
 
         return dbItem;
     }
@@ -354,6 +364,8 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
 
     public async Task DeleteItem(Guid itemId)
     {
+        await db.SystemLogs.Where(x => x.ItemId == itemId).ExecuteDeleteAsync();
+        
         var item = await db.Items.FindAsync(itemId);
         if (item == null) return;
         db.Remove(item);
@@ -447,6 +459,11 @@ public class Repository(AppDbContext db, ITmDb tmDb) : IRepository
             .Take(pageSize)
             .ToListAsync();
         return (logs, totalCount);
+    }
+
+    public async Task<int> CleanSystemLogs(DateTimeOffset cutOffDateTime)
+    {
+        return await db.SystemLogs.Where(x => x.Timestamp < cutOffDateTime).ExecuteDeleteAsync();
     }
 
     private async Task UpdateItemFromTmDb(Item dbItem)
